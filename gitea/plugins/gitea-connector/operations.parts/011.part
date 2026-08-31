@@ -1,0 +1,400 @@
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/ChangeFilesOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/ChangeFilesOptions"
+      }
+    },
+    "repoCompareDiff": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/compare/{basehead}",
+      "summary": "Get commit comparison information",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "basehead",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "compare two branches or commits"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoCreateBranch": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/branches",
+      "summary": "Create a branch",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateBranchRepoOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateBranchRepoOption"
+      }
+    },
+    "repoCreateBranchProtection": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/branch_protections",
+      "summary": "Create a branch protections for a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateBranchProtectionOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateBranchProtectionOption"
+      }
+    },
+    "repoCreateFile": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/contents/{filepath}",
+      "summary": "Create a file in a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "filepath",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "path of the file to create"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/CreateFileOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateFileOptions"
+      }
+    },
+    "repoCreatePullRequest": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/pulls",
+      "summary": "Create a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreatePullRequestOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreatePullRequestOption"
+      }
+    },
+    "repoCreatePullReview": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/reviews",
+      "summary": "Create a review to an pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/CreatePullReviewOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreatePullReviewOptions"
+      }
+    },
+    "repoCreatePullReviewRequests": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/requested_reviewers",
+      "summary": "create review requests for a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/PullReviewRequestOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/PullReviewRequestOptions"
+      }
+    },
+    "repoCreateRelease": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/releases",
+      "summary": "Create a release",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateReleaseOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateReleaseOption"
+      }
+    },
+    "repoCreateStatus": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/statuses/{sha}",
+      "summary": "Create a commit status",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "sha",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "sha of the commit"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateStatusOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateStatusOption"
+      }
+    },
+    "repoCreateTag": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/tags",
+      "summary": "Create a new git tag in a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateTagOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateTagOption"
+      }
+    },
+    "repoCreateTagProtection": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/tag_protections",
+      "summary": "Create a tag protections for a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateTagProtectionOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateTagProtectionOption"
+      }
+    },
+    "repoCreateWikiPage": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/wiki/new",
+      "summary": "Create a wiki page",
+      "tag": "repository",
+      "parameters": [
