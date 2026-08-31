@@ -1,0 +1,20 @@
+{
+  "name": "gitea-connectors",
+  "interface": {
+    "displayName": "Gitea Connectors"
+  },
+  "plugins": [
+    {
+      "name": "gitea-connector",
+      "source": {
+        "source": "local",
+        "path": "./plugins/gitea-connector"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
