@@ -1,0 +1,26 @@
+{
+  "name": "gitea-connector",
+  "version": "1.3.3",
+  "description": "Gitea workflows for ChatGPT using the self-hosted Gitea MCP server at mcp.bratonien.de.",
+  "author": {
+    "name": "Bratonien"
+  },
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Gitea Connector",
+    "shortDescription": "Work with a self-hosted Gitea instance through your own MCP server.",
+    "longDescription": "Adds Gitea workflows for repositories, files, commits, branches, tags, issues, pull requests, reviews, merges and releases. The plugin connects to the existing self-hosted Streamable HTTP MCP endpoint at mcp.bratonien.de; it does not start or provision an MCP server and does not use Codex STDIO. Authentication is configured during installation and is never stored in the plugin. Passwords, tokens, secrets, keys, user administration, permissions, runners and webhooks remain excluded from the workflow surface. Writes and destructive actions require confirmation.",
+    "developerName": "Bratonien",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive","Read","Write"],
+    "brandColor": "#238B23",
+    "composerIcon": "./assets/composer-icon.png",
+    "logo": "./assets/logo.png",
+    "defaultPrompt": [
+      "List my Gitea repositories.",
+      "Show the latest commits in a repository.",
+      "Summarize open issues and pull requests."
+    ]
+  }
+}
