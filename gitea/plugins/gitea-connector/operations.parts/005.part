@@ -1,0 +1,400 @@
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "this parameter is ignored"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the comment to edit",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditIssueCommentOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditIssueCommentOption"
+      }
+    },
+    "issueEditIssue": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/issues/{index}",
+      "summary": "Edit an issue. If using deadline only the date will be taken into account, and time of day ignored.",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue to edit",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditIssueOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditIssueOption"
+      }
+    },
+    "issueEditIssueAttachment": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/issues/{index}/assets/{attachment_id}",
+      "summary": "Edit an issue attachment",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        },
+        {
+          "name": "attachment_id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the attachment to edit",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditAttachmentOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditAttachmentOptions"
+      }
+    },
+    "issueEditIssueCommentAttachment": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/issues/comments/{id}/assets/{attachment_id}",
+      "summary": "Edit a comment attachment",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the comment",
+          "format": "int64"
+        },
+        {
+          "name": "attachment_id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the attachment to edit",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditAttachmentOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditAttachmentOptions"
+      }
+    },
+    "issueEditIssueDeadline": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues/{index}/deadline",
+      "summary": "Set an issue deadline. If set to null, the deadline is deleted. If using deadline only the date will be taken into account, and time of day ignored.",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue to create or update a deadline on",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditDeadlineOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditDeadlineOption"
+      }
+    },
+    "issueEditLabel": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/labels/{id}",
+      "summary": "Update a label",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the label to edit",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditLabelOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditLabelOption"
+      }
+    },
+    "issueEditMilestone": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/milestones/{id}",
+      "summary": "Update a milestone",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "the milestone to edit, identified by ID and if not available by name"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditMilestoneOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditMilestoneOption"
+      }
+    },
+    "issueGetComment": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issues/comments/{id}",
+      "summary": "Get a comment",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the comment",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueGetCommentReactions": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issues/comments/{id}/reactions",
+      "summary": "Get a list of reactions from a comment of an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the comment to edit",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueGetComments": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issues/{index}/comments",
+      "summary": "List all comments on an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        },
+        {
+          "name": "since",
+          "in": "query",
+          "type": "string",
+          "description": "if provided, only comments updated since the specified time are returned.",
+          "format": "date-time"
+        },
+        {
+          "name": "before",
+          "in": "query",
+          "type": "string",
+          "description": "if provided, only comments updated before the provided time are returned.",
+          "format": "date-time"
