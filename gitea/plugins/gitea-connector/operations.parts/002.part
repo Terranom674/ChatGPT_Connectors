@@ -1,0 +1,400 @@
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the package"
+        },
+        {
+          "name": "version",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "version of the package"
+        }
+      ],
+      "bodySchema": null
+    },
+    "downloadActionsRunJobLogs": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
+      "summary": "Downloads the job logs for a workflow run",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the owner"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repository"
+        },
+        {
+          "name": "job_id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the job"
+        }
+      ],
+      "bodySchema": null
+    },
+    "downloadArtifact": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/zip",
+      "summary": "Downloads a specific artifact for a workflow run redirects to blob url",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the owner"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repository"
+        },
+        {
+          "name": "artifact_id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "id of the artifact"
+        }
+      ],
+      "bodySchema": null
+    },
+    "generateRepo": {
+      "method": "POST",
+      "path": "/repos/{template_owner}/{template_repo}/generate",
+      "summary": "Create a repository using a template",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "template_owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the template repository owner"
+        },
+        {
+          "name": "template_repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the template repository"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/GenerateRepoOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/GenerateRepoOption"
+      }
+    },
+    "getArtifact": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}",
+      "summary": "Gets a specific artifact for a workflow run",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the owner"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repository"
+        },
+        {
+          "name": "artifact_id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "id of the artifact"
+        }
+      ],
+      "bodySchema": null
+    },
+    "getArtifacts": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/actions/artifacts",
+      "summary": "Lists all artifacts for a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the owner"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repository"
+        },
+        {
+          "name": "name",
+          "in": "query",
+          "type": "string",
+          "description": "name of the artifact"
+        }
+      ],
+      "bodySchema": null
+    },
+    "getArtifactsOfRun": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/actions/runs/{run}/artifacts",
+      "summary": "Lists all artifacts for a repository run",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the owner"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repository"
+        },
+        {
+          "name": "run",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "runid of the workflow run"
+        },
+        {
+          "name": "name",
+          "in": "query",
+          "type": "string",
+          "description": "name of the artifact"
+        }
+      ],
+      "bodySchema": null
+    },
+    "getGitignoreTemplateInfo": {
+      "method": "GET",
+      "path": "/gitignore/templates/{name}",
+      "summary": "Returns information about a gitignore template",
+      "tag": "miscellaneous",
+      "parameters": [
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the template"
+        }
+      ],
+      "bodySchema": null
+    },
+    "getLabelTemplateInfo": {
+      "method": "GET",
+      "path": "/label/templates/{name}",
+      "summary": "Returns all labels in a template",
+      "tag": "miscellaneous",
+      "parameters": [
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the template"
+        }
+      ],
+      "bodySchema": null
+    },
+    "getLatestPackageVersion": {
+      "method": "GET",
+      "path": "/packages/{owner}/{type}/{name}/-/latest",
+      "summary": "Gets the latest version of a package",
+      "tag": "package",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the package"
+        },
+        {
+          "name": "type",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "type of the package"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the package"
+        }
+      ],
+      "bodySchema": null
+    },
+    "getLicenseTemplateInfo": {
+      "method": "GET",
+      "path": "/licenses/{name}",
+      "summary": "Returns information about a license template",
+      "tag": "miscellaneous",
+      "parameters": [
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the license"
+        }
+      ],
+      "bodySchema": null
+    },
+    "getNodeInfo": {
+      "method": "GET",
+      "path": "/nodeinfo",
+      "summary": "Returns the nodeinfo of the Gitea application",
+      "tag": "miscellaneous",
+      "parameters": [],
+      "bodySchema": null
+    },
+    "getPackage": {
+      "method": "GET",
+      "path": "/packages/{owner}/{type}/{name}/{version}",
+      "summary": "Gets a package",
+      "tag": "package",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the package"
+        },
+        {
+          "name": "type",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "type of the package"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the package"
+        },
+        {
+          "name": "version",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "version of the package"
+        }
+      ],
+      "bodySchema": null
+    },
+    "getVersion": {
+      "method": "GET",
+      "path": "/version",
+      "summary": "Returns the version of the Gitea application",
+      "tag": "miscellaneous",
+      "parameters": [],
+      "bodySchema": null
+    },
+    "issueAddLabel": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues/{index}/labels",
+      "summary": "Add a label to an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/IssueLabelsOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/IssueLabelsOption"
+      }
+    },
+    "issueAddSubscription": {
+      "method": "PUT",
+      "path": "/repos/{owner}/{repo}/issues/{index}/subscriptions/{user}",
+      "summary": "Subscribe user to issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
