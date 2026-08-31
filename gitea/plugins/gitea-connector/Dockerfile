@@ -2,7 +2,11 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY server.py entrypoint.py http_server.py operations.json ./
+COPY server.py entrypoint.py http_server.py assemble_operations.py ./
+COPY operations.parts ./operations.parts
+
+RUN python assemble_operations.py \
+    && rm -rf operations.parts assemble_operations.py
 
 ENV PYTHONUNBUFFERED=1 \
     MCP_HOST=0.0.0.0 \
