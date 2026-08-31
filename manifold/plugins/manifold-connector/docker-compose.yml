@@ -1,0 +1,14 @@
+services:
+  manifold-mcp:
+    build: .
+    container_name: ${MCP_CONTAINER_NAME:-manifold-mcp}
+    restart: unless-stopped
+    environment:
+      MANIFOLD_URL: ${MANIFOLD_URL}
+      MANIFOLD_EMAIL: ${MANIFOLD_EMAIL}
+      MANIFOLD_PASSWORD: ${MANIFOLD_PASSWORD}
+      MCP_HTTP_TOKEN: ${MCP_HTTP_TOKEN}
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: 8000
+    ports:
+      - "${MCP_BIND_ADDRESS:-127.0.0.1}:${MCP_PORT:-8102}:8000"
