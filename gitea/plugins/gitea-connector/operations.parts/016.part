@@ -1,0 +1,400 @@
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetPullReview": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}",
+      "summary": "Get a specific review for a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the review",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetPullReviewComments": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}/comments",
+      "summary": "Get a specific review for a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the review",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetRelease": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/releases/{id}",
+      "summary": "Get a release",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the release to get",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetReleaseAttachment": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/releases/{id}/assets/{attachment_id}",
+      "summary": "Get a release attachment",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the release",
+          "format": "int64"
+        },
+        {
+          "name": "attachment_id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the attachment to get",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetReleaseByTag": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/releases/tags/{tag}",
+      "summary": "Get a release by tag name",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "tag",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "tag name of the release to get"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetReviewers": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/reviewers",
+      "summary": "Return all users that can be requested to review in this repo",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetSingleCommit": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/git/commits/{sha}",
+      "summary": "Get a single commit from a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "sha",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "a git ref or commit sha"
+        },
+        {
+          "name": "stat",
+          "in": "query",
+          "type": "boolean",
+          "description": "include diff stats for every commit (disable for speedup, default 'true')"
+        },
+        {
+          "name": "verification",
+          "in": "query",
+          "type": "boolean",
+          "description": "include verification for every commit (disable for speedup, default 'true')"
+        },
+        {
+          "name": "files",
+          "in": "query",
+          "type": "boolean",
+          "description": "include a list of affected files for every commit (disable for speedup, default 'true')"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetTag": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/tags/{tag}",
+      "summary": "Get the tag of a repository by tag name",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "tag",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of tag"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetTagProtection": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/tag_protections/{id}",
+      "summary": "Get a specific tag protection for the repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the tag protect to get"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetWikiPage": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/wiki/page/{pageName}",
+      "summary": "Get a wiki page",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "pageName",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the page"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetWikiPageRevisions": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/wiki/revisions/{pageName}",
+      "summary": "Get revisions of a wiki page",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "pageName",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the page"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetWikiPages": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/wiki/pages",
+      "summary": "Get all wiki pages",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
