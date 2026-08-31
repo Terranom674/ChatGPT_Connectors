@@ -1,0 +1,407 @@
+{
+  "generatedFrom": "Gitea 1.24.5 OpenAPI",
+  "operationCount": 221,
+  "operations": {
+    "ActionsDisableWorkflow": {
+      "method": "PUT",
+      "path": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable",
+      "summary": "Disable a workflow",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "workflow_id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "id of the workflow"
+        }
+      ],
+      "bodySchema": null
+    },
+    "ActionsDispatchWorkflow": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
+      "summary": "Create a workflow dispatch event",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "workflow_id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "id of the workflow"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateActionWorkflowDispatch"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateActionWorkflowDispatch"
+      }
+    },
+    "ActionsEnableWorkflow": {
+      "method": "PUT",
+      "path": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable",
+      "summary": "Enable a workflow",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "workflow_id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "id of the workflow"
+        }
+      ],
+      "bodySchema": null
+    },
+    "ActionsGetWorkflow": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}",
+      "summary": "Get a workflow",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "workflow_id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "id of the workflow"
+        }
+      ],
+      "bodySchema": null
+    },
+    "ActionsListRepositoryWorkflows": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/actions/workflows",
+      "summary": "List repository workflows",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "GetAnnotatedTag": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/git/tags/{sha}",
+      "summary": "Gets the tag object of an annotated tag (not lightweight tags)",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "sha",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "sha of the commit. The Git tags API only supports annotated tag objects, not lightweight tags."
+        }
+      ],
+      "bodySchema": null
+    },
+    "GetBlob": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/git/blobs/{sha}",
+      "summary": "Gets the blob of a repository.",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "sha",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "sha of the commit"
+        }
+      ],
+      "bodySchema": null
+    },
+    "GetTree": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/git/trees/{sha}",
+      "summary": "Gets the tree of a repository.",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "sha",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "sha of the commit"
+        },
+        {
+          "name": "recursive",
+          "in": "query",
+          "type": "boolean",
+          "description": "show all directories and files"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number; the 'truncated' field in the response will be true if there are still more items after this page, false if the last page"
+        },
+        {
+          "name": "per_page",
+          "in": "query",
+          "type": "integer",
+          "description": "number of items per page"
+        }
+      ],
+      "bodySchema": null
+    },
+    "ListActionTasks": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/actions/tasks",
+      "summary": "List a repository's action tasks",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results, default maximum page size is 50"
+        }
+      ],
+      "bodySchema": null
+    },
+    "createCurrentUserRepo": {
+      "method": "POST",
+      "path": "/user/repos",
+      "summary": "Create a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateRepoOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateRepoOption"
+      }
+    },
+    "createFork": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/forks",
+      "summary": "Fork a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo to fork"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo to fork"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateForkOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateForkOption"
+      }
+    },
+    "deleteArtifact": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}",
+      "summary": "Deletes a specific artifact for a workflow run",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the owner"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repository"
+        },
+        {
+          "name": "artifact_id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "id of the artifact"
+        }
+      ],
+      "bodySchema": null
+    },
+    "deletePackage": {
+      "method": "DELETE",
+      "path": "/packages/{owner}/{type}/{name}/{version}",
+      "summary": "Delete a package",
+      "tag": "package",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the package"
+        },
+        {
+          "name": "type",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "type of the package"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the package"
+        },
+        {
