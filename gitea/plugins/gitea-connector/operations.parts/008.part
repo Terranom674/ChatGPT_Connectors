@@ -1,0 +1,400 @@
+            "$ref": "#/definitions/EditReactionOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditReactionOption"
+      }
+    },
+    "issueRemoveIssueBlocking": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/{index}/blocks",
+      "summary": "Unblock the issue given in the body by the issue in path",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "index of the issue"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/IssueMeta"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/IssueMeta"
+      }
+    },
+    "issueRemoveIssueDependencies": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/{index}/dependencies",
+      "summary": "Remove an issue dependency",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "index of the issue"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/IssueMeta"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/IssueMeta"
+      }
+    },
+    "issueRemoveLabel": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/{index}/labels/{id}",
+      "summary": "Remove a label from an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the label to remove",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueReplaceLabels": {
+      "method": "PUT",
+      "path": "/repos/{owner}/{repo}/issues/{index}/labels",
+      "summary": "Replace an issue's labels",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/IssueLabelsOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/IssueLabelsOption"
+      }
+    },
+    "issueResetTime": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/{index}/times",
+      "summary": "Reset a tracked time of an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue to add tracked time to",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueSearchIssues": {
+      "method": "GET",
+      "path": "/repos/issues/search",
+      "summary": "Search for issues across the repositories that the user has access to",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "state",
+          "in": "query",
+          "type": "string",
+          "description": "State of the issue",
+          "enum": [
+            "open",
+            "closed",
+            "all"
+          ],
+          "default": "open"
+        },
+        {
+          "name": "labels",
+          "in": "query",
+          "type": "string",
+          "description": "Comma-separated list of label names. Fetch only issues that have any of these labels. Non existent labels are discarded."
+        },
+        {
+          "name": "milestones",
+          "in": "query",
+          "type": "string",
+          "description": "Comma-separated list of milestone names. Fetch only issues that have any of these milestones. Non existent milestones are discarded."
+        },
+        {
+          "name": "q",
+          "in": "query",
+          "type": "string",
+          "description": "Search string"
+        },
+        {
+          "name": "priority_repo_id",
+          "in": "query",
+          "type": "integer",
+          "description": "Repository ID to prioritize in the results",
+          "format": "int64"
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "type": "string",
+          "description": "Filter by issue type",
+          "enum": [
+            "issues",
+            "pulls"
+          ]
+        },
+        {
+          "name": "since",
+          "in": "query",
+          "type": "string",
+          "description": "Only show issues updated after the given time (RFC 3339 format)",
+          "format": "date-time"
+        },
+        {
+          "name": "before",
+          "in": "query",
+          "type": "string",
+          "description": "Only show issues updated before the given time (RFC 3339 format)",
+          "format": "date-time"
+        },
+        {
+          "name": "assigned",
+          "in": "query",
+          "type": "boolean",
+          "description": "Filter issues or pulls assigned to the authenticated user",
+          "default": false
+        },
+        {
+          "name": "created",
+          "in": "query",
+          "type": "boolean",
+          "description": "Filter issues or pulls created by the authenticated user",
+          "default": false
+        },
+        {
+          "name": "mentioned",
+          "in": "query",
+          "type": "boolean",
+          "description": "Filter issues or pulls mentioning the authenticated user",
+          "default": false
+        },
+        {
+          "name": "review_requested",
+          "in": "query",
+          "type": "boolean",
+          "description": "Filter pull requests where the authenticated user's review was requested",
+          "default": false
+        },
+        {
+          "name": "reviewed",
+          "in": "query",
+          "type": "boolean",
+          "description": "Filter pull requests reviewed by the authenticated user",
+          "default": false
+        },
+        {
+          "name": "owner",
+          "in": "query",
+          "type": "string",
+          "description": "Filter by repository owner"
+        },
+        {
+          "name": "team",
+          "in": "query",
+          "type": "string",
+          "description": "Filter by team (requires organization owner parameter)"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "Page number of results to return (1-based)",
+          "default": 1,
+          "minimum": 1
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "Number of items per page",
+          "minimum": 0
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueStartStopWatch": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues/{index}/stopwatch/start",
+      "summary": "Start stopwatch on an issue.",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue to create the stopwatch on",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueStopStopWatch": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues/{index}/stopwatch/stop",
+      "summary": "Stop an issue's existing stopwatch.",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue to stop the stopwatch on",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueSubscriptions": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issues/{index}/subscriptions",
+      "summary": "Get users who subscribed on an issue.",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
