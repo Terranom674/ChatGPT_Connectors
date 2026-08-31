@@ -40,7 +40,7 @@ A Manifold user with sufficient permissions is also required. The connector auth
 Run the installer from the Proxmox host shell or from the shell of the existing MCP LXC:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Terranom674/Manifold_Connector/main/install/register-with-bratonien-mcp.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/Terranom674/ChatGPT_Connectors/main/manifold/install/register-with-bratonien-mcp.sh)
 ```
 
 When started on a Proxmox host, the installer locates the existing Bratonien MCP LXC automatically and continues the installation there.
