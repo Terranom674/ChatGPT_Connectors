@@ -1,0 +1,17 @@
+services:
+  gitea-mcp:
+    build: .
+    container_name: ${MCP_CONTAINER_NAME:-gitea-mcp}
+    restart: unless-stopped
+    environment:
+      GITEA_URL: ${GITEA_URL}
+      GITEA_TOKEN: ${GITEA_TOKEN}
+      MCP_HTTP_TOKEN: ${MCP_HTTP_TOKEN:-}
+      MCP_OAUTH_ISSUER: ${MCP_OAUTH_ISSUER:-}
+      MCP_RESOURCE_URL: ${MCP_RESOURCE_URL:-}
+      MCP_TRUST_FORWARDED_BEARER: ${MCP_TRUST_FORWARDED_BEARER:-}
+      MCP_ALLOWED_ORIGINS: ${MCP_ALLOWED_ORIGINS:-}
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: 8000
+    ports:
+      - "${MCP_BIND_ADDRESS:-0.0.0.0}:${MCP_PORT:-8000}:8000"
