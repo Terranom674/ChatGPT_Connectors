@@ -1,0 +1,400 @@
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "ref",
+          "in": "query",
+          "type": "string",
+          "description": "The name of the commit/branch/tag. Default to the repository’s default branch."
+        },
+        {
+          "name": "body",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "The JSON encoded body (see the POST request): {\"files\": [\"filename1\", \"filename2\"]}"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetFileContentsPost": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/file-contents",
+      "summary": "Get the metadata and contents of requested files",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "ref",
+          "in": "query",
+          "type": "string",
+          "description": "The name of the commit/branch/tag. Default to the repository’s default branch."
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/GetFilesOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/GetFilesOptions"
+      }
+    },
+    "repoGetIssueConfig": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issue_config",
+      "summary": "Returns the issue config for a repo",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetIssueTemplates": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issue_templates",
+      "summary": "Get available issue templates for a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetLanguages": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/languages",
+      "summary": "Get languages and number of bytes of code written",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetLatestRelease": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/releases/latest",
+      "summary": "Gets the most recent non-prerelease, non-draft release of a repository, sorted by created_at",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetLicenses": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/licenses",
+      "summary": "Get repo licenses",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetNote": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/git/notes/{sha}",
+      "summary": "Get a note corresponding to a single commit from a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "sha",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "a git ref or commit sha"
+        },
+        {
+          "name": "verification",
+          "in": "query",
+          "type": "boolean",
+          "description": "include verification for every commit (disable for speedup, default 'true')"
+        },
+        {
+          "name": "files",
+          "in": "query",
+          "type": "boolean",
+          "description": "include a list of affected files for every commit (disable for speedup, default 'true')"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetPullRequest": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls/{index}",
+      "summary": "Get a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request to get",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetPullRequestByBaseHead": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls/{base}/{head}",
+      "summary": "Get a pull request by base and head",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "base",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "base of the pull request to get"
+        },
+        {
+          "name": "head",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "head of the pull request to get"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetPullRequestCommits": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/commits",
+      "summary": "Get commits for a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request to get",
+          "format": "int64"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        },
+        {
+          "name": "verification",
+          "in": "query",
+          "type": "boolean",
+          "description": "include verification for every commit (disable for speedup, default 'true')"
+        },
+        {
+          "name": "files",
+          "in": "query",
+          "type": "boolean",
+          "description": "include a list of affected files for every commit (disable for speedup, default 'true')"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetPullRequestFiles": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/files",
+      "summary": "Get changed files for a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request to get",
+          "format": "int64"
+        },
+        {
+          "name": "skip-to",
+          "in": "query",
+          "type": "string",
+          "description": "skip to given file"
+        },
+        {
+          "name": "whitespace",
+          "in": "query",
+          "type": "string",
+          "description": "whitespace behavior",
+          "enum": [
+            "ignore-all",
+            "ignore-change",
+            "ignore-eol",
+            "show-all"
+          ]
+        },
+        {
+          "name": "page",
+          "in": "query",
