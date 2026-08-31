@@ -1,0 +1,400 @@
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "draft",
+          "in": "query",
+          "type": "boolean",
+          "description": "filter (exclude / include) drafts, if you dont have repo write access none will show"
+        },
+        {
+          "name": "pre-release",
+          "in": "query",
+          "type": "boolean",
+          "description": "filter (exclude / include) pre-releases"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListStargazers": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/stargazers",
+      "summary": "List a repo's stargazers",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListStatuses": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/statuses/{sha}",
+      "summary": "Get a commit's statuses",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "sha",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "sha of the commit"
+        },
+        {
+          "name": "sort",
+          "in": "query",
+          "type": "string",
+          "description": "type of sort",
+          "enum": [
+            "oldest",
+            "recentupdate",
+            "leastupdate",
+            "leastindex",
+            "highestindex"
+          ]
+        },
+        {
+          "name": "state",
+          "in": "query",
+          "type": "string",
+          "description": "type of state",
+          "enum": [
+            "pending",
+            "success",
+            "error",
+            "failure",
+            "warning"
+          ]
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListStatusesByRef": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/commits/{ref}/statuses",
+      "summary": "Get a commit's statuses, by branch/tag/commit reference",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "ref",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of branch/tag/commit"
+        },
+        {
+          "name": "sort",
+          "in": "query",
+          "type": "string",
+          "description": "type of sort",
+          "enum": [
+            "oldest",
+            "recentupdate",
+            "leastupdate",
+            "leastindex",
+            "highestindex"
+          ]
+        },
+        {
+          "name": "state",
+          "in": "query",
+          "type": "string",
+          "description": "type of state",
+          "enum": [
+            "pending",
+            "success",
+            "error",
+            "failure",
+            "warning"
+          ]
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListSubscribers": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/subscribers",
+      "summary": "List a repo's watchers",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListTagProtection": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/tag_protections",
+      "summary": "List tag protections for a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListTags": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/tags",
+      "summary": "List a repository's tags",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results, default maximum page size is 50"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListTopics": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/topics",
+      "summary": "Get list of topics that a repository has",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoMergePullRequest": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/merge",
+      "summary": "Merge a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request to merge",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/MergePullRequestOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/MergePullRequestOption"
+      }
+    },
+    "repoMergeUpstream": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/merge-upstream",
+      "summary": "Merge a branch from upstream",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/MergeUpstreamRequest"
+          }
+        }
+      ],
+      "bodySchema": {
