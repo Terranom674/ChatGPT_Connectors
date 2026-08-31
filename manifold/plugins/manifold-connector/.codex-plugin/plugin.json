@@ -1,0 +1,27 @@
+{
+  "name": "manifold-connector",
+  "version": "1.0.0",
+  "description": "Complete Manifold API workflows for ChatGPT through the shared Bratonien MCP server.",
+  "author": {
+    "name": "Bratonien"
+  },
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Manifold Connector",
+    "shortDescription": "Manage a self-hosted Manifold instance through Bratonien MCP.",
+    "longDescription": "Exposes the complete named Manifold API surface present in the connected Manifold codebase at app-creation time, including projects, texts, resources, collections, ingestions, journals, reading groups, users, permissions, settings, analytics, uploads and administrative operations. Manifold credentials remain server-side in the internal connector and are never stored in this plugin.",
+    "developerName": "Bratonien",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "brandColor": "#5B4B8A",
+    "defaultPrompt": [
+      "List my Manifold projects.",
+      "Show the texts and resources in a Manifold project.",
+      "Manage a Manifold project for me."
+    ]
+  }
+}
