@@ -1,0 +1,400 @@
+          "x-go-name": "UploadURL"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "zipball_url": {
+          "type": "string",
+          "x-go-name": "ZipURL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "RenameOrgOption": {
+      "description": "RenameOrgOption options when renaming an organization",
+      "type": "object",
+      "required": [
+        "new_name"
+      ],
+      "properties": {
+        "new_name": {
+          "description": "New username for this org. This name cannot be in use yet by any other user.",
+          "type": "string",
+          "uniqueItems": true,
+          "x-go-name": "NewName"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "RenameUserOption": {
+      "description": "RenameUserOption options when renaming a user",
+      "type": "object",
+      "required": [
+        "new_username"
+      ],
+      "properties": {
+        "new_username": {
+          "description": "New username for this user. This name cannot be in use yet by any other user.",
+          "type": "string",
+          "uniqueItems": true,
+          "x-go-name": "NewName"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "RepoCollaboratorPermission": {
+      "description": "RepoCollaboratorPermission to get repository permission for a collaborator",
+      "type": "object",
+      "properties": {
+        "permission": {
+          "type": "string",
+          "x-go-name": "Permission"
+        },
+        "role_name": {
+          "type": "string",
+          "x-go-name": "RoleName"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "RepoCommit": {
+      "type": "object",
+      "title": "RepoCommit contains information of a commit in the context of a repository.",
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/CommitUser"
+        },
+        "committer": {
+          "$ref": "#/definitions/CommitUser"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "tree": {
+          "$ref": "#/definitions/CommitMeta"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "verification": {
+          "$ref": "#/definitions/PayloadCommitVerification"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "RepoTopicOptions": {
+      "description": "RepoTopicOptions a collection of repo topic names",
+      "type": "object",
+      "properties": {
+        "topics": {
+          "description": "list of topic names",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Topics"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "RepoTransfer": {
+      "description": "RepoTransfer represents a pending repo transfer",
+      "type": "object",
+      "properties": {
+        "doer": {
+          "$ref": "#/definitions/User"
+        },
+        "recipient": {
+          "$ref": "#/definitions/User"
+        },
+        "teams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Team"
+          },
+          "x-go-name": "Teams"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Repository": {
+      "description": "Repository represents a repository",
+      "type": "object",
+      "properties": {
+        "allow_fast_forward_only_merge": {
+          "type": "boolean",
+          "x-go-name": "AllowFastForwardOnly"
+        },
+        "allow_merge_commits": {
+          "type": "boolean",
+          "x-go-name": "AllowMerge"
+        },
+        "allow_rebase": {
+          "type": "boolean",
+          "x-go-name": "AllowRebase"
+        },
+        "allow_rebase_explicit": {
+          "type": "boolean",
+          "x-go-name": "AllowRebaseMerge"
+        },
+        "allow_rebase_update": {
+          "type": "boolean",
+          "x-go-name": "AllowRebaseUpdate"
+        },
+        "allow_squash_merge": {
+          "type": "boolean",
+          "x-go-name": "AllowSquash"
+        },
+        "archived": {
+          "type": "boolean",
+          "x-go-name": "Archived"
+        },
+        "archived_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "ArchivedAt"
+        },
+        "avatar_url": {
+          "type": "string",
+          "x-go-name": "AvatarURL"
+        },
+        "clone_url": {
+          "type": "string",
+          "x-go-name": "CloneURL"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "default_allow_maintainer_edit": {
+          "type": "boolean",
+          "x-go-name": "DefaultAllowMaintainerEdit"
+        },
+        "default_branch": {
+          "type": "string",
+          "x-go-name": "DefaultBranch"
+        },
+        "default_delete_branch_after_merge": {
+          "type": "boolean",
+          "x-go-name": "DefaultDeleteBranchAfterMerge"
+        },
+        "default_merge_style": {
+          "type": "string",
+          "x-go-name": "DefaultMergeStyle"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "empty": {
+          "type": "boolean",
+          "x-go-name": "Empty"
+        },
+        "external_tracker": {
+          "$ref": "#/definitions/ExternalTracker"
+        },
+        "external_wiki": {
+          "$ref": "#/definitions/ExternalWiki"
+        },
+        "fork": {
+          "type": "boolean",
+          "x-go-name": "Fork"
+        },
+        "forks_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Forks"
+        },
+        "full_name": {
+          "type": "string",
+          "x-go-name": "FullName"
+        },
+        "has_actions": {
+          "type": "boolean",
+          "x-go-name": "HasActions"
+        },
+        "has_issues": {
+          "type": "boolean",
+          "x-go-name": "HasIssues"
+        },
+        "has_packages": {
+          "type": "boolean",
+          "x-go-name": "HasPackages"
+        },
+        "has_projects": {
+          "type": "boolean",
+          "x-go-name": "HasProjects"
+        },
+        "has_pull_requests": {
+          "type": "boolean",
+          "x-go-name": "HasPullRequests"
+        },
+        "has_releases": {
+          "type": "boolean",
+          "x-go-name": "HasReleases"
+        },
+        "has_wiki": {
+          "type": "boolean",
+          "x-go-name": "HasWiki"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "ignore_whitespace_conflicts": {
+          "type": "boolean",
+          "x-go-name": "IgnoreWhitespaceConflicts"
+        },
+        "internal": {
+          "type": "boolean",
+          "x-go-name": "Internal"
+        },
+        "internal_tracker": {
+          "$ref": "#/definitions/InternalTracker"
+        },
+        "language": {
+          "type": "string",
+          "x-go-name": "Language"
+        },
+        "languages_url": {
+          "type": "string",
+          "x-go-name": "LanguagesURL"
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Licenses"
+        },
+        "link": {
+          "type": "string",
+          "x-go-name": "Link"
+        },
+        "mirror": {
+          "type": "boolean",
+          "x-go-name": "Mirror"
+        },
+        "mirror_interval": {
+          "type": "string",
+          "x-go-name": "MirrorInterval"
+        },
+        "mirror_updated": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "MirrorUpdated"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "object_format_name": {
+          "description": "ObjectFormatName of the underlying git repository",
+          "type": "string",
+          "enum": [
+            "sha1",
+            "sha256"
+          ],
+          "x-go-name": "ObjectFormatName"
+        },
+        "open_issues_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OpenIssues"
+        },
+        "open_pr_counter": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OpenPulls"
+        },
+        "original_url": {
+          "type": "string",
+          "x-go-name": "OriginalURL"
+        },
+        "owner": {
+          "$ref": "#/definitions/User"
+        },
+        "parent": {
+          "$ref": "#/definitions/Repository"
+        },
+        "permissions": {
+          "$ref": "#/definitions/Permission"
+        },
+        "private": {
+          "type": "boolean",
+          "x-go-name": "Private"
+        },
+        "projects_mode": {
+          "type": "string",
+          "x-go-name": "ProjectsMode"
+        },
+        "release_counter": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Releases"
+        },
+        "repo_transfer": {
+          "$ref": "#/definitions/RepoTransfer"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Size"
+        },
+        "ssh_url": {
+          "type": "string",
+          "x-go-name": "SSHURL"
+        },
+        "stars_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Stars"
+        },
+        "template": {
+          "type": "boolean",
+          "x-go-name": "Template"
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Topics"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "watchers_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Watchers"
+        },
+        "website": {
+          "type": "string",
+          "x-go-name": "Website"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "RepositoryMeta": {
+      "description": "RepositoryMeta basic repository information",
+      "type": "object",
+      "properties": {
