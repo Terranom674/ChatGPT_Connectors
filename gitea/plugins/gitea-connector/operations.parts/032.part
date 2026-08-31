@@ -1,0 +1,400 @@
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Index"
+        },
+        "owner": {
+          "type": "string",
+          "x-go-name": "Owner"
+        },
+        "repo": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueTemplate": {
+      "description": "IssueTemplate represents an issue template for a repository",
+      "type": "object",
+      "properties": {
+        "about": {
+          "type": "string",
+          "x-go-name": "About"
+        },
+        "assignees": {
+          "$ref": "#/definitions/IssueTemplateStringSlice"
+        },
+        "body": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueFormField"
+          },
+          "x-go-name": "Fields"
+        },
+        "content": {
+          "type": "string",
+          "x-go-name": "Content"
+        },
+        "file_name": {
+          "type": "string",
+          "x-go-name": "FileName"
+        },
+        "labels": {
+          "$ref": "#/definitions/IssueTemplateStringSlice"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "ref": {
+          "type": "string",
+          "x-go-name": "Ref"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueTemplateStringSlice": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Label": {
+      "description": "Label a label to an issue or a pr",
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "x-go-name": "Color",
+          "example": "00aabb"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "exclusive": {
+          "type": "boolean",
+          "x-go-name": "Exclusive",
+          "example": false
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "is_archived": {
+          "type": "boolean",
+          "x-go-name": "IsArchived",
+          "example": false
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "LabelTemplate": {
+      "description": "LabelTemplate info of a Label template",
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "x-go-name": "Color",
+          "example": "00aabb"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "exclusive": {
+          "type": "boolean",
+          "x-go-name": "Exclusive",
+          "example": false
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "LicenseTemplateInfo": {
+      "description": "LicensesInfo contains information about a License",
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        },
+        "implementation": {
+          "type": "string",
+          "x-go-name": "Implementation"
+        },
+        "key": {
+          "type": "string",
+          "x-go-name": "Key"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "LicensesTemplateListEntry": {
+      "description": "LicensesListEntry is used for the API",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "x-go-name": "Key"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "LockIssueOption": {
+      "description": "LockIssueOption options to lock an issue",
+      "type": "object",
+      "properties": {
+        "lock_reason": {
+          "type": "string",
+          "x-go-name": "Reason"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "MarkdownOption": {
+      "description": "MarkdownOption markdown options",
+      "type": "object",
+      "properties": {
+        "Context": {
+          "description": "URL path for rendering issue, media and file links\nExpected format: /subpath/{user}/{repo}/src/{branch, commit, tag}/{identifier/path}/{file/dir}\n\nin: body",
+          "type": "string"
+        },
+        "Mode": {
+          "description": "Mode to render (markdown, comment, wiki, file)\n\nin: body",
+          "type": "string"
+        },
+        "Text": {
+          "description": "Text markdown to render\n\nin: body",
+          "type": "string"
+        },
+        "Wiki": {
+          "description": "Is it a wiki page? (use mode=wiki instead)\n\nDeprecated: true\nin: body",
+          "type": "boolean"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "MarkupOption": {
+      "description": "MarkupOption markup options",
+      "type": "object",
+      "properties": {
+        "Context": {
+          "description": "URL path for rendering issue, media and file links\nExpected format: /subpath/{user}/{repo}/src/{branch, commit, tag}/{identifier/path}/{file/dir}\n\nin: body",
+          "type": "string"
+        },
+        "FilePath": {
+          "description": "File path for detecting extension in file mode\n\nin: body",
+          "type": "string"
+        },
+        "Mode": {
+          "description": "Mode to render (markdown, comment, wiki, file)\n\nin: body",
+          "type": "string"
+        },
+        "Text": {
+          "description": "Text markup to render\n\nin: body",
+          "type": "string"
+        },
+        "Wiki": {
+          "description": "Is it a wiki page? (use mode=wiki instead)\n\nDeprecated: true\nin: body",
+          "type": "boolean"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "MergePullRequestOption": {
+      "description": "MergePullRequestForm form for merging Pull Request",
+      "type": "object",
+      "required": [
+        "Do"
+      ],
+      "properties": {
+        "Do": {
+          "type": "string",
+          "enum": [
+            "merge",
+            "rebase",
+            "rebase-merge",
+            "squash",
+            "fast-forward-only",
+            "manually-merged"
+          ]
+        },
+        "MergeCommitID": {
+          "type": "string"
+        },
+        "MergeMessageField": {
+          "type": "string"
+        },
+        "MergeTitleField": {
+          "type": "string"
+        },
+        "delete_branch_after_merge": {
+          "type": "boolean",
+          "x-go-name": "DeleteBranchAfterMerge"
+        },
+        "force_merge": {
+          "type": "boolean",
+          "x-go-name": "ForceMerge"
+        },
+        "head_commit_id": {
+          "type": "string",
+          "x-go-name": "HeadCommitID"
+        },
+        "merge_when_checks_succeed": {
+          "type": "boolean",
+          "x-go-name": "MergeWhenChecksSucceed"
+        }
+      },
+      "x-go-name": "MergePullRequestForm",
+      "x-go-package": "code.gitea.io/gitea/services/forms"
+    },
+    "MergeUpstreamRequest": {
+      "type": "object",
+      "properties": {
+        "branch": {
+          "type": "string",
+          "x-go-name": "Branch"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "MergeUpstreamResponse": {
+      "type": "object",
+      "properties": {
+        "merge_type": {
+          "type": "string",
+          "x-go-name": "MergeStyle"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "MigrateRepoOptions": {
+      "description": "MigrateRepoOptions options for migrating repository's\nthis is used to interact with api v1",
+      "type": "object",
+      "required": [
+        "clone_addr",
+        "repo_name"
+      ],
+      "properties": {
+        "auth_password": {
+          "type": "string",
+          "x-go-name": "AuthPassword"
+        },
+        "auth_token": {
+          "type": "string",
+          "x-go-name": "AuthToken"
+        },
+        "auth_username": {
+          "type": "string",
+          "x-go-name": "AuthUsername"
+        },
+        "aws_access_key_id": {
+          "type": "string",
+          "x-go-name": "AWSAccessKeyID"
+        },
+        "aws_secret_access_key": {
+          "type": "string",
+          "x-go-name": "AWSSecretAccessKey"
+        },
+        "clone_addr": {
+          "type": "string",
+          "x-go-name": "CloneAddr"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "issues": {
+          "type": "boolean",
+          "x-go-name": "Issues"
+        },
+        "labels": {
+          "type": "boolean",
+          "x-go-name": "Labels"
+        },
+        "lfs": {
+          "type": "boolean",
+          "x-go-name": "LFS"
+        },
+        "lfs_endpoint": {
+          "type": "string",
+          "x-go-name": "LFSEndpoint"
+        },
+        "milestones": {
+          "type": "boolean",
+          "x-go-name": "Milestones"
+        },
+        "mirror": {
+          "type": "boolean",
+          "x-go-name": "Mirror"
+        },
+        "mirror_interval": {
+          "type": "string",
+          "x-go-name": "MirrorInterval"
+        },
+        "private": {
+          "type": "boolean",
+          "x-go-name": "Private"
+        },
+        "pull_requests": {
+          "type": "boolean",
+          "x-go-name": "PullRequests"
+        },
+        "releases": {
+          "type": "boolean",
+          "x-go-name": "Releases"
+        },
+        "repo_name": {
+          "type": "string",
+          "x-go-name": "RepoName"
+        },
+        "repo_owner": {
+          "description": "Name of User or Organisation who will own Repo after migration",
+          "type": "string",
+          "x-go-name": "RepoOwner"
+        },
+        "service": {
+          "type": "string",
+          "enum": [
+            "git",
+            "github",
+            "gitea",
+            "gitlab",
+            "gogs",
+            "onedev",
+            "gitbucket",
+            "codebase",
