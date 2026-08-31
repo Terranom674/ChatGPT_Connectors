@@ -1,0 +1,400 @@
+          "format": "date-time",
+          "x-go-name": "CreatedAt"
+        },
+        "expired": {
+          "type": "boolean",
+          "x-go-name": "Expired"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "ExpiresAt"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "size_in_bytes": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SizeInBytes"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "UpdatedAt"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "workflow_run": {
+          "$ref": "#/definitions/ActionWorkflowRun"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionArtifactsResponse": {
+      "description": "ActionArtifactsResponse returns ActionArtifacts",
+      "type": "object",
+      "properties": {
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ActionArtifact"
+          },
+          "x-go-name": "Entries"
+        },
+        "total_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalCount"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionRunner": {
+      "description": "ActionRunner represents a Runner",
+      "type": "object",
+      "properties": {
+        "busy": {
+          "type": "boolean",
+          "x-go-name": "Busy"
+        },
+        "ephemeral": {
+          "type": "boolean",
+          "x-go-name": "Ephemeral"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ActionRunnerLabel"
+          },
+          "x-go-name": "Labels"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "status": {
+          "type": "string",
+          "x-go-name": "Status"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionRunnerLabel": {
+      "description": "ActionRunnerLabel represents a Runner Label",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionRunnersResponse": {
+      "description": "ActionRunnersResponse returns Runners",
+      "type": "object",
+      "properties": {
+        "runners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ActionRunner"
+          },
+          "x-go-name": "Entries"
+        },
+        "total_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalCount"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionTask": {
+      "description": "ActionTask represents a ActionTask",
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "CreatedAt"
+        },
+        "display_title": {
+          "type": "string",
+          "x-go-name": "DisplayTitle"
+        },
+        "event": {
+          "type": "string",
+          "x-go-name": "Event"
+        },
+        "head_branch": {
+          "type": "string",
+          "x-go-name": "HeadBranch"
+        },
+        "head_sha": {
+          "type": "string",
+          "x-go-name": "HeadSHA"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "run_number": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RunNumber"
+        },
+        "run_started_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "RunStartedAt"
+        },
+        "status": {
+          "type": "string",
+          "x-go-name": "Status"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "UpdatedAt"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "workflow_id": {
+          "type": "string",
+          "x-go-name": "WorkflowID"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionTaskResponse": {
+      "description": "ActionTaskResponse returns a ActionTask",
+      "type": "object",
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalCount"
+        },
+        "workflow_runs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ActionTask"
+          },
+          "x-go-name": "Entries"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionVariable": {
+      "description": "ActionVariable return value of the query API",
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "the value of the variable",
+          "type": "string",
+          "x-go-name": "Data"
+        },
+        "description": {
+          "description": "the description of the variable",
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "name": {
+          "description": "the name of the variable",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "owner_id": {
+          "description": "the owner to which the variable belongs",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OwnerID"
+        },
+        "repo_id": {
+          "description": "the repository to which the variable belongs",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RepoID"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionWorkflow": {
+      "description": "ActionWorkflow represents a ActionWorkflow",
+      "type": "object",
+      "properties": {
+        "badge_url": {
+          "type": "string",
+          "x-go-name": "BadgeURL"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "CreatedAt"
+        },
+        "deleted_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "DeletedAt"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "path": {
+          "type": "string",
+          "x-go-name": "Path"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "UpdatedAt"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionWorkflowResponse": {
+      "description": "ActionWorkflowResponse returns a ActionWorkflow",
+      "type": "object",
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalCount"
+        },
+        "workflows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ActionWorkflow"
+          },
+          "x-go-name": "Workflows"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionWorkflowRun": {
+      "description": "ActionWorkflowRun represents a WorkflowRun",
+      "type": "object",
+      "properties": {
+        "head_sha": {
+          "type": "string",
+          "x-go-name": "HeadSha"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "repository_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RepositoryID"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Activity": {
+      "type": "object",
+      "properties": {
+        "act_user": {
+          "$ref": "#/definitions/User"
+        },
+        "act_user_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ActUserID"
+        },
+        "comment": {
+          "$ref": "#/definitions/Comment"
+        },
+        "comment_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CommentID"
+        },
+        "content": {
+          "type": "string",
+          "x-go-name": "Content"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "is_private": {
+          "type": "boolean",
+          "x-go-name": "IsPrivate"
+        },
+        "op_type": {
+          "description": "the type of action",
+          "type": "string",
+          "enum": [
+            "create_repo",
+            "rename_repo",
+            "star_repo",
+            "watch_repo",
+            "commit_repo",
+            "create_issue",
+            "create_pull_request",
+            "transfer_repo",
+            "push_tag",
+            "comment_issue",
+            "merge_pull_request",
+            "close_issue",
+            "reopen_issue",
+            "close_pull_request",
+            "reopen_pull_request",
+            "delete_tag",
+            "delete_branch",
+            "mirror_sync_push",
