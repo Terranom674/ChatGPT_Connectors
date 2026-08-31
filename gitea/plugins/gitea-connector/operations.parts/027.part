@@ -1,0 +1,400 @@
+          "x-go-name": "Email"
+        },
+        "full_name": {
+          "type": "string",
+          "x-go-name": "FullName"
+        },
+        "login_name": {
+          "type": "string",
+          "x-go-name": "LoginName"
+        },
+        "must_change_password": {
+          "type": "boolean",
+          "x-go-name": "MustChangePassword"
+        },
+        "password": {
+          "type": "string",
+          "x-go-name": "Password"
+        },
+        "restricted": {
+          "type": "boolean",
+          "x-go-name": "Restricted"
+        },
+        "send_notify": {
+          "type": "boolean",
+          "x-go-name": "SendNotify"
+        },
+        "source_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SourceID"
+        },
+        "username": {
+          "type": "string",
+          "x-go-name": "Username"
+        },
+        "visibility": {
+          "type": "string",
+          "x-go-name": "Visibility"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateVariableOption": {
+      "description": "CreateVariableOption the option when creating variable",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "description": {
+          "description": "Description of the variable to create",
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "value": {
+          "description": "Value of the variable to create",
+          "type": "string",
+          "x-go-name": "Value"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateWikiPageOptions": {
+      "description": "CreateWikiPageOptions form for creating wiki",
+      "type": "object",
+      "properties": {
+        "content_base64": {
+          "description": "content must be base64 encoded",
+          "type": "string",
+          "x-go-name": "ContentBase64"
+        },
+        "message": {
+          "description": "optional commit message summarizing the change",
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "title": {
+          "description": "page title. leave empty to keep unchanged",
+          "type": "string",
+          "x-go-name": "Title"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Cron": {
+      "description": "Cron represents a Cron task",
+      "type": "object",
+      "properties": {
+        "exec_times": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ExecTimes"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "next": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Next"
+        },
+        "prev": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Prev"
+        },
+        "schedule": {
+          "type": "string",
+          "x-go-name": "Schedule"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "DeleteEmailOption": {
+      "description": "DeleteEmailOption options when deleting email addresses",
+      "type": "object",
+      "properties": {
+        "emails": {
+          "description": "email addresses to delete",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Emails"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "DeleteFileOptions": {
+      "description": "DeleteFileOptions options for deleting files (used for other File structs below)\nNote: `author` and `committer` are optional (if only one is given, it will be used for the other, otherwise the authenticated user will be used)",
+      "type": "object",
+      "required": [
+        "sha"
+      ],
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/Identity"
+        },
+        "branch": {
+          "description": "branch (optional) to base this file from. if not given, the default branch is used",
+          "type": "string",
+          "x-go-name": "BranchName"
+        },
+        "committer": {
+          "$ref": "#/definitions/Identity"
+        },
+        "dates": {
+          "$ref": "#/definitions/CommitDateOptions"
+        },
+        "message": {
+          "description": "message (optional) for the commit of this file. if not supplied, a default message will be used",
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "new_branch": {
+          "description": "new_branch (optional) will make a new branch from `branch` before creating the file",
+          "type": "string",
+          "x-go-name": "NewBranchName"
+        },
+        "sha": {
+          "description": "sha is the SHA for the file that already exists",
+          "type": "string",
+          "x-go-name": "SHA"
+        },
+        "signoff": {
+          "description": "Add a Signed-off-by trailer by the committer at the end of the commit log message.",
+          "type": "boolean",
+          "x-go-name": "Signoff"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "DeployKey": {
+      "description": "DeployKey a deploy key",
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "fingerprint": {
+          "type": "string",
+          "x-go-name": "Fingerprint"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "key": {
+          "type": "string",
+          "x-go-name": "Key"
+        },
+        "key_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "KeyID"
+        },
+        "read_only": {
+          "type": "boolean",
+          "x-go-name": "ReadOnly"
+        },
+        "repository": {
+          "$ref": "#/definitions/Repository"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "DismissPullReviewOptions": {
+      "description": "DismissPullReviewOptions are options to dismiss a pull review",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "priors": {
+          "type": "boolean",
+          "x-go-name": "Priors"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditAttachmentOptions": {
+      "description": "EditAttachmentOptions options for editing attachments",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditBranchProtectionOption": {
+      "description": "EditBranchProtectionOption options for editing a branch protection",
+      "type": "object",
+      "properties": {
+        "approvals_whitelist_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "ApprovalsWhitelistTeams"
+        },
+        "approvals_whitelist_username": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "ApprovalsWhitelistUsernames"
+        },
+        "block_admin_merge_override": {
+          "type": "boolean",
+          "x-go-name": "BlockAdminMergeOverride"
+        },
+        "block_on_official_review_requests": {
+          "type": "boolean",
+          "x-go-name": "BlockOnOfficialReviewRequests"
+        },
+        "block_on_outdated_branch": {
+          "type": "boolean",
+          "x-go-name": "BlockOnOutdatedBranch"
+        },
+        "block_on_rejected_reviews": {
+          "type": "boolean",
+          "x-go-name": "BlockOnRejectedReviews"
+        },
+        "dismiss_stale_approvals": {
+          "type": "boolean",
+          "x-go-name": "DismissStaleApprovals"
+        },
+        "enable_approvals_whitelist": {
+          "type": "boolean",
+          "x-go-name": "EnableApprovalsWhitelist"
+        },
+        "enable_force_push": {
+          "type": "boolean",
+          "x-go-name": "EnableForcePush"
+        },
+        "enable_force_push_allowlist": {
+          "type": "boolean",
+          "x-go-name": "EnableForcePushAllowlist"
+        },
+        "enable_merge_whitelist": {
+          "type": "boolean",
+          "x-go-name": "EnableMergeWhitelist"
+        },
+        "enable_push": {
+          "type": "boolean",
+          "x-go-name": "EnablePush"
+        },
+        "enable_push_whitelist": {
+          "type": "boolean",
+          "x-go-name": "EnablePushWhitelist"
+        },
+        "enable_status_check": {
+          "type": "boolean",
+          "x-go-name": "EnableStatusCheck"
+        },
+        "force_push_allowlist_deploy_keys": {
+          "type": "boolean",
+          "x-go-name": "ForcePushAllowlistDeployKeys"
+        },
+        "force_push_allowlist_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "ForcePushAllowlistTeams"
+        },
+        "force_push_allowlist_usernames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "ForcePushAllowlistUsernames"
+        },
+        "ignore_stale_approvals": {
+          "type": "boolean",
+          "x-go-name": "IgnoreStaleApprovals"
+        },
+        "merge_whitelist_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "MergeWhitelistTeams"
+        },
+        "merge_whitelist_usernames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "MergeWhitelistUsernames"
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Priority"
+        },
+        "protected_file_patterns": {
+          "type": "string",
+          "x-go-name": "ProtectedFilePatterns"
+        },
+        "push_whitelist_deploy_keys": {
+          "type": "boolean",
+          "x-go-name": "PushWhitelistDeployKeys"
+        },
+        "push_whitelist_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "PushWhitelistTeams"
+        },
+        "push_whitelist_usernames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "PushWhitelistUsernames"
+        },
+        "require_signed_commits": {
+          "type": "boolean",
+          "x-go-name": "RequireSignedCommits"
+        },
+        "required_approvals": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RequiredApprovals"
+        },
+        "status_check_contexts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "StatusCheckContexts"
+        },
+        "unprotected_file_patterns": {
+          "type": "string",
+          "x-go-name": "UnprotectedFilePatterns"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditDeadlineOption": {
+      "description": "EditDeadlineOption options for creating a deadline",
+      "type": "object",
+      "required": [
