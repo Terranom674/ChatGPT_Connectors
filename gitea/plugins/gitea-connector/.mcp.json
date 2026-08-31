@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "gitea_mcp": {
+      "type": "http",
+      "url": "https://mcp.bratonien.de/mcp"
+    }
+  }
+}
