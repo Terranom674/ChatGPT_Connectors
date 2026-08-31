@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "bratonien_mcp": {
+      "type": "http",
+      "url": "https://mcp.bratonien.de/mcp"
+    }
+  }
+}
