@@ -1,0 +1,400 @@
+        "due_date"
+      ],
+      "properties": {
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditGitHookOption": {
+      "description": "EditGitHookOption options when modifying one Git hook",
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "x-go-name": "Content"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditHookOption": {
+      "description": "EditHookOption options when modify one hook",
+      "type": "object",
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "x-go-name": "Active"
+        },
+        "authorization_header": {
+          "type": "string",
+          "x-go-name": "AuthorizationHeader"
+        },
+        "branch_filter": {
+          "type": "string",
+          "x-go-name": "BranchFilter"
+        },
+        "config": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Config"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Events"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditIssueCommentOption": {
+      "description": "EditIssueCommentOption options for editing a comment",
+      "type": "object",
+      "required": [
+        "body"
+      ],
+      "properties": {
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditIssueOption": {
+      "description": "EditIssueOption options for editing an issue",
+      "type": "object",
+      "properties": {
+        "assignee": {
+          "description": "deprecated",
+          "type": "string",
+          "x-go-name": "Assignee"
+        },
+        "assignees": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Assignees"
+        },
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        },
+        "milestone": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Milestone"
+        },
+        "ref": {
+          "type": "string",
+          "x-go-name": "Ref"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        },
+        "unset_due_date": {
+          "type": "boolean",
+          "x-go-name": "RemoveDeadline"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditLabelOption": {
+      "description": "EditLabelOption options for editing a label",
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "x-go-name": "Color",
+          "example": "#00aabb"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "exclusive": {
+          "type": "boolean",
+          "x-go-name": "Exclusive",
+          "example": false
+        },
+        "is_archived": {
+          "type": "boolean",
+          "x-go-name": "IsArchived",
+          "example": false
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditMilestoneOption": {
+      "description": "EditMilestoneOption options for editing a milestone",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "due_on": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditOrgOption": {
+      "description": "EditOrgOption options for editing an organization",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "email": {
+          "type": "string",
+          "x-go-name": "Email"
+        },
+        "full_name": {
+          "type": "string",
+          "x-go-name": "FullName"
+        },
+        "location": {
+          "type": "string",
+          "x-go-name": "Location"
+        },
+        "repo_admin_change_team_access": {
+          "type": "boolean",
+          "x-go-name": "RepoAdminChangeTeamAccess"
+        },
+        "visibility": {
+          "description": "possible values are `public`, `limited` or `private`",
+          "type": "string",
+          "enum": [
+            "public",
+            "limited",
+            "private"
+          ],
+          "x-go-name": "Visibility"
+        },
+        "website": {
+          "type": "string",
+          "x-go-name": "Website"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditPullRequestOption": {
+      "description": "EditPullRequestOption options when modify pull request",
+      "type": "object",
+      "properties": {
+        "allow_maintainer_edit": {
+          "type": "boolean",
+          "x-go-name": "AllowMaintainerEdit"
+        },
+        "assignee": {
+          "type": "string",
+          "x-go-name": "Assignee"
+        },
+        "assignees": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Assignees"
+        },
+        "base": {
+          "type": "string",
+          "x-go-name": "Base"
+        },
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "x-go-name": "Labels"
+        },
+        "milestone": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Milestone"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        },
+        "unset_due_date": {
+          "type": "boolean",
+          "x-go-name": "RemoveDeadline"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditReactionOption": {
+      "description": "EditReactionOption contain the reaction type",
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "x-go-name": "Reaction"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditReleaseOption": {
+      "description": "EditReleaseOption options when editing a release",
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "x-go-name": "Note"
+        },
+        "draft": {
+          "type": "boolean",
+          "x-go-name": "IsDraft"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Title"
+        },
+        "prerelease": {
+          "type": "boolean",
+          "x-go-name": "IsPrerelease"
+        },
+        "tag_name": {
+          "type": "string",
+          "x-go-name": "TagName"
+        },
+        "target_commitish": {
+          "type": "string",
+          "x-go-name": "Target"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "EditRepoOption": {
+      "description": "EditRepoOption options when editing a repository's properties",
+      "type": "object",
+      "properties": {
+        "allow_fast_forward_only_merge": {
+          "description": "either `true` to allow fast-forward-only merging pull requests, or `false` to prevent fast-forward-only merging.",
+          "type": "boolean",
+          "x-go-name": "AllowFastForwardOnly"
+        },
+        "allow_manual_merge": {
+          "description": "either `true` to allow mark pr as merged manually, or `false` to prevent it.",
+          "type": "boolean",
+          "x-go-name": "AllowManualMerge"
+        },
+        "allow_merge_commits": {
+          "description": "either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.",
+          "type": "boolean",
+          "x-go-name": "AllowMerge"
+        },
+        "allow_rebase": {
+          "description": "either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.",
+          "type": "boolean",
+          "x-go-name": "AllowRebase"
+        },
+        "allow_rebase_explicit": {
+          "description": "either `true` to allow rebase with explicit merge commits (--no-ff), or `false` to prevent rebase with explicit merge commits.",
+          "type": "boolean",
+          "x-go-name": "AllowRebaseMerge"
+        },
+        "allow_rebase_update": {
+          "description": "either `true` to allow updating pull request branch by rebase, or `false` to prevent it.",
+          "type": "boolean",
+          "x-go-name": "AllowRebaseUpdate"
+        },
+        "allow_squash_merge": {
+          "description": "either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.",
+          "type": "boolean",
+          "x-go-name": "AllowSquash"
+        },
+        "archived": {
+          "description": "set to `true` to archive this repository.",
+          "type": "boolean",
+          "x-go-name": "Archived"
+        },
+        "autodetect_manual_merge": {
+          "description": "either `true` to enable AutodetectManualMerge, or `false` to prevent it. Note: In some special cases, misjudgments can occur.",
+          "type": "boolean",
+          "x-go-name": "AutodetectManualMerge"
+        },
+        "default_allow_maintainer_edit": {
+          "description": "set to `true` to allow edits from maintainers by default",
+          "type": "boolean",
+          "x-go-name": "DefaultAllowMaintainerEdit"
+        },
+        "default_branch": {
+          "description": "sets the default branch for this repository.",
+          "type": "string",
+          "x-go-name": "DefaultBranch"
+        },
+        "default_delete_branch_after_merge": {
+          "description": "set to `true` to delete pr branch after merge by default",
+          "type": "boolean",
+          "x-go-name": "DefaultDeleteBranchAfterMerge"
+        },
+        "default_merge_style": {
+          "description": "set to a merge style to be used by this repository: \"merge\", \"rebase\", \"rebase-merge\", \"squash\", or \"fast-forward-only\".",
+          "type": "string",
+          "x-go-name": "DefaultMergeStyle"
+        },
+        "description": {
+          "description": "a short description of the repository.",
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "enable_prune": {
+          "description": "enable prune - remove obsolete remote-tracking references when mirroring",
+          "type": "boolean",
+          "x-go-name": "EnablePrune"
+        },
+        "external_tracker": {
+          "$ref": "#/definitions/ExternalTracker"
+        },
+        "external_wiki": {
+          "$ref": "#/definitions/ExternalWiki"
+        },
