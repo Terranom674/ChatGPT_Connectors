@@ -1,0 +1,400 @@
+            "mirror_sync_create",
+            "mirror_sync_delete",
+            "approve_pull_request",
+            "reject_pull_request",
+            "comment_pull",
+            "publish_release",
+            "pull_review_dismissed",
+            "pull_request_ready_for_review",
+            "auto_merge_pull_request"
+          ],
+          "x-go-name": "OpType"
+        },
+        "ref_name": {
+          "type": "string",
+          "x-go-name": "RefName"
+        },
+        "repo": {
+          "$ref": "#/definitions/Repository"
+        },
+        "repo_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RepoID"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UserID"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActivityPub": {
+      "description": "ActivityPub type",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "x-go-name": "Context"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "AddCollaboratorOption": {
+      "description": "AddCollaboratorOption options when adding a user as a collaborator of a repository",
+      "type": "object",
+      "properties": {
+        "permission": {
+          "type": "string",
+          "enum": [
+            "read",
+            "write",
+            "admin"
+          ],
+          "x-go-name": "Permission"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "AddTimeOption": {
+      "description": "AddTimeOption options for adding time to an issue",
+      "type": "object",
+      "required": [
+        "time"
+      ],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "time": {
+          "description": "time in seconds",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Time"
+        },
+        "user_name": {
+          "description": "User who spent the time (optional)",
+          "type": "string",
+          "x-go-name": "User"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "AnnotatedTag": {
+      "description": "AnnotatedTag represents an annotated tag",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "object": {
+          "$ref": "#/definitions/AnnotatedTagObject"
+        },
+        "sha": {
+          "type": "string",
+          "x-go-name": "SHA"
+        },
+        "tag": {
+          "type": "string",
+          "x-go-name": "Tag"
+        },
+        "tagger": {
+          "$ref": "#/definitions/CommitUser"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "verification": {
+          "$ref": "#/definitions/PayloadCommitVerification"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "AnnotatedTagObject": {
+      "description": "AnnotatedTagObject contains meta information of the tag object",
+      "type": "object",
+      "properties": {
+        "sha": {
+          "type": "string",
+          "x-go-name": "SHA"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Attachment": {
+      "description": "Attachment a generic attachment",
+      "type": "object",
+      "properties": {
+        "browser_download_url": {
+          "type": "string",
+          "x-go-name": "DownloadURL"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "download_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DownloadCount"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Size"
+        },
+        "uuid": {
+          "type": "string",
+          "x-go-name": "UUID"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Badge": {
+      "description": "Badge represents a user badge",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "image_url": {
+          "type": "string",
+          "x-go-name": "ImageURL"
+        },
+        "slug": {
+          "type": "string",
+          "x-go-name": "Slug"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Branch": {
+      "description": "Branch represents a repository branch",
+      "type": "object",
+      "properties": {
+        "commit": {
+          "$ref": "#/definitions/PayloadCommit"
+        },
+        "effective_branch_protection_name": {
+          "type": "string",
+          "x-go-name": "EffectiveBranchProtectionName"
+        },
+        "enable_status_check": {
+          "type": "boolean",
+          "x-go-name": "EnableStatusCheck"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "protected": {
+          "type": "boolean",
+          "x-go-name": "Protected"
+        },
+        "required_approvals": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RequiredApprovals"
+        },
+        "status_check_contexts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "StatusCheckContexts"
+        },
+        "user_can_merge": {
+          "type": "boolean",
+          "x-go-name": "UserCanMerge"
+        },
+        "user_can_push": {
+          "type": "boolean",
+          "x-go-name": "UserCanPush"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "BranchProtection": {
+      "description": "BranchProtection represents a branch protection for a repository",
+      "type": "object",
+      "properties": {
+        "approvals_whitelist_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "ApprovalsWhitelistTeams"
+        },
+        "approvals_whitelist_username": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "ApprovalsWhitelistUsernames"
+        },
+        "block_admin_merge_override": {
+          "type": "boolean",
+          "x-go-name": "BlockAdminMergeOverride"
+        },
+        "block_on_official_review_requests": {
+          "type": "boolean",
+          "x-go-name": "BlockOnOfficialReviewRequests"
+        },
+        "block_on_outdated_branch": {
+          "type": "boolean",
+          "x-go-name": "BlockOnOutdatedBranch"
+        },
+        "block_on_rejected_reviews": {
+          "type": "boolean",
+          "x-go-name": "BlockOnRejectedReviews"
+        },
+        "branch_name": {
+          "description": "Deprecated: true",
+          "type": "string",
+          "x-go-name": "BranchName"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "dismiss_stale_approvals": {
+          "type": "boolean",
+          "x-go-name": "DismissStaleApprovals"
+        },
+        "enable_approvals_whitelist": {
+          "type": "boolean",
+          "x-go-name": "EnableApprovalsWhitelist"
+        },
+        "enable_force_push": {
+          "type": "boolean",
+          "x-go-name": "EnableForcePush"
+        },
+        "enable_force_push_allowlist": {
+          "type": "boolean",
+          "x-go-name": "EnableForcePushAllowlist"
+        },
+        "enable_merge_whitelist": {
+          "type": "boolean",
+          "x-go-name": "EnableMergeWhitelist"
+        },
+        "enable_push": {
+          "type": "boolean",
+          "x-go-name": "EnablePush"
+        },
+        "enable_push_whitelist": {
+          "type": "boolean",
+          "x-go-name": "EnablePushWhitelist"
+        },
+        "enable_status_check": {
+          "type": "boolean",
+          "x-go-name": "EnableStatusCheck"
+        },
+        "force_push_allowlist_deploy_keys": {
+          "type": "boolean",
+          "x-go-name": "ForcePushAllowlistDeployKeys"
+        },
+        "force_push_allowlist_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "ForcePushAllowlistTeams"
+        },
+        "force_push_allowlist_usernames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "ForcePushAllowlistUsernames"
+        },
+        "ignore_stale_approvals": {
+          "type": "boolean",
+          "x-go-name": "IgnoreStaleApprovals"
+        },
+        "merge_whitelist_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "MergeWhitelistTeams"
+        },
+        "merge_whitelist_usernames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "MergeWhitelistUsernames"
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Priority"
+        },
+        "protected_file_patterns": {
+          "type": "string",
+          "x-go-name": "ProtectedFilePatterns"
+        },
+        "push_whitelist_deploy_keys": {
+          "type": "boolean",
+          "x-go-name": "PushWhitelistDeployKeys"
+        },
+        "push_whitelist_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "PushWhitelistTeams"
+        },
+        "push_whitelist_usernames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "PushWhitelistUsernames"
+        },
+        "require_signed_commits": {
+          "type": "boolean",
+          "x-go-name": "RequireSignedCommits"
+        },
+        "required_approvals": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RequiredApprovals"
+        },
+        "rule_name": {
+          "type": "string",
+          "x-go-name": "RuleName"
+        },
+        "status_check_contexts": {
+          "type": "array",
+          "items": {
