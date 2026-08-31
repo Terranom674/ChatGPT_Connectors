@@ -1,0 +1,400 @@
+        "$ref": "#/definitions/MergeUpstreamRequest"
+      }
+    },
+    "repoMigrate": {
+      "method": "POST",
+      "path": "/repos/migrate",
+      "summary": "Migrate a remote git repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/MigrateRepoOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/MigrateRepoOptions"
+      }
+    },
+    "repoNewPinAllowed": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/new_pin_allowed",
+      "summary": "Returns if new Issue Pins are allowed",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoPullRequestIsMerged": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/merge",
+      "summary": "Check if a pull request has been merged",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoSearch": {
+      "method": "GET",
+      "path": "/repos/search",
+      "summary": "Search for repositories",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "q",
+          "in": "query",
+          "type": "string",
+          "description": "keyword"
+        },
+        {
+          "name": "topic",
+          "in": "query",
+          "type": "boolean",
+          "description": "Limit search to repositories with keyword as topic"
+        },
+        {
+          "name": "includeDesc",
+          "in": "query",
+          "type": "boolean",
+          "description": "include search of keyword within repository description"
+        },
+        {
+          "name": "uid",
+          "in": "query",
+          "type": "integer",
+          "description": "search only for repos that the user with the given id owns or contributes to",
+          "format": "int64"
+        },
+        {
+          "name": "priority_owner_id",
+          "in": "query",
+          "type": "integer",
+          "description": "repo owner to prioritize in the results",
+          "format": "int64"
+        },
+        {
+          "name": "team_id",
+          "in": "query",
+          "type": "integer",
+          "description": "search only for repos that belong to the given team id",
+          "format": "int64"
+        },
+        {
+          "name": "starredBy",
+          "in": "query",
+          "type": "integer",
+          "description": "search only for repos that the user with the given id has starred",
+          "format": "int64"
+        },
+        {
+          "name": "private",
+          "in": "query",
+          "type": "boolean",
+          "description": "include private repositories this user has access to (defaults to true)"
+        },
+        {
+          "name": "is_private",
+          "in": "query",
+          "type": "boolean",
+          "description": "show only pubic, private or all repositories (defaults to all)"
+        },
+        {
+          "name": "template",
+          "in": "query",
+          "type": "boolean",
+          "description": "include template repositories this user has access to (defaults to true)"
+        },
+        {
+          "name": "archived",
+          "in": "query",
+          "type": "boolean",
+          "description": "show only archived, non-archived or all repositories (defaults to all)"
+        },
+        {
+          "name": "mode",
+          "in": "query",
+          "type": "string",
+          "description": "type of repository to search for. Supported values are \"fork\", \"source\", \"mirror\" and \"collaborative\""
+        },
+        {
+          "name": "exclusive",
+          "in": "query",
+          "type": "boolean",
+          "description": "if `uid` is given, search only for repos that the user owns"
+        },
+        {
+          "name": "sort",
+          "in": "query",
+          "type": "string",
+          "description": "sort repos by attribute. Supported values are \"alpha\", \"created\", \"updated\", \"size\", \"git_size\", \"lfs_size\", \"stars\", \"forks\" and \"id\". Default is \"alpha\""
+        },
+        {
+          "name": "order",
+          "in": "query",
+          "type": "string",
+          "description": "sort order, either \"asc\" (ascending) or \"desc\" (descending). Default is \"asc\", ignored if \"sort\" is not specified."
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoSubmitPullReview": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}",
+      "summary": "Submit a pending review to an pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the review",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/SubmitPullReviewOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/SubmitPullReviewOptions"
+      }
+    },
+    "repoTrackedTimes": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/times",
+      "summary": "List a repo's tracked times",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "user",
+          "in": "query",
+          "type": "string",
+          "description": "optional filter by user (available for issue managers)"
+        },
+        {
+          "name": "since",
+          "in": "query",
+          "type": "string",
+          "description": "Only show times updated after the given time. This is a timestamp in RFC 3339 format",
+          "format": "date-time"
+        },
+        {
+          "name": "before",
+          "in": "query",
+          "type": "string",
+          "description": "Only show times updated before the given time. This is a timestamp in RFC 3339 format",
+          "format": "date-time"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoUnDismissPullReview": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}/undismissals",
+      "summary": "Cancel to dismiss a review for a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the review",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoUpdateAvatar": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/avatar",
+      "summary": "Update avatar",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/UpdateRepoAvatarOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/UpdateRepoAvatarOption"
+      }
+    },
+    "repoUpdateBranch": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/branches/{branch}",
+      "summary": "Update a branch",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "branch",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the branch"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/UpdateBranchRepoOption"
+          }
+        }
+      ],
