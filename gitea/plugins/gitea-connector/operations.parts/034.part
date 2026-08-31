@@ -1,0 +1,400 @@
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "OrganizationPermissions": {
+      "description": "OrganizationPermissions list different users permissions on an organization",
+      "type": "object",
+      "properties": {
+        "can_create_repository": {
+          "type": "boolean",
+          "x-go-name": "CanCreateRepository"
+        },
+        "can_read": {
+          "type": "boolean",
+          "x-go-name": "CanRead"
+        },
+        "can_write": {
+          "type": "boolean",
+          "x-go-name": "CanWrite"
+        },
+        "is_admin": {
+          "type": "boolean",
+          "x-go-name": "IsAdmin"
+        },
+        "is_owner": {
+          "type": "boolean",
+          "x-go-name": "IsOwner"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "PRBranchInfo": {
+      "description": "PRBranchInfo information about a branch",
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "ref": {
+          "type": "string",
+          "x-go-name": "Ref"
+        },
+        "repo": {
+          "$ref": "#/definitions/Repository"
+        },
+        "repo_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RepoID"
+        },
+        "sha": {
+          "type": "string",
+          "x-go-name": "Sha"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Package": {
+      "description": "Package represents a package",
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "CreatedAt"
+        },
+        "creator": {
+          "$ref": "#/definitions/User"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "owner": {
+          "$ref": "#/definitions/User"
+        },
+        "repository": {
+          "$ref": "#/definitions/Repository"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        },
+        "version": {
+          "type": "string",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "PackageFile": {
+      "description": "PackageFile represents a package file",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "md5": {
+          "type": "string",
+          "x-go-name": "HashMD5"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "sha1": {
+          "type": "string",
+          "x-go-name": "HashSHA1"
+        },
+        "sha256": {
+          "type": "string",
+          "x-go-name": "HashSHA256"
+        },
+        "sha512": {
+          "type": "string",
+          "x-go-name": "HashSHA512"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Size"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "PayloadCommit": {
+      "description": "PayloadCommit represents a commit",
+      "type": "object",
+      "properties": {
+        "added": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Added"
+        },
+        "author": {
+          "$ref": "#/definitions/PayloadUser"
+        },
+        "committer": {
+          "$ref": "#/definitions/PayloadUser"
+        },
+        "id": {
+          "description": "sha1 hash of the commit",
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "modified": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Modified"
+        },
+        "removed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Removed"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Timestamp"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "verification": {
+          "$ref": "#/definitions/PayloadCommitVerification"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "PayloadCommitVerification": {
+      "description": "PayloadCommitVerification represents the GPG verification of a commit",
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "string",
+          "x-go-name": "Payload"
+        },
+        "reason": {
+          "type": "string",
+          "x-go-name": "Reason"
+        },
+        "signature": {
+          "type": "string",
+          "x-go-name": "Signature"
+        },
+        "signer": {
+          "$ref": "#/definitions/PayloadUser"
+        },
+        "verified": {
+          "type": "boolean",
+          "x-go-name": "Verified"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "PayloadUser": {
+      "description": "PayloadUser represents the author or committer of a commit",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "x-go-name": "Email"
+        },
+        "name": {
+          "description": "Full name of the commit author",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "username": {
+          "type": "string",
+          "x-go-name": "UserName"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Permission": {
+      "description": "Permission represents a set of permissions",
+      "type": "object",
+      "properties": {
+        "admin": {
+          "type": "boolean",
+          "x-go-name": "Admin"
+        },
+        "pull": {
+          "type": "boolean",
+          "x-go-name": "Pull"
+        },
+        "push": {
+          "type": "boolean",
+          "x-go-name": "Push"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "PublicKey": {
+      "description": "PublicKey publickey is a user key to push code to repository",
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "fingerprint": {
+          "type": "string",
+          "x-go-name": "Fingerprint"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "key": {
+          "type": "string",
+          "x-go-name": "Key"
+        },
+        "key_type": {
+          "type": "string",
+          "x-go-name": "KeyType"
+        },
+        "last_used_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        },
+        "read_only": {
+          "type": "boolean",
+          "x-go-name": "ReadOnly"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "PullRequest": {
+      "description": "PullRequest represents a pull request",
+      "type": "object",
+      "properties": {
+        "additions": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Additions"
+        },
+        "allow_maintainer_edit": {
+          "type": "boolean",
+          "x-go-name": "AllowMaintainerEdit"
+        },
+        "assignee": {
+          "$ref": "#/definitions/User"
+        },
+        "assignees": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          },
+          "x-go-name": "Assignees"
+        },
+        "base": {
+          "$ref": "#/definitions/PRBranchInfo"
+        },
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        },
+        "changed_files": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ChangedFiles"
+        },
+        "closed_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Closed"
+        },
+        "comments": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Comments"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "deletions": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Deletions"
+        },
+        "diff_url": {
+          "type": "string",
+          "x-go-name": "DiffURL"
+        },
+        "draft": {
+          "type": "boolean",
+          "x-go-name": "Draft"
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        },
+        "head": {
+          "$ref": "#/definitions/PRBranchInfo"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "is_locked": {
+          "type": "boolean",
+          "x-go-name": "IsLocked"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Label"
+          },
+          "x-go-name": "Labels"
+        },
+        "merge_base": {
+          "type": "string",
+          "x-go-name": "MergeBase"
+        },
