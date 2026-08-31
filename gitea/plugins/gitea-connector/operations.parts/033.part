@@ -1,0 +1,400 @@
+            "codecommit"
+          ],
+          "x-go-name": "Service"
+        },
+        "uid": {
+          "description": "deprecated (only for backwards compatibility)",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RepoOwnerID"
+        },
+        "wiki": {
+          "type": "boolean",
+          "x-go-name": "Wiki"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Milestone": {
+      "description": "Milestone milestone is a collection of issues on one repository",
+      "type": "object",
+      "properties": {
+        "closed_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Closed"
+        },
+        "closed_issues": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClosedIssues"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "due_on": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "open_issues": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OpenIssues"
+        },
+        "state": {
+          "$ref": "#/definitions/StateType"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NewIssuePinsAllowed": {
+      "description": "NewIssuePinsAllowed represents an API response that says if new Issue Pins are allowed",
+      "type": "object",
+      "properties": {
+        "issues": {
+          "type": "boolean",
+          "x-go-name": "Issues"
+        },
+        "pull_requests": {
+          "type": "boolean",
+          "x-go-name": "PullRequests"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NodeInfo": {
+      "description": "NodeInfo contains standardized way of exposing metadata about a server running one of the distributed social networks",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "x-go-name": "Metadata"
+        },
+        "openRegistrations": {
+          "type": "boolean",
+          "x-go-name": "OpenRegistrations"
+        },
+        "protocols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Protocols"
+        },
+        "services": {
+          "$ref": "#/definitions/NodeInfoServices"
+        },
+        "software": {
+          "$ref": "#/definitions/NodeInfoSoftware"
+        },
+        "usage": {
+          "$ref": "#/definitions/NodeInfoUsage"
+        },
+        "version": {
+          "type": "string",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NodeInfoServices": {
+      "description": "NodeInfoServices contains the third party sites this server can connect to via their application API",
+      "type": "object",
+      "properties": {
+        "inbound": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Inbound"
+        },
+        "outbound": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Outbound"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NodeInfoSoftware": {
+      "description": "NodeInfoSoftware contains Metadata about server software in use",
+      "type": "object",
+      "properties": {
+        "homepage": {
+          "type": "string",
+          "x-go-name": "Homepage"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "repository": {
+          "type": "string",
+          "x-go-name": "Repository"
+        },
+        "version": {
+          "type": "string",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NodeInfoUsage": {
+      "description": "NodeInfoUsage contains usage statistics for this server",
+      "type": "object",
+      "properties": {
+        "localComments": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "LocalComments"
+        },
+        "localPosts": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "LocalPosts"
+        },
+        "users": {
+          "$ref": "#/definitions/NodeInfoUsageUsers"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NodeInfoUsageUsers": {
+      "description": "NodeInfoUsageUsers contains statistics about the users of this server",
+      "type": "object",
+      "properties": {
+        "activeHalfyear": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ActiveHalfyear"
+        },
+        "activeMonth": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ActiveMonth"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Total"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Note": {
+      "description": "Note contains information related to a git note",
+      "type": "object",
+      "properties": {
+        "commit": {
+          "$ref": "#/definitions/Commit"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NotificationCount": {
+      "description": "NotificationCount number of unread notifications",
+      "type": "object",
+      "properties": {
+        "new": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "New"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NotificationSubject": {
+      "description": "NotificationSubject contains the notification subject (Issue/Pull/Commit)",
+      "type": "object",
+      "properties": {
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "latest_comment_html_url": {
+          "type": "string",
+          "x-go-name": "LatestCommentHTMLURL"
+        },
+        "latest_comment_url": {
+          "type": "string",
+          "x-go-name": "LatestCommentURL"
+        },
+        "state": {
+          "$ref": "#/definitions/StateType"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        },
+        "type": {
+          "$ref": "#/definitions/NotifySubjectType"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NotificationThread": {
+      "description": "NotificationThread expose Notification on API",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "pinned": {
+          "type": "boolean",
+          "x-go-name": "Pinned"
+        },
+        "repository": {
+          "$ref": "#/definitions/Repository"
+        },
+        "subject": {
+          "$ref": "#/definitions/NotificationSubject"
+        },
+        "unread": {
+          "type": "boolean",
+          "x-go-name": "Unread"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "UpdatedAt"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "NotifySubjectType": {
+      "description": "NotifySubjectType represent type of notification subject",
+      "type": "string",
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "OAuth2Application": {
+      "type": "object",
+      "title": "OAuth2Application represents an OAuth2 application.",
+      "properties": {
+        "client_id": {
+          "type": "string",
+          "x-go-name": "ClientID"
+        },
+        "client_secret": {
+          "type": "string",
+          "x-go-name": "ClientSecret"
+        },
+        "confidential_client": {
+          "type": "boolean",
+          "x-go-name": "ConfidentialClient"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "redirect_uris": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "RedirectURIs"
+        },
+        "skip_secondary_authorization": {
+          "type": "boolean",
+          "x-go-name": "SkipSecondaryAuthorization"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Organization": {
+      "description": "Organization represents an organization",
+      "type": "object",
+      "properties": {
+        "avatar_url": {
+          "type": "string",
+          "x-go-name": "AvatarURL"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "email": {
+          "type": "string",
+          "x-go-name": "Email"
+        },
+        "full_name": {
+          "type": "string",
+          "x-go-name": "FullName"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "location": {
+          "type": "string",
+          "x-go-name": "Location"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "repo_admin_change_team_access": {
+          "type": "boolean",
+          "x-go-name": "RepoAdminChangeTeamAccess"
+        },
+        "username": {
+          "description": "deprecated",
+          "type": "string",
+          "x-go-name": "UserName"
+        },
+        "visibility": {
+          "type": "string",
+          "x-go-name": "Visibility"
+        },
+        "website": {
+          "type": "string",
+          "x-go-name": "Website"
+        }
+      },
