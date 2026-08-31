@@ -117,6 +117,7 @@ class MCPHandler(BaseHTTPRequestHandler):
     server_version = "GiteaMCP/1.1"
 
     def log_message(self, format, *args):
+        # Keep normal HTTP access logs on stderr, never on MCP response streams.
         super().log_message(format, *args)
 
     def _send_json(self, status: int, payload) -> None:
@@ -172,6 +173,10 @@ class MCPHandler(BaseHTTPRequestHandler):
             return
         if not self._check_common_security():
             return
+
+        # This first HTTP implementation is stateless and does not expose an SSE
+        # receive stream. Streamable HTTP permits servers to reject GET when they
+        # do not offer server-initiated streaming.
         self.send_response(405)
         self.send_header("Allow", "POST")
         self.send_header("Content-Length", "0")
