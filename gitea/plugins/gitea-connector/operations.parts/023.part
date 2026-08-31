@@ -1,0 +1,400 @@
+            "type": "string"
+          },
+          "x-go-name": "StatusCheckContexts"
+        },
+        "unprotected_file_patterns": {
+          "type": "string",
+          "x-go-name": "UnprotectedFilePatterns"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ChangeFileOperation": {
+      "description": "ChangeFileOperation for creating, updating or deleting a file",
+      "type": "object",
+      "required": [
+        "operation",
+        "path"
+      ],
+      "properties": {
+        "content": {
+          "description": "new or updated file content, must be base64 encoded",
+          "type": "string",
+          "x-go-name": "ContentBase64"
+        },
+        "from_path": {
+          "description": "old path of the file to move",
+          "type": "string",
+          "x-go-name": "FromPath"
+        },
+        "operation": {
+          "description": "indicates what to do with the file",
+          "type": "string",
+          "enum": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "x-go-name": "Operation"
+        },
+        "path": {
+          "description": "path to the existing or new file",
+          "type": "string",
+          "x-go-name": "Path"
+        },
+        "sha": {
+          "description": "sha is the SHA for the file that already exists, required for update or delete",
+          "type": "string",
+          "x-go-name": "SHA"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ChangeFilesOptions": {
+      "description": "ChangeFilesOptions options for creating, updating or deleting multiple files\nNote: `author` and `committer` are optional (if only one is given, it will be used for the other, otherwise the authenticated user will be used)",
+      "type": "object",
+      "required": [
+        "files"
+      ],
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/Identity"
+        },
+        "branch": {
+          "description": "branch (optional) to base this file from. if not given, the default branch is used",
+          "type": "string",
+          "x-go-name": "BranchName"
+        },
+        "committer": {
+          "$ref": "#/definitions/Identity"
+        },
+        "dates": {
+          "$ref": "#/definitions/CommitDateOptions"
+        },
+        "files": {
+          "description": "list of file operations",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChangeFileOperation"
+          },
+          "x-go-name": "Files"
+        },
+        "message": {
+          "description": "message (optional) for the commit of this file. if not supplied, a default message will be used",
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "new_branch": {
+          "description": "new_branch (optional) will make a new branch from `branch` before creating the file",
+          "type": "string",
+          "x-go-name": "NewBranchName"
+        },
+        "signoff": {
+          "description": "Add a Signed-off-by trailer by the committer at the end of the commit log message.",
+          "type": "boolean",
+          "x-go-name": "Signoff"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ChangedFile": {
+      "description": "ChangedFile store information about files affected by the pull request",
+      "type": "object",
+      "properties": {
+        "additions": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Additions"
+        },
+        "changes": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Changes"
+        },
+        "contents_url": {
+          "type": "string",
+          "x-go-name": "ContentsURL"
+        },
+        "deletions": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Deletions"
+        },
+        "filename": {
+          "type": "string",
+          "x-go-name": "Filename"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "previous_filename": {
+          "type": "string",
+          "x-go-name": "PreviousFilename"
+        },
+        "raw_url": {
+          "type": "string",
+          "x-go-name": "RawURL"
+        },
+        "status": {
+          "type": "string",
+          "x-go-name": "Status"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CombinedStatus": {
+      "description": "CombinedStatus holds the combined state of several statuses for a single commit",
+      "type": "object",
+      "properties": {
+        "commit_url": {
+          "type": "string",
+          "x-go-name": "CommitURL"
+        },
+        "repository": {
+          "$ref": "#/definitions/Repository"
+        },
+        "sha": {
+          "type": "string",
+          "x-go-name": "SHA"
+        },
+        "state": {
+          "$ref": "#/definitions/CommitStatusState"
+        },
+        "statuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommitStatus"
+          },
+          "x-go-name": "Statuses"
+        },
+        "total_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalCount"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Comment": {
+      "description": "Comment represents a comment on a commit or issue",
+      "type": "object",
+      "properties": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Attachment"
+          },
+          "x-go-name": "Attachments"
+        },
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "issue_url": {
+          "type": "string",
+          "x-go-name": "IssueURL"
+        },
+        "original_author": {
+          "type": "string",
+          "x-go-name": "OriginalAuthor"
+        },
+        "original_author_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OriginalAuthorID"
+        },
+        "pull_request_url": {
+          "type": "string",
+          "x-go-name": "PRURL"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Commit": {
+      "type": "object",
+      "title": "Commit contains information generated from a Git commit.",
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/User"
+        },
+        "commit": {
+          "$ref": "#/definitions/RepoCommit"
+        },
+        "committer": {
+          "$ref": "#/definitions/User"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommitAffectedFiles"
+          },
+          "x-go-name": "Files"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommitMeta"
+          },
+          "x-go-name": "Parents"
+        },
+        "sha": {
+          "type": "string",
+          "x-go-name": "SHA"
+        },
+        "stats": {
+          "$ref": "#/definitions/CommitStats"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CommitAffectedFiles": {
+      "description": "CommitAffectedFiles store information about files affected by the commit",
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "x-go-name": "Filename"
+        },
+        "status": {
+          "type": "string",
+          "x-go-name": "Status"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CommitDateOptions": {
+      "description": "CommitDateOptions store dates for GIT_AUTHOR_DATE and GIT_COMMITTER_DATE",
+      "type": "object",
+      "properties": {
+        "author": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Author"
+        },
+        "committer": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Committer"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CommitMeta": {
+      "type": "object",
+      "title": "CommitMeta contains meta information of a commit in terms of API.",
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "sha": {
+          "type": "string",
+          "x-go-name": "SHA"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CommitStats": {
+      "description": "CommitStats is statistics for a RepoCommit",
+      "type": "object",
+      "properties": {
+        "additions": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Additions"
+        },
+        "deletions": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Deletions"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Total"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CommitStatus": {
+      "description": "CommitStatus holds a single status of a single Commit",
+      "type": "object",
+      "properties": {
+        "context": {
+          "type": "string",
+          "x-go-name": "Context"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "creator": {
+          "$ref": "#/definitions/User"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "status": {
+          "$ref": "#/definitions/CommitStatusState"
+        },
+        "target_url": {
+          "type": "string",
+          "x-go-name": "TargetURL"
+        },
