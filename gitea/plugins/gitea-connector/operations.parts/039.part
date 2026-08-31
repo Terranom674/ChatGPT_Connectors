@@ -1,0 +1,269 @@
+        "visibility": {
+          "description": "User visibility level option: public, limited, private",
+          "type": "string",
+          "x-go-name": "Visibility"
+        },
+        "website": {
+          "description": "the user's website",
+          "type": "string",
+          "x-go-name": "Website"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "UserBadgeOption": {
+      "description": "UserBadgeOption options for link between users and badges",
+      "type": "object",
+      "properties": {
+        "badge_slugs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "BadgeSlugs",
+          "example": [
+            "badge1",
+            "badge2"
+          ]
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "UserHeatmapData": {
+      "description": "UserHeatmapData represents the data needed to create a heatmap",
+      "type": "object",
+      "properties": {
+        "contributions": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Contributions"
+        },
+        "timestamp": {
+          "$ref": "#/definitions/TimeStamp"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/models/activities"
+    },
+    "UserSettings": {
+      "description": "UserSettings represents user settings",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "diff_view_style": {
+          "type": "string",
+          "x-go-name": "DiffViewStyle"
+        },
+        "full_name": {
+          "type": "string",
+          "x-go-name": "FullName"
+        },
+        "hide_activity": {
+          "type": "boolean",
+          "x-go-name": "HideActivity"
+        },
+        "hide_email": {
+          "description": "Privacy",
+          "type": "boolean",
+          "x-go-name": "HideEmail"
+        },
+        "language": {
+          "type": "string",
+          "x-go-name": "Language"
+        },
+        "location": {
+          "type": "string",
+          "x-go-name": "Location"
+        },
+        "theme": {
+          "type": "string",
+          "x-go-name": "Theme"
+        },
+        "website": {
+          "type": "string",
+          "x-go-name": "Website"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "UserSettingsOptions": {
+      "description": "UserSettingsOptions represents options to change user settings",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "diff_view_style": {
+          "type": "string",
+          "x-go-name": "DiffViewStyle"
+        },
+        "full_name": {
+          "type": "string",
+          "x-go-name": "FullName"
+        },
+        "hide_activity": {
+          "type": "boolean",
+          "x-go-name": "HideActivity"
+        },
+        "hide_email": {
+          "description": "Privacy",
+          "type": "boolean",
+          "x-go-name": "HideEmail"
+        },
+        "language": {
+          "type": "string",
+          "x-go-name": "Language"
+        },
+        "location": {
+          "type": "string",
+          "x-go-name": "Location"
+        },
+        "theme": {
+          "type": "string",
+          "x-go-name": "Theme"
+        },
+        "website": {
+          "type": "string",
+          "x-go-name": "Website"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "WatchInfo": {
+      "description": "WatchInfo represents an API watch status of one repository",
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "CreatedAt"
+        },
+        "ignored": {
+          "type": "boolean",
+          "x-go-name": "Ignored"
+        },
+        "reason": {
+          "x-go-name": "Reason"
+        },
+        "repository_url": {
+          "type": "string",
+          "x-go-name": "RepositoryURL"
+        },
+        "subscribed": {
+          "type": "boolean",
+          "x-go-name": "Subscribed"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "WikiCommit": {
+      "description": "WikiCommit page commit/revision",
+      "type": "object",
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/CommitUser"
+        },
+        "commiter": {
+          "$ref": "#/definitions/CommitUser"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "sha": {
+          "type": "string",
+          "x-go-name": "ID"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "WikiCommitList": {
+      "description": "WikiCommitList commit/revision list",
+      "type": "object",
+      "properties": {
+        "commits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WikiCommit"
+          },
+          "x-go-name": "WikiCommits"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Count"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "WikiPage": {
+      "description": "WikiPage a wiki page",
+      "type": "object",
+      "properties": {
+        "commit_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CommitCount"
+        },
+        "content_base64": {
+          "description": "Page content, base64 encoded",
+          "type": "string",
+          "x-go-name": "ContentBase64"
+        },
+        "footer": {
+          "type": "string",
+          "x-go-name": "Footer"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "last_commit": {
+          "$ref": "#/definitions/WikiCommit"
+        },
+        "sidebar": {
+          "type": "string",
+          "x-go-name": "Sidebar"
+        },
+        "sub_url": {
+          "type": "string",
+          "x-go-name": "SubURL"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "WikiPageMetaData": {
+      "description": "WikiPageMetaData wiki page meta information",
+      "type": "object",
+      "properties": {
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "last_commit": {
+          "$ref": "#/definitions/WikiCommit"
+        },
+        "sub_url": {
+          "type": "string",
+          "x-go-name": "SubURL"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    }
+  }
+}
