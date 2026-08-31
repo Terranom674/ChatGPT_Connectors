@@ -1,0 +1,400 @@
+        }
+      ],
+      "bodySchema": null
+    },
+    "notifyGetList": {
+      "method": "GET",
+      "path": "/notifications",
+      "summary": "List users's notification threads",
+      "tag": "notification",
+      "parameters": [
+        {
+          "name": "all",
+          "in": "query",
+          "type": "boolean",
+          "description": "If true, show notifications marked as read. Default value is false"
+        },
+        {
+          "name": "status-types",
+          "in": "query",
+          "type": "array",
+          "description": "Show notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread & pinned."
+        },
+        {
+          "name": "subject-type",
+          "in": "query",
+          "type": "array",
+          "description": "filter notifications by subject type"
+        },
+        {
+          "name": "since",
+          "in": "query",
+          "type": "string",
+          "description": "Only show notifications updated after the given time. This is a timestamp in RFC 3339 format",
+          "format": "date-time"
+        },
+        {
+          "name": "before",
+          "in": "query",
+          "type": "string",
+          "description": "Only show notifications updated before the given time. This is a timestamp in RFC 3339 format",
+          "format": "date-time"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "notifyGetRepoList": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/notifications",
+      "summary": "List users's notification threads on a specific repo",
+      "tag": "notification",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "all",
+          "in": "query",
+          "type": "boolean",
+          "description": "If true, show notifications marked as read. Default value is false"
+        },
+        {
+          "name": "status-types",
+          "in": "query",
+          "type": "array",
+          "description": "Show notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread & pinned"
+        },
+        {
+          "name": "subject-type",
+          "in": "query",
+          "type": "array",
+          "description": "filter notifications by subject type"
+        },
+        {
+          "name": "since",
+          "in": "query",
+          "type": "string",
+          "description": "Only show notifications updated after the given time. This is a timestamp in RFC 3339 format",
+          "format": "date-time"
+        },
+        {
+          "name": "before",
+          "in": "query",
+          "type": "string",
+          "description": "Only show notifications updated before the given time. This is a timestamp in RFC 3339 format",
+          "format": "date-time"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "notifyGetThread": {
+      "method": "GET",
+      "path": "/notifications/threads/{id}",
+      "summary": "Get notification thread by ID",
+      "tag": "notification",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "id of notification thread"
+        }
+      ],
+      "bodySchema": null
+    },
+    "notifyNewAvailable": {
+      "method": "GET",
+      "path": "/notifications/new",
+      "summary": "Check if unread notifications exist",
+      "tag": "notification",
+      "parameters": [],
+      "bodySchema": null
+    },
+    "notifyReadList": {
+      "method": "PUT",
+      "path": "/notifications",
+      "summary": "Mark notification threads as read, pinned or unread",
+      "tag": "notification",
+      "parameters": [
+        {
+          "name": "last_read_at",
+          "in": "query",
+          "type": "string",
+          "description": "Describes the last point that notifications were checked. Anything updated since this time will not be updated.",
+          "format": "date-time"
+        },
+        {
+          "name": "all",
+          "in": "query",
+          "type": "string",
+          "description": "If true, mark all notifications on this repo. Default value is false"
+        },
+        {
+          "name": "status-types",
+          "in": "query",
+          "type": "array",
+          "description": "Mark notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread."
+        },
+        {
+          "name": "to-status",
+          "in": "query",
+          "type": "string",
+          "description": "Status to mark notifications as, Defaults to read."
+        }
+      ],
+      "bodySchema": null
+    },
+    "notifyReadRepoList": {
+      "method": "PUT",
+      "path": "/repos/{owner}/{repo}/notifications",
+      "summary": "Mark notification threads as read, pinned or unread on a specific repo",
+      "tag": "notification",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "all",
+          "in": "query",
+          "type": "string",
+          "description": "If true, mark all notifications on this repo. Default value is false"
+        },
+        {
+          "name": "status-types",
+          "in": "query",
+          "type": "array",
+          "description": "Mark notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread."
+        },
+        {
+          "name": "to-status",
+          "in": "query",
+          "type": "string",
+          "description": "Status to mark notifications as. Defaults to read."
+        },
+        {
+          "name": "last_read_at",
+          "in": "query",
+          "type": "string",
+          "description": "Describes the last point that notifications were checked. Anything updated since this time will not be updated.",
+          "format": "date-time"
+        }
+      ],
+      "bodySchema": null
+    },
+    "notifyReadThread": {
+      "method": "PATCH",
+      "path": "/notifications/threads/{id}",
+      "summary": "Mark notification thread as read by ID",
+      "tag": "notification",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "id of notification thread"
+        },
+        {
+          "name": "to-status",
+          "in": "query",
+          "type": "string",
+          "description": "Status to mark notifications as",
+          "default": "read"
+        }
+      ],
+      "bodySchema": null
+    },
+    "pinIssue": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues/{index}/pin",
+      "summary": "Pin an Issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of issue to pin",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoAddTopic": {
+      "method": "PUT",
+      "path": "/repos/{owner}/{repo}/topics/{topic}",
+      "summary": "Add a topic to a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "topic",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the topic to add"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoApplyDiffPatch": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/diffpatch",
+      "summary": "Apply diff patch to repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/UpdateFileOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/UpdateFileOptions"
+      }
+    },
+    "repoCancelScheduledAutoMerge": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/merge",
+      "summary": "Cancel the scheduled auto merge for the given pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request to merge",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoChangeFiles": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/contents",
+      "summary": "Modify multiple files in a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
