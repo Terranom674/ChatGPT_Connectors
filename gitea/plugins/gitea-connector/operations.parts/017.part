@@ -1,0 +1,400 @@
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListActivityFeeds": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/activities/feeds",
+      "summary": "List a repository's activity feeds",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "date",
+          "in": "query",
+          "type": "string",
+          "description": "the date of the activities to be found",
+          "format": "date"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListAllGitRefs": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/git/refs",
+      "summary": "Get specified ref or filtered repository's refs",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListBranchProtection": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/branch_protections",
+      "summary": "List branch protections for a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListBranches": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/branches",
+      "summary": "List a repository's branches",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListGitRefs": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/git/refs/{ref}",
+      "summary": "Get specified ref or filtered repository's refs",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "ref",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "part or full name of the ref"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListPinnedIssues": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issues/pinned",
+      "summary": "List a repo's pinned issues",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListPinnedPullRequests": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls/pinned",
+      "summary": "List a repo's pinned pull requests",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListPullRequests": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls",
+      "summary": "List a repo's pull requests",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "Owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "Name of the repo"
+        },
+        {
+          "name": "base_branch",
+          "in": "query",
+          "type": "string",
+          "description": "Filter by target base branch of the pull request"
+        },
+        {
+          "name": "state",
+          "in": "query",
+          "type": "string",
+          "description": "State of pull request",
+          "enum": [
+            "open",
+            "closed",
+            "all"
+          ],
+          "default": "open"
+        },
+        {
+          "name": "sort",
+          "in": "query",
+          "type": "string",
+          "description": "Type of sort",
+          "enum": [
+            "oldest",
+            "recentupdate",
+            "recentclose",
+            "leastupdate",
+            "mostcomment",
+            "leastcomment",
+            "priority"
+          ]
+        },
+        {
+          "name": "milestone",
+          "in": "query",
+          "type": "integer",
+          "description": "ID of the milestone",
+          "format": "int64"
+        },
+        {
+          "name": "labels",
+          "in": "query",
+          "type": "array",
+          "description": "Label IDs"
+        },
+        {
+          "name": "poster",
+          "in": "query",
+          "type": "string",
+          "description": "Filter by pull request author"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "Page number of results to return (1-based)",
+          "default": 1,
+          "minimum": 1
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "Page size of results",
+          "minimum": 0
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListPullReviews": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/reviews",
+      "summary": "List all reviews for a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListReleaseAttachments": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/releases/{id}/assets",
+      "summary": "List release's attachments",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the release",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoListReleases": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/releases",
+      "summary": "List a repo's releases",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
