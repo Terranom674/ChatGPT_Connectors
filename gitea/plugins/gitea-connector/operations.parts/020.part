@@ -1,0 +1,400 @@
+      "bodySchema": {
+        "$ref": "#/definitions/UpdateBranchRepoOption"
+      }
+    },
+    "repoUpdateBranchProtectionPriories": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/branch_protections/priority",
+      "summary": "Update the priorities of branch protections for a repository.",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/UpdateBranchProtectionPriories"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/UpdateBranchProtectionPriories"
+      }
+    },
+    "repoUpdateFile": {
+      "method": "PUT",
+      "path": "/repos/{owner}/{repo}/contents/{filepath}",
+      "summary": "Update a file in a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "filepath",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "path of the file to update"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/UpdateFileOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/UpdateFileOptions"
+      }
+    },
+    "repoUpdatePullRequest": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/update",
+      "summary": "Merge PR's baseBranch into headBranch",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request to get",
+          "format": "int64"
+        },
+        {
+          "name": "style",
+          "in": "query",
+          "type": "string",
+          "description": "how to update pull request",
+          "enum": [
+            "merge",
+            "rebase"
+          ]
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoUpdateTopics": {
+      "method": "PUT",
+      "path": "/repos/{owner}/{repo}/topics",
+      "summary": "Replace list of topics for a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/RepoTopicOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/RepoTopicOptions"
+      }
+    },
+    "repoValidateIssueConfig": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issue_config/validate",
+      "summary": "Returns the validation information for a issue config",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "unlinkPackage": {
+      "method": "POST",
+      "path": "/packages/{owner}/{type}/{name}/-/unlink",
+      "summary": "Unlink a package from a repository",
+      "tag": "package",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the package"
+        },
+        {
+          "name": "type",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "type of the package"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the package"
+        }
+      ],
+      "bodySchema": null
+    },
+    "unpinIssue": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/{index}/pin",
+      "summary": "Unpin an Issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of issue to unpin",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "userCurrentCheckSubscription": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/subscription",
+      "summary": "Check if the current user is watching a repo",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "userCurrentDeleteSubscription": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/subscription",
+      "summary": "Unwatch a repo",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "userCurrentPutSubscription": {
+      "method": "PUT",
+      "path": "/repos/{owner}/{repo}/subscription",
+      "summary": "Watch a repo",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "userTrackedTimes": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/times/{user}",
+      "summary": "List a user's tracked times in a repo",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "user",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "username of user"
+        }
+      ],
+      "bodySchema": null
+    }
+  },
+  "definitions": {
+    "APIError": {
+      "description": "APIError is an api error with a message",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "AccessToken": {
+      "type": "object",
+      "title": "AccessToken represents an API access token.",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "last_used_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Scopes"
+        },
+        "sha1": {
+          "type": "string",
+          "x-go-name": "Token"
+        },
+        "token_last_eight": {
+          "type": "string",
+          "x-go-name": "TokenLastEight"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ActionArtifact": {
+      "description": "ActionArtifact represents a ActionArtifact",
+      "type": "object",
+      "properties": {
+        "archive_download_url": {
+          "type": "string",
+          "x-go-name": "ArchiveDownloadURL"
+        },
+        "created_at": {
+          "type": "string",
