@@ -1,0 +1,400 @@
+          "format": "int64"
+        },
+        {
+          "name": "user",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "user to subscribe"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueAddTime": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues/{index}/times",
+      "summary": "Add tracked time to a issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/AddTimeOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/AddTimeOption"
+      }
+    },
+    "issueCheckSubscription": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issues/{index}/subscriptions/check",
+      "summary": "Check if user is subscribed to an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueClearLabels": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/{index}/labels",
+      "summary": "Remove all labels from an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueCreateComment": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues/{index}/comments",
+      "summary": "Add a comment to an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateIssueCommentOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateIssueCommentOption"
+      }
+    },
+    "issueCreateIssue": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues",
+      "summary": "Create an issue. If using deadline only the date will be taken into account, and time of day ignored.",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateIssueOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateIssueOption"
+      }
+    },
+    "issueCreateIssueBlocking": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues/{index}/blocks",
+      "summary": "Block the issue given in the body by the issue in path",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "index of the issue"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/IssueMeta"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/IssueMeta"
+      }
+    },
+    "issueCreateIssueDependencies": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/issues/{index}/dependencies",
+      "summary": "Make the issue in the url depend on the issue in the form.",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "index of the issue"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/IssueMeta"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/IssueMeta"
+      }
+    },
+    "issueCreateLabel": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/labels",
+      "summary": "Create a label",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateLabelOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateLabelOption"
+      }
+    },
+    "issueCreateMilestone": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/milestones",
+      "summary": "Create a milestone",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateMilestoneOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateMilestoneOption"
+      }
+    },
+    "issueDelete": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/{index}",
+      "summary": "Delete an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of issue to delete",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueDeleteComment": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/comments/{id}",
+      "summary": "Delete a comment",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of comment to delete",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueDeleteCommentDeprecated": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/{index}/comments/{id}",
+      "summary": "Delete a comment",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
