@@ -1,0 +1,400 @@
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateWikiPageOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateWikiPageOptions"
+      }
+    },
+    "repoDelete": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}",
+      "summary": "Delete a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo to delete"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo to delete"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteAvatar": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/avatar",
+      "summary": "Delete avatar",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteBranch": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/branches/{branch}",
+      "summary": "Delete a specific branch from a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "branch",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "branch to delete"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteBranchProtection": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/branch_protections/{name}",
+      "summary": "Delete a specific branch protection for the repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of protected branch"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteFile": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/contents/{filepath}",
+      "summary": "Delete a file in a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "filepath",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "path of the file to delete"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/DeleteFileOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/DeleteFileOptions"
+      }
+    },
+    "repoDeletePullReview": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}",
+      "summary": "Delete a specific review from a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the review",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeletePullReviewRequests": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/requested_reviewers",
+      "summary": "cancel review requests for a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/PullReviewRequestOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/PullReviewRequestOptions"
+      }
+    },
+    "repoDeleteRelease": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/releases/{id}",
+      "summary": "Delete a release",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the release to delete",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteReleaseAttachment": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/releases/{id}/assets/{attachment_id}",
+      "summary": "Delete a release attachment",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the release",
+          "format": "int64"
+        },
+        {
+          "name": "attachment_id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the attachment to delete",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteReleaseByTag": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/releases/tags/{tag}",
+      "summary": "Delete a release by tag name",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "tag",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "tag name of the release to delete"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteTag": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/tags/{tag}",
+      "summary": "Delete a repository's tag by name",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "tag",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of tag to delete"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteTagProtection": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/tag_protections/{id}",
+      "summary": "Delete a specific tag protection for the repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
