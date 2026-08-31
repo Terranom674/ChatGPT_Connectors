@@ -1,0 +1,400 @@
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}",
+      "summary": "Get a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetAllCommits": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/commits",
+      "summary": "Get a list of all commits from a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "sha",
+          "in": "query",
+          "type": "string",
+          "description": "SHA or branch to start listing commits from (usually 'master')"
+        },
+        {
+          "name": "path",
+          "in": "query",
+          "type": "string",
+          "description": "filepath of a file/dir"
+        },
+        {
+          "name": "stat",
+          "in": "query",
+          "type": "boolean",
+          "description": "include diff stats for every commit (disable for speedup, default 'true')"
+        },
+        {
+          "name": "verification",
+          "in": "query",
+          "type": "boolean",
+          "description": "include verification for every commit (disable for speedup, default 'true')"
+        },
+        {
+          "name": "files",
+          "in": "query",
+          "type": "boolean",
+          "description": "include a list of affected files for every commit (disable for speedup, default 'true')"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results (ignored if used with 'path')"
+        },
+        {
+          "name": "not",
+          "in": "query",
+          "type": "string",
+          "description": "commits that match the given specifier will not be listed."
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetArchive": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/archive/{archive}",
+      "summary": "Get an archive of a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "archive",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "the git reference for download with attached archive format (e.g. master.zip)"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetAssignees": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/assignees",
+      "summary": "Return all users that have write access and can be assigned to issues",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetBranch": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/branches/{branch}",
+      "summary": "Retrieve a specific branch from a repository, including its effective branch protection",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "branch",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "branch to get"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetBranchProtection": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/branch_protections/{name}",
+      "summary": "Get a specific branch protection for the repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of protected branch"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetByID": {
+      "method": "GET",
+      "path": "/repositories/{id}",
+      "summary": "Get a repository by id",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the repo to get",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetCombinedStatusByRef": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/commits/{ref}/status",
+      "summary": "Get a commit's combined status, by branch/tag/commit reference",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "ref",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of branch/tag/commit"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetCommitPullRequest": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/commits/{sha}/pull",
+      "summary": "Get the merged pull request of the commit",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "sha",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "SHA of the commit to get"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetContents": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/contents/{filepath}",
+      "summary": "Gets the metadata and contents (if a file) of an entry in a repository, or a list of entries if a dir",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "filepath",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "path of the dir, file, symlink or submodule in the repo"
+        },
+        {
+          "name": "ref",
+          "in": "query",
+          "type": "string",
+          "description": "The name of the commit/branch/tag. Default to the repository’s default branch."
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetContentsList": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/contents",
+      "summary": "Gets the metadata of all the entries of the root dir",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "ref",
+          "in": "query",
+          "type": "string",
+          "description": "The name of the commit/branch/tag. Default to the repository’s default branch."
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetEditorConfig": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/editorconfig/{filepath}",
+      "summary": "Get the EditorConfig definitions of a file in a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "filepath",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "filepath of file to get"
+        },
+        {
+          "name": "ref",
+          "in": "query",
+          "type": "string",
+          "description": "The name of the commit/branch/tag. Default to the repository’s default branch."
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoGetFileContents": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/file-contents",
+      "summary": "Get the metadata and contents of requested files",
