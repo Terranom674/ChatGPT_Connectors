@@ -6,11 +6,13 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 SPEC = importlib.util.spec_from_file_location("gitea_http_server", ROOT / "http_server.py")
 http_server = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(http_server)
+
 
 class HttpServerTests(unittest.TestCase):
     def test_protocol_logging_omits_arguments_and_reports_tool_count(self):
@@ -38,13 +40,21 @@ class HttpServerTests(unittest.TestCase):
             self.assertEqual(http_server._authorization("Bearer legacy"), (True, None))
 
     def test_forwarded_bearer_mode_accepts_non_internal_token_without_public_oauth_metadata(self):
-        with patch.dict(os.environ, {"MCP_HTTP_TOKEN": "internal", "MCP_TRUST_FORWARDED_BEARER": "1"}, clear=True):
+        with patch.dict(
+            os.environ,
+            {"MCP_HTTP_TOKEN": "internal", "MCP_TRUST_FORWARDED_BEARER": "1"},
+            clear=True,
+        ):
             self.assertEqual(http_server._authorization("Bearer forwarded-oauth"), (True, "forwarded-oauth"))
             self.assertEqual(http_server._authorization("Bearer internal"), (True, None))
             self.assertEqual(http_server._oauth_issuer(), "")
 
     def test_forwarded_bearer_mode_still_requires_a_bearer(self):
-        with patch.dict(os.environ, {"MCP_HTTP_TOKEN": "internal", "MCP_TRUST_FORWARDED_BEARER": "1"}, clear=True):
+        with patch.dict(
+            os.environ,
+            {"MCP_HTTP_TOKEN": "internal", "MCP_TRUST_FORWARDED_BEARER": "1"},
+            clear=True,
+        ):
             self.assertFalse(http_server._authorized(None))
             self.assertFalse(http_server._authorized("Basic abc"))
 
@@ -64,7 +74,11 @@ class HttpServerTests(unittest.TestCase):
 
     def test_allowed_origins_are_explicit(self):
         with patch.dict(os.environ, {"MCP_ALLOWED_ORIGINS": "https://example.com, https://chat.example"}, clear=True):
-            self.assertEqual(http_server._allowed_origins(), {"https://example.com", "https://chat.example"})
+            self.assertEqual(
+                http_server._allowed_origins(),
+                {"https://example.com", "https://chat.example"},
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
