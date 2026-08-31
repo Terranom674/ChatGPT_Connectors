@@ -1,0 +1,400 @@
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueTrackedTimes": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/issues/{index}/times",
+      "summary": "List an issue's tracked times",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        },
+        {
+          "name": "user",
+          "in": "query",
+          "type": "string",
+          "description": "optional filter by user (available for issue managers)"
+        },
+        {
+          "name": "since",
+          "in": "query",
+          "type": "string",
+          "description": "Only show times updated after the given time. This is a timestamp in RFC 3339 format",
+          "format": "date-time"
+        },
+        {
+          "name": "before",
+          "in": "query",
+          "type": "string",
+          "description": "Only show times updated before the given time. This is a timestamp in RFC 3339 format",
+          "format": "date-time"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "issueUnlockIssue": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/issues/{index}/lock",
+      "summary": "Unlock an issue",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the issue",
+          "format": "int64"
+        }
+      ],
+      "bodySchema": null
+    },
+    "linkPackage": {
+      "method": "POST",
+      "path": "/packages/{owner}/{type}/{name}/-/link/{repo_name}",
+      "summary": "Link a package to a repository",
+      "tag": "package",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the package"
+        },
+        {
+          "name": "type",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "type of the package"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the package"
+        },
+        {
+          "name": "repo_name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repository to link."
+        }
+      ],
+      "bodySchema": null
+    },
+    "listForks": {
+      "method": "GET",
+      "path": "/repos/{owner}/{repo}/forks",
+      "summary": "List a repository's forks",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "listGitignoresTemplates": {
+      "method": "GET",
+      "path": "/gitignore/templates",
+      "summary": "Returns a list of all gitignore templates",
+      "tag": "miscellaneous",
+      "parameters": [],
+      "bodySchema": null
+    },
+    "listLabelTemplates": {
+      "method": "GET",
+      "path": "/label/templates",
+      "summary": "Returns a list of all label templates",
+      "tag": "miscellaneous",
+      "parameters": [],
+      "bodySchema": null
+    },
+    "listLicenseTemplates": {
+      "method": "GET",
+      "path": "/licenses",
+      "summary": "Returns a list of all license templates",
+      "tag": "miscellaneous",
+      "parameters": [],
+      "bodySchema": null
+    },
+    "listPackageFiles": {
+      "method": "GET",
+      "path": "/packages/{owner}/{type}/{name}/{version}/files",
+      "summary": "Gets all files of a package",
+      "tag": "package",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the package"
+        },
+        {
+          "name": "type",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "type of the package"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the package"
+        },
+        {
+          "name": "version",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "version of the package"
+        }
+      ],
+      "bodySchema": null
+    },
+    "listPackageVersions": {
+      "method": "GET",
+      "path": "/packages/{owner}/{type}/{name}",
+      "summary": "Gets all versions of a package",
+      "tag": "package",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the package"
+        },
+        {
+          "name": "type",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "type of the package"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the package"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        }
+      ],
+      "bodySchema": null
+    },
+    "listPackages": {
+      "method": "GET",
+      "path": "/packages/{owner}",
+      "summary": "Gets all packages of an owner",
+      "tag": "package",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the packages"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "type": "integer",
+          "description": "page number of results to return (1-based)"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "description": "page size of results"
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "type": "string",
+          "description": "package type filter",
+          "enum": [
+            "alpine",
+            "cargo",
+            "chef",
+            "composer",
+            "conan",
+            "conda",
+            "container",
+            "cran",
+            "debian",
+            "generic",
+            "go",
+            "helm",
+            "maven",
+            "npm",
+            "nuget",
+            "pub",
+            "pypi",
+            "rpm",
+            "rubygems",
+            "swift",
+            "vagrant"
+          ]
+        },
+        {
+          "name": "q",
+          "in": "query",
+          "type": "string",
+          "description": "name filter"
+        }
+      ],
+      "bodySchema": null
+    },
+    "moveIssuePin": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/issues/{index}/pin/{position}",
+      "summary": "Moves the Pin to the given Position",
+      "tag": "issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of issue",
+          "format": "int64"
+        },
+        {
+          "name": "position",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "the new position",
+          "format": "int64"
