@@ -1,0 +1,400 @@
+        "full_name": {
+          "type": "string",
+          "x-go-name": "FullName"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "owner": {
+          "type": "string",
+          "x-go-name": "Owner"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ReviewStateType": {
+      "description": "ReviewStateType review state type",
+      "type": "string",
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "SearchResults": {
+      "description": "SearchResults results of a successful search",
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Repository"
+          },
+          "x-go-name": "Data"
+        },
+        "ok": {
+          "type": "boolean",
+          "x-go-name": "OK"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Secret": {
+      "description": "Secret represents a secret",
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "description": {
+          "description": "the secret's description",
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "name": {
+          "description": "the secret's name",
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "ServerVersion": {
+      "description": "ServerVersion wraps the version of the server",
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "StateType": {
+      "description": "StateType issue state type",
+      "type": "string",
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "StopWatch": {
+      "description": "StopWatch represent a running stopwatch",
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "duration": {
+          "type": "string",
+          "x-go-name": "Duration"
+        },
+        "issue_index": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "IssueIndex"
+        },
+        "issue_title": {
+          "type": "string",
+          "x-go-name": "IssueTitle"
+        },
+        "repo_name": {
+          "type": "string",
+          "x-go-name": "RepoName"
+        },
+        "repo_owner_name": {
+          "type": "string",
+          "x-go-name": "RepoOwnerName"
+        },
+        "seconds": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Seconds"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "SubmitPullReviewOptions": {
+      "description": "SubmitPullReviewOptions are options to submit a pending pull review",
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        },
+        "event": {
+          "$ref": "#/definitions/ReviewStateType"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Tag": {
+      "description": "Tag represents a repository tag",
+      "type": "object",
+      "properties": {
+        "commit": {
+          "$ref": "#/definitions/CommitMeta"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "tarball_url": {
+          "type": "string",
+          "x-go-name": "TarballURL"
+        },
+        "zipball_url": {
+          "type": "string",
+          "x-go-name": "ZipballURL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "TagProtection": {
+      "description": "TagProtection represents a tag protection",
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "name_pattern": {
+          "type": "string",
+          "x-go-name": "NamePattern"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        },
+        "whitelist_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "WhitelistTeams"
+        },
+        "whitelist_usernames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "WhitelistUsernames"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Team": {
+      "description": "Team represents a team in an organization",
+      "type": "object",
+      "properties": {
+        "can_create_org_repo": {
+          "type": "boolean",
+          "x-go-name": "CanCreateOrgRepo"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "includes_all_repositories": {
+          "type": "boolean",
+          "x-go-name": "IncludesAllRepositories"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "organization": {
+          "$ref": "#/definitions/Organization"
+        },
+        "permission": {
+          "type": "string",
+          "enum": [
+            "none",
+            "read",
+            "write",
+            "admin",
+            "owner"
+          ],
+          "x-go-name": "Permission"
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Units",
+          "example": [
+            "repo.code",
+            "repo.issues",
+            "repo.ext_issues",
+            "repo.wiki",
+            "repo.pulls",
+            "repo.releases",
+            "repo.projects",
+            "repo.ext_wiki"
+          ]
+        },
+        "units_map": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "UnitsMap",
+          "example": {
+            "repo.code": "read",
+            "repo.ext_issues": "none",
+            "repo.ext_wiki": "none",
+            "repo.issues": "write",
+            "repo.projects": "none",
+            "repo.pulls": "owner",
+            "repo.releases": "none",
+            "repo.wiki": "admin"
+          }
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "TimeStamp": {
+      "description": "TimeStamp defines a timestamp",
+      "type": "integer",
+      "format": "int64",
+      "x-go-package": "code.gitea.io/gitea/modules/timeutil"
+    },
+    "TimelineComment": {
+      "description": "TimelineComment represents a timeline comment (comment of any type) on a commit or issue",
+      "type": "object",
+      "properties": {
+        "assignee": {
+          "$ref": "#/definitions/User"
+        },
+        "assignee_team": {
+          "$ref": "#/definitions/Team"
+        },
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "dependent_issue": {
+          "$ref": "#/definitions/Issue"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "issue_url": {
+          "type": "string",
+          "x-go-name": "IssueURL"
+        },
+        "label": {
+          "$ref": "#/definitions/Label"
+        },
+        "milestone": {
+          "$ref": "#/definitions/Milestone"
+        },
+        "new_ref": {
+          "type": "string",
+          "x-go-name": "NewRef"
+        },
+        "new_title": {
+          "type": "string",
+          "x-go-name": "NewTitle"
+        },
+        "old_milestone": {
+          "$ref": "#/definitions/Milestone"
+        },
+        "old_project_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OldProjectID"
+        },
+        "old_ref": {
+          "type": "string",
+          "x-go-name": "OldRef"
+        },
+        "old_title": {
+          "type": "string",
+          "x-go-name": "OldTitle"
+        },
+        "project_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ProjectID"
+        },
+        "pull_request_url": {
+          "type": "string",
+          "x-go-name": "PRURL"
+        },
+        "ref_action": {
+          "type": "string",
+          "x-go-name": "RefAction"
+        },
+        "ref_comment": {
+          "$ref": "#/definitions/Comment"
+        },
+        "ref_commit_sha": {
+          "description": "commit SHA where issue/PR was referenced",
+          "type": "string",
+          "x-go-name": "RefCommitSHA"
+        },
+        "ref_issue": {
+          "$ref": "#/definitions/Issue"
+        },
+        "removed_assignee": {
+          "description": "whether the assignees were removed or added",
+          "type": "boolean",
+          "x-go-name": "RemovedAssignee"
+        },
+        "resolve_doer": {
+          "$ref": "#/definitions/User"
+        },
+        "review_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ReviewID"
+        },
+        "tracked_time": {
+          "$ref": "#/definitions/TrackedTime"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        },
+        "user": {
