@@ -1,0 +1,400 @@
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of protected tag"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteTopic": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/topics/{topic}",
+      "summary": "Delete a topic from a repository",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "topic",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the topic to delete"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDeleteWikiPage": {
+      "method": "DELETE",
+      "path": "/repos/{owner}/{repo}/wiki/page/{pageName}",
+      "summary": "Delete a wiki page",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "pageName",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the page"
+        }
+      ],
+      "bodySchema": null
+    },
+    "repoDismissPullReview": {
+      "method": "POST",
+      "path": "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}/dismissals",
+      "summary": "Dismiss a review for a pull request",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request",
+          "format": "int64"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the review",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/DismissPullReviewOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/DismissPullReviewOptions"
+      }
+    },
+    "repoEdit": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}",
+      "summary": "Edit a repository's properties. Only fields that are set will be changed.",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo to edit"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo to edit"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "description": "Properties of a repo that you can edit",
+          "schema": {
+            "$ref": "#/definitions/EditRepoOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditRepoOption"
+      }
+    },
+    "repoEditBranchProtection": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/branch_protections/{name}",
+      "summary": "Edit a branch protections for a repository. Only fields that are set will be changed",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of protected branch"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditBranchProtectionOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditBranchProtectionOption"
+      }
+    },
+    "repoEditPullRequest": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/pulls/{index}",
+      "summary": "Update a pull request. If using deadline only the date will be taken into account, and time of day ignored.",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "index",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "index of the pull request to edit",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditPullRequestOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditPullRequestOption"
+      }
+    },
+    "repoEditRelease": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/releases/{id}",
+      "summary": "Update a release",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the release to edit",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditReleaseOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditReleaseOption"
+      }
+    },
+    "repoEditReleaseAttachment": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/releases/{id}/assets/{attachment_id}",
+      "summary": "Edit a release attachment",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the release",
+          "format": "int64"
+        },
+        {
+          "name": "attachment_id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of the attachment to edit",
+          "format": "int64"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditAttachmentOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditAttachmentOptions"
+      }
+    },
+    "repoEditTagProtection": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/tag_protections/{id}",
+      "summary": "Edit a tag protections for a repository. Only fields that are set will be changed",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer",
+          "description": "id of protected tag"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/EditTagProtectionOption"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/EditTagProtectionOption"
+      }
+    },
+    "repoEditWikiPage": {
+      "method": "PATCH",
+      "path": "/repos/{owner}/{repo}/wiki/page/{pageName}",
+      "summary": "Edit a wiki page",
+      "tag": "repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "owner of the repo"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the repo"
+        },
+        {
+          "name": "pageName",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the page"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/CreateWikiPageOptions"
+          }
+        }
+      ],
+      "bodySchema": {
+        "$ref": "#/definitions/CreateWikiPageOptions"
+      }
+    },
+    "repoGet": {
