@@ -1,0 +1,358 @@
+          "$ref": "#/definitions/User"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "TopicName": {
+      "description": "TopicName a list of repo topic names",
+      "type": "object",
+      "properties": {
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "TopicNames"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "TopicResponse": {
+      "description": "TopicResponse for returning topics",
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "repo_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RepoCount"
+        },
+        "topic_name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "TrackedTime": {
+      "description": "TrackedTime worked time for an issue / pr",
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "issue": {
+          "$ref": "#/definitions/Issue"
+        },
+        "issue_id": {
+          "description": "deprecated (only for backwards compatibility)",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "IssueID"
+        },
+        "time": {
+          "description": "Time in seconds",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Time"
+        },
+        "user_id": {
+          "description": "deprecated (only for backwards compatibility)",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UserID"
+        },
+        "user_name": {
+          "type": "string",
+          "x-go-name": "UserName"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "TransferRepoOption": {
+      "description": "TransferRepoOption options when transfer a repository's ownership",
+      "type": "object",
+      "required": [
+        "new_owner"
+      ],
+      "properties": {
+        "new_owner": {
+          "type": "string",
+          "x-go-name": "NewOwner"
+        },
+        "team_ids": {
+          "description": "ID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "x-go-name": "TeamIDs"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "UpdateBranchProtectionPriories": {
+      "description": "UpdateBranchProtectionPriories a list to update the branch protection rule priorities",
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "x-go-name": "IDs"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "UpdateBranchRepoOption": {
+      "description": "UpdateBranchRepoOption options when updating a branch in a repository",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "description": "New branch name",
+          "type": "string",
+          "uniqueItems": true,
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "UpdateFileOptions": {
+      "description": "UpdateFileOptions options for updating files\nNote: `author` and `committer` are optional (if only one is given, it will be used for the other, otherwise the authenticated user will be used)",
+      "type": "object",
+      "required": [
+        "sha",
+        "content"
+      ],
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/Identity"
+        },
+        "branch": {
+          "description": "branch (optional) to base this file from. if not given, the default branch is used",
+          "type": "string",
+          "x-go-name": "BranchName"
+        },
+        "committer": {
+          "$ref": "#/definitions/Identity"
+        },
+        "content": {
+          "description": "content must be base64 encoded",
+          "type": "string",
+          "x-go-name": "ContentBase64"
+        },
+        "dates": {
+          "$ref": "#/definitions/CommitDateOptions"
+        },
+        "from_path": {
+          "description": "from_path (optional) is the path of the original file which will be moved/renamed to the path in the URL",
+          "type": "string",
+          "x-go-name": "FromPath"
+        },
+        "message": {
+          "description": "message (optional) for the commit of this file. if not supplied, a default message will be used",
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "new_branch": {
+          "description": "new_branch (optional) will make a new branch from `branch` before creating the file",
+          "type": "string",
+          "x-go-name": "NewBranchName"
+        },
+        "sha": {
+          "description": "sha is the SHA for the file that already exists",
+          "type": "string",
+          "x-go-name": "SHA"
+        },
+        "signoff": {
+          "description": "Add a Signed-off-by trailer by the committer at the end of the commit log message.",
+          "type": "boolean",
+          "x-go-name": "Signoff"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "UpdateRepoAvatarOption": {
+      "description": "UpdateRepoAvatarUserOption options when updating the repo avatar",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "image must be base64 encoded",
+          "type": "string",
+          "x-go-name": "Image"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "UpdateUserAvatarOption": {
+      "description": "UpdateUserAvatarUserOption options when updating the user avatar",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "image must be base64 encoded",
+          "type": "string",
+          "x-go-name": "Image"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "UpdateVariableOption": {
+      "description": "UpdateVariableOption the option when updating variable",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "description": {
+          "description": "Description of the variable to update",
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "name": {
+          "description": "New name for the variable. If the field is empty, the variable name won't be updated.",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "value": {
+          "description": "Value of the variable to update",
+          "type": "string",
+          "x-go-name": "Value"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "User": {
+      "description": "User represents a user",
+      "type": "object",
+      "properties": {
+        "active": {
+          "description": "Is user active",
+          "type": "boolean",
+          "x-go-name": "IsActive"
+        },
+        "avatar_url": {
+          "description": "URL to the user's avatar",
+          "type": "string",
+          "x-go-name": "AvatarURL"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "description": {
+          "description": "the user's description",
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "x-go-name": "Email"
+        },
+        "followers_count": {
+          "description": "user counts",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Followers"
+        },
+        "following_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Following"
+        },
+        "full_name": {
+          "description": "the user's full name",
+          "type": "string",
+          "x-go-name": "FullName"
+        },
+        "html_url": {
+          "description": "URL to the user's gitea page",
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "id": {
+          "description": "the user's id",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "is_admin": {
+          "description": "Is the user an administrator",
+          "type": "boolean",
+          "x-go-name": "IsAdmin"
+        },
+        "language": {
+          "description": "User locale",
+          "type": "string",
+          "x-go-name": "Language"
+        },
+        "last_login": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "LastLogin"
+        },
+        "location": {
+          "description": "the user's location",
+          "type": "string",
+          "x-go-name": "Location"
+        },
+        "login": {
+          "description": "the user's username",
+          "type": "string",
+          "x-go-name": "UserName"
+        },
+        "login_name": {
+          "description": "the user's authentication sign-in name.",
+          "type": "string",
+          "default": "empty",
+          "x-go-name": "LoginName"
+        },
+        "prohibit_login": {
+          "description": "Is user login prohibited",
+          "type": "boolean",
+          "x-go-name": "ProhibitLogin"
+        },
+        "restricted": {
+          "description": "Is user restricted",
+          "type": "boolean",
+          "x-go-name": "Restricted"
+        },
+        "source_id": {
+          "description": "The ID of the user's Authentication Source",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SourceID"
+        },
+        "starred_repos_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StarredRepos"
+        }
