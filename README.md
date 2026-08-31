@@ -4,13 +4,14 @@ Sammlung eigenständiger ChatGPT-/MCP-Connectoren für die Bratonien-Infrastrukt
 
 Dieses Repository ist bewusst als **Sammel-Repository** aufgebaut. Jeder Connector liegt vollständig in einem eigenen Ordner und bringt dort seine gesamte Implementierung, Dokumentation, Konfiguration, Tests und benötigten Hilfsdateien mit. Connectoren dürfen sich nicht darauf verlassen, dass Dateien oder Abhängigkeiten eines anderen Connector-Ordners vorhanden sind.
 
-Die Repository-Hauptebene dient ausschließlich als übersichtlicher Einstieg und als Verzeichnis der enthaltenen Connectoren.
+Die Repository-Hauptebene dient ausschließlich als übersichtlicher Einstieg und als Verzeichnis der enthaltenen Connectoren. **Dieses Repository ist die kanonische Quelle der Bratonien-ChatGPT-Connectoren.** Frühere Einzel-Repositories werden nach abgeschlossener Migration nur noch als private Legacy-/Archivquellen geführt.
 
 ## Connectoren
 
 | Ordner | Dienst | Status | Beschreibung |
 | --- | --- | --- | --- |
-| _Noch keine Connectoren eingeordnet_ | — | — | Die einzelnen Connectoren werden jeweils als vollständig eigenständige Ordner ergänzt. |
+| [`gitea/`](gitea/) | Gitea | Aktiv | Eigenständiger ChatGPT-/MCP-Connector für selbstgehostetes Gitea mit Runtime, Shared-MCP-Integration, OAuth-Helfer, Skills, Tests und Dokumentation. |
+| [`manifold/`](manifold/) | Manifold | Aktiv | Eigenständiger ChatGPT-/MCP-Connector für selbstgehostetes Manifold mit vollständiger API-Verwaltungsoberfläche, Runtime, Installer und Bratonien-MCP-Integration. |
 
 ## Grundprinzip
 
