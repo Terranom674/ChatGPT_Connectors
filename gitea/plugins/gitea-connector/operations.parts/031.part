@@ -1,0 +1,400 @@
+    },
+    "GitObject": {
+      "type": "object",
+      "title": "GitObject represents a Git object.",
+      "properties": {
+        "sha": {
+          "type": "string",
+          "x-go-name": "SHA"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "GitTreeResponse": {
+      "description": "GitTreeResponse returns a git tree",
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Page"
+        },
+        "sha": {
+          "type": "string",
+          "x-go-name": "SHA"
+        },
+        "total_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalCount"
+        },
+        "tree": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GitEntry"
+          },
+          "x-go-name": "Entries"
+        },
+        "truncated": {
+          "type": "boolean",
+          "x-go-name": "Truncated"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "GitignoreTemplateInfo": {
+      "description": "GitignoreTemplateInfo name and text of a gitignore template",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "source": {
+          "type": "string",
+          "x-go-name": "Source"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Hook": {
+      "description": "Hook a hook is a web hook when one repository changed",
+      "type": "object",
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "x-go-name": "Active"
+        },
+        "authorization_header": {
+          "type": "string",
+          "x-go-name": "AuthorizationHeader"
+        },
+        "branch_filter": {
+          "type": "string",
+          "x-go-name": "BranchFilter"
+        },
+        "config": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Config"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Events"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Identity": {
+      "description": "Identity for a person's identity like an author or committer",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "x-go-name": "Email"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "InternalTracker": {
+      "description": "InternalTracker represents settings for internal tracker",
+      "type": "object",
+      "properties": {
+        "allow_only_contributors_to_track_time": {
+          "description": "Let only contributors track time (Built-in issue tracker)",
+          "type": "boolean",
+          "x-go-name": "AllowOnlyContributorsToTrackTime"
+        },
+        "enable_issue_dependencies": {
+          "description": "Enable dependencies for issues and pull requests (Built-in issue tracker)",
+          "type": "boolean",
+          "x-go-name": "EnableIssueDependencies"
+        },
+        "enable_time_tracker": {
+          "description": "Enable time tracking (Built-in issue tracker)",
+          "type": "boolean",
+          "x-go-name": "EnableTimeTracker"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "Issue": {
+      "description": "Issue represents an issue in a repository",
+      "type": "object",
+      "properties": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Attachment"
+          },
+          "x-go-name": "Attachments"
+        },
+        "assignee": {
+          "$ref": "#/definitions/User"
+        },
+        "assignees": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          },
+          "x-go-name": "Assignees"
+        },
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        },
+        "closed_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Closed"
+        },
+        "comments": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Comments"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        },
+        "html_url": {
+          "type": "string",
+          "x-go-name": "HTMLURL"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "is_locked": {
+          "type": "boolean",
+          "x-go-name": "IsLocked"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Label"
+          },
+          "x-go-name": "Labels"
+        },
+        "milestone": {
+          "$ref": "#/definitions/Milestone"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Index"
+        },
+        "original_author": {
+          "type": "string",
+          "x-go-name": "OriginalAuthor"
+        },
+        "original_author_id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OriginalAuthorID"
+        },
+        "pin_order": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "PinOrder"
+        },
+        "pull_request": {
+          "$ref": "#/definitions/PullRequestMeta"
+        },
+        "ref": {
+          "type": "string",
+          "x-go-name": "Ref"
+        },
+        "repository": {
+          "$ref": "#/definitions/RepositoryMeta"
+        },
+        "state": {
+          "$ref": "#/definitions/StateType"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Updated"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueConfig": {
+      "type": "object",
+      "properties": {
+        "blank_issues_enabled": {
+          "type": "boolean",
+          "x-go-name": "BlankIssuesEnabled"
+        },
+        "contact_links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueConfigContactLink"
+          },
+          "x-go-name": "ContactLinks"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueConfigContactLink": {
+      "type": "object",
+      "properties": {
+        "about": {
+          "type": "string",
+          "x-go-name": "About"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueConfigValidation": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "valid": {
+          "type": "boolean",
+          "x-go-name": "Valid"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueDeadline": {
+      "description": "IssueDeadline represents an issue deadline",
+      "type": "object",
+      "properties": {
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueFormField": {
+      "description": "IssueFormField represents a form field",
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "additionalProperties": {},
+          "x-go-name": "Attributes"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "type": {
+          "$ref": "#/definitions/IssueFormFieldType"
+        },
+        "validations": {
+          "type": "object",
+          "additionalProperties": {},
+          "x-go-name": "Validations"
+        },
+        "visible": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueFormFieldVisible"
+          },
+          "x-go-name": "Visible"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueFormFieldType": {
+      "type": "string",
+      "title": "IssueFormFieldType defines issue form field type, can be \"markdown\", \"textarea\", \"input\", \"dropdown\" or \"checkboxes\"",
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueFormFieldVisible": {
+      "description": "IssueFormFieldVisible defines issue form field visible",
+      "type": "string",
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueLabelsOption": {
+      "description": "IssueLabelsOption a collection of labels",
+      "type": "object",
+      "properties": {
+        "labels": {
+          "description": "Labels can be a list of integers representing label IDs\nor a list of strings representing label names",
+          "type": "array",
+          "items": {},
+          "x-go-name": "Labels"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "IssueMeta": {
+      "description": "IssueMeta basic issue information",
+      "type": "object",
+      "properties": {
+        "index": {
