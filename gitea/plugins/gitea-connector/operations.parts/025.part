@@ -1,0 +1,400 @@
+        "content"
+      ],
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/Identity"
+        },
+        "branch": {
+          "description": "branch (optional) to base this file from. if not given, the default branch is used",
+          "type": "string",
+          "x-go-name": "BranchName"
+        },
+        "committer": {
+          "$ref": "#/definitions/Identity"
+        },
+        "content": {
+          "description": "content must be base64 encoded",
+          "type": "string",
+          "x-go-name": "ContentBase64"
+        },
+        "dates": {
+          "$ref": "#/definitions/CommitDateOptions"
+        },
+        "message": {
+          "description": "message (optional) for the commit of this file. if not supplied, a default message will be used",
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "new_branch": {
+          "description": "new_branch (optional) will make a new branch from `branch` before creating the file",
+          "type": "string",
+          "x-go-name": "NewBranchName"
+        },
+        "signoff": {
+          "description": "Add a Signed-off-by trailer by the committer at the end of the commit log message.",
+          "type": "boolean",
+          "x-go-name": "Signoff"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateForkOption": {
+      "description": "CreateForkOption options for creating a fork",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "name of the forked repository",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "organization": {
+          "description": "organization name, if forking into an organization",
+          "type": "string",
+          "x-go-name": "Organization"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateGPGKeyOption": {
+      "description": "CreateGPGKeyOption options create user GPG key",
+      "type": "object",
+      "required": [
+        "armored_public_key"
+      ],
+      "properties": {
+        "armored_public_key": {
+          "description": "An armored GPG key to add",
+          "type": "string",
+          "uniqueItems": true,
+          "x-go-name": "ArmoredKey"
+        },
+        "armored_signature": {
+          "type": "string",
+          "x-go-name": "Signature"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateHookOption": {
+      "description": "CreateHookOption options when create a hook",
+      "type": "object",
+      "required": [
+        "type",
+        "config"
+      ],
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "default": false,
+          "x-go-name": "Active"
+        },
+        "authorization_header": {
+          "type": "string",
+          "x-go-name": "AuthorizationHeader"
+        },
+        "branch_filter": {
+          "type": "string",
+          "x-go-name": "BranchFilter"
+        },
+        "config": {
+          "$ref": "#/definitions/CreateHookOptionConfig"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Events"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "dingtalk",
+            "discord",
+            "gitea",
+            "gogs",
+            "msteams",
+            "slack",
+            "telegram",
+            "feishu",
+            "wechatwork",
+            "packagist"
+          ],
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateHookOptionConfig": {
+      "description": "CreateHookOptionConfig has all config options in it\nrequired are \"content_type\" and \"url\" Required",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateIssueCommentOption": {
+      "description": "CreateIssueCommentOption options for creating a comment on an issue",
+      "type": "object",
+      "required": [
+        "body"
+      ],
+      "properties": {
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateIssueOption": {
+      "description": "CreateIssueOption options to create one issue",
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "assignee": {
+          "description": "deprecated",
+          "type": "string",
+          "x-go-name": "Assignee"
+        },
+        "assignees": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Assignees"
+        },
+        "body": {
+          "type": "string",
+          "x-go-name": "Body"
+        },
+        "closed": {
+          "type": "boolean",
+          "x-go-name": "Closed"
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        },
+        "labels": {
+          "description": "list of label ids",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "x-go-name": "Labels"
+        },
+        "milestone": {
+          "description": "milestone id",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Milestone"
+        },
+        "ref": {
+          "type": "string",
+          "x-go-name": "Ref"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateKeyOption": {
+      "description": "CreateKeyOption options when creating a key",
+      "type": "object",
+      "required": [
+        "title",
+        "key"
+      ],
+      "properties": {
+        "key": {
+          "description": "An armored SSH key to add",
+          "type": "string",
+          "uniqueItems": true,
+          "x-go-name": "Key"
+        },
+        "read_only": {
+          "description": "Describe if the key has only read access or read/write",
+          "type": "boolean",
+          "x-go-name": "ReadOnly"
+        },
+        "title": {
+          "description": "Title of the key to add",
+          "type": "string",
+          "uniqueItems": true,
+          "x-go-name": "Title"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateLabelOption": {
+      "description": "CreateLabelOption options for creating a label",
+      "type": "object",
+      "required": [
+        "name",
+        "color"
+      ],
+      "properties": {
+        "color": {
+          "type": "string",
+          "x-go-name": "Color",
+          "example": "#00aabb"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "exclusive": {
+          "type": "boolean",
+          "x-go-name": "Exclusive",
+          "example": false
+        },
+        "is_archived": {
+          "type": "boolean",
+          "x-go-name": "IsArchived",
+          "example": false
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateMilestoneOption": {
+      "description": "CreateMilestoneOption options for creating a milestone",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "due_on": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Deadline"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "open",
+            "closed"
+          ],
+          "x-go-name": "State"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateOAuth2ApplicationOptions": {
+      "description": "CreateOAuth2ApplicationOptions holds options to create an oauth2 application",
+      "type": "object",
+      "properties": {
+        "confidential_client": {
+          "type": "boolean",
+          "x-go-name": "ConfidentialClient"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "redirect_uris": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "RedirectURIs"
+        },
+        "skip_secondary_authorization": {
+          "type": "boolean",
+          "x-go-name": "SkipSecondaryAuthorization"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateOrUpdateSecretOption": {
+      "description": "CreateOrUpdateSecretOption options when creating or updating secret",
+      "type": "object",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "description": "Data of the secret to update",
+          "type": "string",
+          "x-go-name": "Data"
+        },
+        "description": {
+          "description": "Description of the secret to update",
+          "type": "string",
+          "x-go-name": "Description"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreateOrgOption": {
+      "description": "CreateOrgOption options for creating an organization",
+      "type": "object",
+      "required": [
+        "username"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "email": {
+          "type": "string",
+          "x-go-name": "Email"
+        },
+        "full_name": {
+          "type": "string",
+          "x-go-name": "FullName"
+        },
+        "location": {
+          "type": "string",
+          "x-go-name": "Location"
+        },
+        "repo_admin_change_team_access": {
+          "type": "boolean",
+          "x-go-name": "RepoAdminChangeTeamAccess"
+        },
+        "username": {
+          "type": "string",
+          "x-go-name": "UserName"
+        },
+        "visibility": {
+          "description": "possible values are `public` (default), `limited` or `private`",
+          "type": "string",
+          "enum": [
+            "public",
+            "limited",
+            "private"
+          ],
+          "x-go-name": "Visibility"
+        },
+        "website": {
+          "type": "string",
+          "x-go-name": "Website"
+        }
+      },
+      "x-go-package": "code.gitea.io/gitea/modules/structs"
+    },
+    "CreatePullRequestOption": {
+      "description": "CreatePullRequestOption options when creating a pull request",
+      "type": "object",
+      "properties": {
+        "assignee": {
+          "type": "string",
+          "x-go-name": "Assignee"
+        },
+        "assignees": {
