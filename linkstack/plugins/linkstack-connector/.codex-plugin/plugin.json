@@ -1,0 +1,27 @@
+{
+  "name": "linkstack-connector",
+  "version": "1.0.0",
+  "description": "Complete LinkStack management workflows for ChatGPT through the shared Bratonien MCP server.",
+  "author": {
+    "name": "Bratonien"
+  },
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "LinkStack Connector",
+    "shortDescription": "Manage a self-hosted LinkStack instance through Bratonien MCP.",
+    "longDescription": "Exposes the complete Bratonien LinkStack REST management surface including profiles, links, appearance, analytics, users, instance settings, backups and API Access. Effective permissions are enforced server-side by LinkStack fine-grained API applications and can be changed without rebuilding the connector or ChatGPT app.",
+    "developerName": "Bratonien",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "brandColor": "#5B4B8A",
+    "defaultPrompt": [
+      "List my LinkStack links.",
+      "Show my LinkStack profile and appearance settings.",
+      "Manage my LinkStack page for me."
+    ]
+  }
+}
