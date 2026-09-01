@@ -1,0 +1,13 @@
+services:
+  linkstack-mcp:
+    build: .
+    container_name: ${MCP_CONTAINER_NAME:-linkstack-mcp}
+    restart: unless-stopped
+    environment:
+      LINKSTACK_URL: ${LINKSTACK_URL}
+      LINKSTACK_TOKEN: ${LINKSTACK_TOKEN}
+      MCP_HTTP_TOKEN: ${MCP_HTTP_TOKEN}
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: 8000
+    ports:
+      - "${MCP_BIND_ADDRESS:-127.0.0.1}:${MCP_PORT:-8103}:8000"
