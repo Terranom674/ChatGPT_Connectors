@@ -16,7 +16,7 @@ TOOLS = [
 ]
 
 REQUIRED_MANAGEMENT_TOOLS = {
-    "status", "me", "system_status", "system_capabilities", "system_extended_capabilities", "system_diagnostics",
+    "status", "system_status", "system_capabilities", "system_extended_capabilities", "system_diagnostics",
     "get_profile", "update_profile", "get_profile_data", "update_profile_data", "get_profile_preferences", "update_profile_preferences",
     "list_themes", "get_theme", "activate_theme", "update_themes", "update_named_theme", "delete_theme",
     "list_assets", "upload_asset", "delete_asset", "list_social_icons", "create_social_icon", "update_social_icon", "delete_social_icon",
