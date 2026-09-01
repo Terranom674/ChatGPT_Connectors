@@ -8,8 +8,8 @@ CONNECTOR_ROOT="/opt/connectors/linkstack"
 APP_DIR="$CONNECTOR_ROOT/plugins/linkstack-connector"
 ARCHIVE_URL="https://codeload.github.com/Terranom674/ChatGPT_Connectors/tar.gz/refs/heads/main"
 COMPOSE_PROJECT="bratonien-linkstack-connector"
-LINKSTACK_APP_NAME="Bratonien ChatGPT / LinkStack Connector"
-LINKSTACK_TOKEN_NAME="Bratonien MCP Connector"
+LINKSTACK_APP_NAME="LinkStack MCP-Server"
+LINKSTACK_TOKEN_NAME="MCP-Server"
 TTY=/dev/tty
 
 fail() { echo "FEHLER: $*" >&2; exit 1; }
@@ -98,7 +98,7 @@ PY
 provision_linkstack_token() {
   local ctid="$1" host_php remote_php output token
   host_php="$(mktemp)"
-  remote_php="/root/.bratonien-linkstack-connector-provision.php"
+  remote_php="/root/.bratonien-linkstack-mcp-provision.php"
   umask 077
   cat > "$host_php" <<'PHP'
 <?php
@@ -108,78 +108,51 @@ $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
 use App\Models\BratonienApiApplication;
-use App\Models\BratonienApiPermission;
 use App\Models\BratonienApiToken;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
-$name = getenv('BRATONIEN_CONNECTOR_APP_NAME') ?: 'Bratonien ChatGPT / LinkStack Connector';
-$tokenName = getenv('BRATONIEN_CONNECTOR_TOKEN_NAME') ?: 'Bratonien MCP Connector';
+if (!Schema::hasColumn('bratonien_api_applications', 'system_managed')) {
+    Schema::table('bratonien_api_applications', function (Blueprint $table) {
+        $table->boolean('system_managed')->default(false)->after('active');
+    });
+}
 
-$application = BratonienApiApplication::where('name', $name)->first();
+$name = 'LinkStack MCP-Server';
+$tokenName = 'MCP-Server';
+$application = BratonienApiApplication::whereIn('name', [
+    $name,
+    'Bratonien ChatGPT / LinkStack Connector',
+    'ChatGPT-Integration',
+    'LinkStack-Connectorzugang',
+    'MCP-Server-Zugang',
+])->first();
+
 if (!$application) {
     $application = BratonienApiApplication::create([
         'name' => $name,
-        'description' => 'Automatisch provisionierter Zugriff des zentralen Bratonien-MCP auf LinkStack.',
+        'description' => 'Interner systemverwalteter Vollzugriff des MCP-Servers auf LinkStack.',
         'active' => true,
+        'system_managed' => true,
         'resource_scope' => 'all',
         'owner_user_id' => null,
     ]);
 } else {
-    $application->forceFill(['active' => true])->save();
+    $application->forceFill([
+        'name' => $name,
+        'description' => 'Interner systemverwalteter Vollzugriff des MCP-Servers auf LinkStack.',
+        'active' => true,
+        'system_managed' => true,
+        'resource_scope' => 'all',
+        'owner_user_id' => null,
+    ])->save();
 }
 
-$permissions = [
-    'system.status' => 'read',
-    'system.diagnostics' => 'read',
-    'profile.metadata' => 'write',
-    'links.links' => 'write',
-    'links.ordering' => 'write',
-    'links.types' => 'read',
-    'links.buttons' => 'read',
-    'links.pinning' => 'write',
-    'links.styling' => 'write',
-    'appearance.theme' => 'write',
-    'appearance.assets' => 'write',
-    'appearance.social-icons' => 'write',
-    'themes.manage' => 'write',
-    'analytics.page' => 'read',
-    'analytics.links' => 'read',
-    'analytics.instance' => 'read',
-    'users.users' => 'write',
-    'users.status' => 'write',
-    'users.roles' => 'write',
-    'instance.pages' => 'write',
-    'instance.general' => 'write',
-    'instance.registration' => 'write',
-    'instance.domains' => 'write',
-    'instance.mail' => 'write',
-    'instance.security' => 'write',
-    'instance.features' => 'write',
-    'instance.maintenance' => 'write',
-    'instance.logging' => 'write',
-    'instance.advanced-config' => 'write',
-    'instance.import' => 'write',
-    'instance.export' => 'write',
-    'backups.metadata' => 'read',
-    'backups.create' => 'write',
-    'backups.restore' => 'write',
-    'backups.delete' => 'write',
-    'mail.test' => 'write',
-    'reports.submit' => 'write',
-    'api.applications' => 'write',
-    'api.tokens' => 'write',
-    'api.audit' => 'read',
-];
-
-foreach ($permissions as $permission => $level) {
-    BratonienApiPermission::updateOrCreate(
-        ['application_id' => $application->id, 'permission' => $permission],
-        ['level' => $level]
-    );
-}
+$application->permissions()->delete();
 
 BratonienApiToken::where('application_id', $application->id)
-    ->where('name', $tokenName)
+    ->whereIn('name', [$tokenName, 'Bratonien MCP Connector', 'Connector -> LinkStack', 'MCP-Server -> LinkStack'])
     ->whereNull('revoked_at')
     ->update(['revoked_at' => now()]);
 
@@ -199,15 +172,15 @@ PHP
   output="$(pct exec "$ctid" -- bash -lc "cat '$remote_php' | docker exec -i --user 0:0 linkstack php")" || {
     pct exec "$ctid" -- rm -f "$remote_php" >/dev/null 2>&1 || true
     rm -f "$host_php"
-    fail "LinkStack konnte die Connector-Application nicht provisionieren."
+    fail "LinkStack konnte den MCP-Server-Zugang nicht provisionieren."
   }
   pct exec "$ctid" -- rm -f "$remote_php" >/dev/null 2>&1 || true
   rm -f "$host_php"
 
   token="$(printf '%s' "$output" | tr -d '\r\n')"
-  [[ "$token" == ls_* ]] || fail "LinkStack hat keinen gültigen Connector-Token erzeugt."
+  [[ "$token" == ls_* ]] || fail "LinkStack hat keinen gültigen MCP-Server-Token erzeugt."
   LINKSTACK_TOKEN="$token"
-  note "LinkStack API-Application '$LINKSTACK_APP_NAME' und Connector-Token wurden automatisch provisioniert."
+  note "Systemverwalteter LinkStack-Zugang für den MCP-Server wurde automatisch provisioniert."
 }
 
 verify_linkstack_token() {
@@ -219,25 +192,25 @@ verify_linkstack_token() {
     "$LINKSTACK_URL/api/v1/me" || true)"
   if [[ ! "$status" =~ ^2[0-9][0-9]$ ]]; then
     rm -f "$out"
-    note "Der automatisch erzeugte LinkStack-Token wurde über die öffentliche API abgelehnt (HTTP ${status:-keine Verbindung})."
+    note "Der automatisch erzeugte MCP-Server-Token wurde über die öffentliche API abgelehnt (HTTP ${status:-keine Verbindung})."
     return 1
   fi
-  python3 - "$out" "$LINKSTACK_APP_NAME" <<'PY' || { rm -f "$out"; note "LinkStack /api/v1/me meldet nicht die erwartete Connector-Application."; return 1; }
+  python3 - "$out" "$LINKSTACK_APP_NAME" <<'PY' || { rm -f "$out"; note "LinkStack /api/v1/me meldet nicht den erwarteten MCP-Server-Zugang."; return 1; }
 import json,sys
 with open(sys.argv[1],encoding='utf-8') as f:
     data=json.load(f)
 app=data.get('application') or {}
-if app.get('name') != sys.argv[2] or app.get('active') is False:
+if app.get('name') != sys.argv[2] or app.get('active') is False or app.get('system_managed') is False:
     raise SystemExit(1)
 PY
   rm -f "$out"
-  note "Automatisch erzeugter LinkStack-Token erfolgreich über HTTPS geprüft."
+  note "Automatisch erzeugter MCP-Server-Token erfolgreich über HTTPS geprüft."
 }
 
 ensure_not_registered() {
   local ctid="$1"
   if pct exec "$ctid" -- grep -Eq '"id"[[:space:]]*:[[:space:]]*"linkstack"' "$HOST_CONFIG"; then
-    fail "Eine LinkStack-Connector-Installation ist bereits am zentralen MCP registriert."
+    fail "LinkStack ist bereits am zentralen MCP-Server registriert."
   fi
 }
 
@@ -258,10 +231,10 @@ run_from_proxmox() {
   prompt_linkstack_url
   preflight_public_api || fail "Die öffentliche Bratonien-LinkStack-API ist nicht erreichbar oder nicht vollständig installiert."
   provision_linkstack_token "$linkstack_ctid"
-  verify_linkstack_token || fail "Der automatisch provisionierte LinkStack-Zugang funktioniert nicht über die öffentliche HTTPS-API."
+  verify_linkstack_token || fail "Der automatisch provisionierte MCP-Server-Zugang funktioniert nicht über die öffentliche HTTPS-API."
 
   tmp_input="$(mktemp)"
-  remote_input="/root/.linkstack-connector-install-input"
+  remote_input="/root/.linkstack-mcp-install-input"
   trap 'rm -f "$tmp_input"' EXIT
   umask 077
   {
@@ -302,10 +275,10 @@ preflight_from_mcp_lxc() {
 prepare_connector_path() {
   local backup_path
   if grep -Eq '"id"[[:space:]]*:[[:space:]]*"linkstack"' "$HOST_CONFIG"; then
-    fail "Eine LinkStack-Connector-Installation ist bereits am zentralen MCP registriert."
+    fail "LinkStack ist bereits am zentralen MCP-Server registriert."
   fi
   if docker ps -a --format '{{.Names}}' | grep -qx 'linkstack-mcp'; then
-    docker rm -f linkstack-mcp >/dev/null || fail "Der unvollständige LinkStack-Connector-Container konnte nicht entfernt werden."
+    docker rm -f linkstack-mcp >/dev/null || fail "Der unvollständige LinkStack-MCP-Dienst konnte nicht entfernt werden."
   fi
   [[ -e "$CONNECTOR_ROOT" ]] || return 0
   backup_path="${CONNECTOR_ROOT}.failed-$(date +%Y%m%d-%H%M%S)"
@@ -338,8 +311,8 @@ trap 'rm -f "$TMP_ARCHIVE"' EXIT
 mkdir -p "$CONNECTOR_ROOT"
 curl -fsSL "$ARCHIVE_URL" -o "$TMP_ARCHIVE" || fail "Connector-Archiv konnte nicht von GitHub geladen werden."
 tar -xzf "$TMP_ARCHIVE" -C "$CONNECTOR_ROOT" --strip-components=2 --wildcards '*/linkstack/*' || fail "Connector-Archiv konnte nicht entpackt werden."
-[[ -f "$APP_DIR/docker-compose.yml" ]] || fail "Connector-Dateien wurden nicht vollständig entpackt."
-[[ -f "$APP_DIR/operations.py" && -f "$APP_DIR/management_surface.py" && -f "$APP_DIR/server.py" ]] || fail "LinkStack-Tool-Oberfläche fehlt im Connector-Archiv."
+[[ -f "$APP_DIR/docker-compose.yml" ]] || fail "LinkStack-MCP-Dateien wurden nicht vollständig entpackt."
+[[ -f "$APP_DIR/operations.py" && -f "$APP_DIR/management_surface.py" && -f "$APP_DIR/server.py" ]] || fail "LinkStack-Tool-Oberfläche fehlt im Archiv."
 
 umask 077
 cat > "$APP_DIR/.env" <<EOF
@@ -358,7 +331,7 @@ for _ in {1..45}; do
   curl -fsS http://127.0.0.1:8103/health >/dev/null 2>&1 && break
   sleep 2
 done
-curl -fsS http://127.0.0.1:8103/health >/dev/null || fail "LinkStack Connector wurde nicht bereit."
+curl -fsS http://127.0.0.1:8103/health >/dev/null || fail "LinkStack-MCP-Dienst wurde nicht bereit."
 
 ME="$(curl -fsS -H "Authorization: Bearer $INTERNAL_TOKEN" -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"me","arguments":{}}}' http://127.0.0.1:8103/mcp)" || fail "LinkStack me-Test fehlgeschlagen."
 python3 - "$ME" <<'PY' || fail "LinkStack me-Test meldete einen Fehler."
@@ -459,17 +432,17 @@ PY
 
 echo
 echo "============================================================"
-echo " LinkStack Connector registriert und geprüft"
+echo " LinkStack am MCP-Server registriert und geprüft"
 echo "============================================================"
 echo "LinkStack API:       $LINKSTACK_URL"
-echo "API Application:     $LINKSTACK_APP_NAME"
-echo "Interner Connector:  http://127.0.0.1:8103/mcp"
+echo "Systemzugang:        $LINKSTACK_APP_NAME"
+echo "LinkStack-MCP-Dienst:http://127.0.0.1:8103/mcp"
 echo "Namespace:           linkstack__"
 echo "App-Token-Variable:  MCP_LINKSTACK_HTTP_TOKEN"
 echo "LinkStack-Tools:      $TOOL_COUNT"
-echo "Token-Provisioning:  automatisch"
+echo "Token-Provisioning:  automatisch, systemverwaltet"
 echo "me:                  erfolgreich"
 echo "Cross-Namespace:     blockiert"
 echo
-echo "Der LinkStack-API-Token liegt ausschließlich geschützt in $APP_DIR/.env."
+echo "Der interne LinkStack-Systemtoken liegt ausschließlich geschützt in $APP_DIR/.env."
 echo "Der eigentliche MCP-App-Token steht geschützt in $HOST_ENV."
