@@ -56,6 +56,7 @@ GROUP = ("group", string_schema("Settings group."))
 
 OPERATIONS = [
     operation("status", "GET", API + "/status", "Read the Bratonien LinkStack API status."),
+    operation("me", "GET", API + "/me", "Read the current LinkStack API application and token context."),
     operation("system_status", "GET", API + "/system/status", "Read LinkStack system status."),
     operation("system_capabilities", "GET", API + "/system/capabilities", "Read LinkStack API capabilities."),
     operation("system_extended_capabilities", "GET", API + "/system/extended-capabilities", "Read extended LinkStack capabilities."),
@@ -143,7 +144,7 @@ OPERATIONS = [
     operation("list_api_applications", "GET", API + "/api-applications", "List LinkStack API applications."),
     operation("create_api_application", "POST", API + "/api-applications", "Create a LinkStack API application.", body=True),
     operation("get_api_application", "GET", API + "/api-applications/{id}", "Read one LinkStack API application.", params=(ID,)),
-    operation("update_api_application", "PATCH", API + "/api-applications/{id}", "Update a LinkStack API application.", params=(ID,), body=True),
+    operation("update_api_application", "PATCH", API + "/api-applications/{id}", "Update one LinkStack API application.", params=(ID,), body=True),
     operation("delete_api_application", "DELETE", API + "/api-applications/{id}", "Delete a LinkStack API application when allowed.", params=(ID,)),
     operation("set_api_application_permissions", "PUT", API + "/api-applications/{id}/permissions", "Replace fine-grained permissions for a LinkStack API application.", params=(ID,), body=True, annotation=ACTION_ANNOTATIONS),
     operation("list_api_tokens", "GET", API + "/api-tokens", "List LinkStack API token metadata."),
