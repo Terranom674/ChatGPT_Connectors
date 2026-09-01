@@ -201,16 +201,16 @@ PHP
     rm -f "$host_php"
     fail "Provisionierungsskript konnte nicht in den LinkStack-Container übertragen werden."
   }
-  output="$(pct exec "$ctid" -- docker exec \
+  output="$(pct exec "$ctid" -- docker exec --user 0:0 \
       -e "BRATONIEN_CONNECTOR_APP_NAME=$LINKSTACK_APP_NAME" \
       -e "BRATONIEN_CONNECTOR_TOKEN_NAME=$LINKSTACK_TOKEN_NAME" \
       linkstack php /tmp/bratonien-linkstack-connector-provision.php)" || {
-    pct exec "$ctid" -- docker exec linkstack rm -f /tmp/bratonien-linkstack-connector-provision.php >/dev/null 2>&1 || true
+    pct exec "$ctid" -- docker exec --user 0:0 linkstack rm -f /tmp/bratonien-linkstack-connector-provision.php >/dev/null 2>&1 || true
     pct exec "$ctid" -- rm -f "$remote_php" >/dev/null 2>&1 || true
     rm -f "$host_php"
     fail "LinkStack konnte die Connector-Application nicht provisionieren."
   }
-  pct exec "$ctid" -- docker exec linkstack rm -f /tmp/bratonien-linkstack-connector-provision.php >/dev/null 2>&1 || true
+  pct exec "$ctid" -- docker exec --user 0:0 linkstack rm -f /tmp/bratonien-linkstack-connector-provision.php >/dev/null 2>&1 || true
   pct exec "$ctid" -- rm -f "$remote_php" >/dev/null 2>&1 || true
   rm -f "$host_php"
 
