@@ -56,7 +56,6 @@ GROUP = ("group", string_schema("Settings group."))
 
 OPERATIONS = [
     operation("status", "GET", API + "/status", "Read the Bratonien LinkStack API status."),
-    operation("me", "GET", API + "/me", "Read the current LinkStack API application and token context."),
     operation("system_status", "GET", API + "/system/status", "Read LinkStack system status."),
     operation("system_capabilities", "GET", API + "/system/capabilities", "Read LinkStack API capabilities."),
     operation("system_extended_capabilities", "GET", API + "/system/extended-capabilities", "Read extended LinkStack capabilities."),
