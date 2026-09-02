@@ -48,7 +48,7 @@ COMPOSE_PROJECT="bratonien-linkstack-connector"
 
 fail() { echo "FEHLER: $*" >&2; exit 1; }
 
-for cmd in docker curl tar python3 grep mktemp cp rm systemctl; do
+for cmd in docker curl tar python3 grep mktemp cp rm systemctl sed head; do
   command -v "$cmd" >/dev/null || fail "$cmd wird im MCP-LXC benötigt."
 done
 [[ -r "$HOST_CONFIG" ]] || fail "Bratonien-MCP-Konfiguration fehlt."
@@ -56,7 +56,6 @@ done
 [[ -d "$APP_DIR" ]] || fail "Installierter LinkStack-Connector fehlt unter $APP_DIR."
 [[ -r "$APP_DIR/.env" ]] || fail "Die bestehende LinkStack-Connector-.env fehlt."
 grep -Eq '"id"[[:space:]]*:[[:space:]]*"linkstack"' "$HOST_CONFIG" || fail "LinkStack ist am zentralen MCP nicht registriert."
-
 docker ps -a --format '{{.Names}}' | grep -qx 'linkstack-mcp' || fail "Der Container linkstack-mcp existiert nicht."
 
 TMP_ARCHIVE="$(mktemp)"
@@ -100,8 +99,8 @@ curl -fsS http://127.0.0.1:8103/health >/dev/null || fail "LinkStack-MCP-Dienst 
 INTERNAL_TOKEN="$(sed -n 's/^MCP_HTTP_TOKEN=//p' "$APP_DIR/.env" | head -n1)"
 [[ -n "$INTERNAL_TOKEN" ]] || fail "MCP_HTTP_TOKEN fehlt in der bestehenden .env."
 
-LOCAL_RESULT="$(curl -fsS -H "Authorization: Bearer $INTERNAL_TOKEN" -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"system_status","arguments":{}}}' http://127.0.0.1:8103/mcp)" || fail "Lokaler system_status-Test fehlgeschlagen."
-python3 - "$LOCAL_RESULT" <<'PY' || fail "Lokaler system_status-Test meldete einen Fehler."
+LOCAL_RESULT="$(curl -fsS -H "Authorization: Bearer $INTERNAL_TOKEN" -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"system_diagnostics","arguments":{}}}' http://127.0.0.1:8103/mcp)" || fail "Lokaler system_diagnostics-Test fehlgeschlagen."
+python3 - "$LOCAL_RESULT" <<'PY' || fail "Lokaler system_diagnostics-Test meldete einen Fehler."
 import json,sys
 data=json.loads(sys.argv[1])
 if data.get('error') or (data.get('result') or {}).get('isError') is True:
@@ -130,8 +129,8 @@ for required in ('linkstack__status','linkstack__system_status','linkstack__syst
         raise SystemExit('Fehlendes Tool: '+required)
 PY
 
-CENTRAL_RESULT="$(curl -fsS -H "Authorization: Bearer $APP_TOKEN" -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"linkstack__system_status","arguments":{}}}' http://127.0.0.1:8000/mcp)" || fail "Zentraler system_status-Test fehlgeschlagen."
-python3 - "$CENTRAL_RESULT" <<'PY' || fail "Zentraler system_status-Test meldete einen Fehler."
+CENTRAL_RESULT="$(curl -fsS -H "Authorization: Bearer $APP_TOKEN" -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"linkstack__system_diagnostics","arguments":{}}}' http://127.0.0.1:8000/mcp)" || fail "Zentraler system_diagnostics-Test fehlgeschlagen."
+python3 - "$CENTRAL_RESULT" <<'PY' || fail "Zentraler system_diagnostics-Test meldete einen Fehler."
 import json,sys
 data=json.loads(sys.argv[1])
 if data.get('error') or (data.get('result') or {}).get('isError') is True:
@@ -144,7 +143,7 @@ echo " LinkStack-Connector aktualisiert und geprüft"
 echo "============================================================"
 echo "Container:             linkstack-mcp"
 echo "Namespace:             linkstack__"
-echo "system_status:         erfolgreich"
+echo "system_diagnostics:    erfolgreich"
 echo "Phantom-Tool me:       nicht vorhanden"
 echo "Bestehende .env:       beibehalten"
 echo "MCP-Registrierung:     beibehalten"
