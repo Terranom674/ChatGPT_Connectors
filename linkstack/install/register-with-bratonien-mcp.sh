@@ -75,23 +75,36 @@ prompt_linkstack_url() {
   done
 }
 
-preflight_public_api() {
-  local out status
+check_api_status() {
+  local token="${1:-}" out status auth=()
   out="$(mktemp)"
-  status="$(curl -sS --max-time 20 -o "$out" -w '%{http_code}' -H 'Accept: application/json' "$LINKSTACK_URL/api/v1/status" || true)"
+  [[ -z "$token" ]] || auth=(-H "Authorization: Bearer $token")
+  status="$(curl -sS --max-time 20 -o "$out" -w '%{http_code}' \
+    -H 'Accept: application/json' \
+    "${auth[@]}" \
+    "$LINKSTACK_URL/api/v1/system/status" || true)"
   if [[ ! "$status" =~ ^2[0-9][0-9]$ ]]; then
     rm -f "$out"
-    note "LinkStack API-Status ist über $LINKSTACK_URL fehlgeschlagen (HTTP ${status:-keine Verbindung})."
     return 1
   fi
-  python3 - "$out" <<'PY' || { rm -f "$out"; note "LinkStack /api/v1/status liefert nicht den erwarteten API-Status."; return 1; }
+  python3 - "$out" <<'PY'
 import json,sys
-with open(sys.argv[1],encoding='utf-8') as f:
+with open(sys.argv[1], encoding='utf-8') as f:
     data=json.load(f)
-if not isinstance(data,dict) or data.get('module') != 'bratonien-linkstack-api':
+if not isinstance(data, dict):
+    raise SystemExit(1)
+if data.get('status') != 'ok' or data.get('module') != 'bratonien-linkstack-api':
     raise SystemExit(1)
 PY
+  local rc=$?
   rm -f "$out"
+  return "$rc"
+}
+
+preflight_public_api() {
+  if ! check_api_status; then
+    fail "Die öffentliche Bratonien-LinkStack-API ist über $LINKSTACK_URL nicht korrekt erreichbar."
+  fi
   note "Öffentliche LinkStack-API erfolgreich erkannt."
 }
 
@@ -147,55 +160,53 @@ if (!$application) {
     $application->forceFill($values)->save();
 }
 
-if (!BratonienApiPermission::where('application_id', $application->id)->exists()) {
-    $permissions = [
-        'system.status' => 'read',
-        'system.diagnostics' => 'read',
-        'profile.metadata' => 'write',
-        'links.links' => 'write',
-        'links.ordering' => 'write',
-        'links.types' => 'read',
-        'links.buttons' => 'read',
-        'links.pinning' => 'write',
-        'links.styling' => 'write',
-        'appearance.theme' => 'write',
-        'appearance.assets' => 'write',
-        'appearance.social-icons' => 'write',
-        'themes.manage' => 'write',
-        'analytics.page' => 'read',
-        'analytics.links' => 'read',
-        'analytics.instance' => 'read',
-        'users.users' => 'write',
-        'users.status' => 'write',
-        'users.roles' => 'write',
-        'instance.pages' => 'write',
-        'instance.general' => 'write',
-        'instance.registration' => 'write',
-        'instance.domains' => 'write',
-        'instance.mail' => 'write',
-        'instance.security' => 'write',
-        'instance.features' => 'write',
-        'instance.maintenance' => 'write',
-        'instance.logging' => 'write',
-        'instance.advanced-config' => 'write',
-        'instance.import' => 'write',
-        'instance.export' => 'write',
-        'backups.metadata' => 'read',
-        'backups.create' => 'write',
-        'backups.restore' => 'write',
-        'backups.delete' => 'write',
-        'mail.test' => 'write',
-        'reports.submit' => 'write',
-        'api.applications' => 'write',
-        'api.tokens' => 'write',
-        'api.audit' => 'read',
-    ];
-    foreach ($permissions as $permission => $level) {
-        BratonienApiPermission::updateOrCreate(
-            ['application_id' => $application->id, 'permission' => $permission],
-            ['level' => $level]
-        );
-    }
+$permissions = [
+    'system.status' => 'read',
+    'system.diagnostics' => 'read',
+    'profile.metadata' => 'write',
+    'links.links' => 'write',
+    'links.ordering' => 'write',
+    'links.types' => 'read',
+    'links.buttons' => 'read',
+    'links.pinning' => 'write',
+    'links.styling' => 'write',
+    'appearance.theme' => 'write',
+    'appearance.assets' => 'write',
+    'appearance.social-icons' => 'write',
+    'themes.manage' => 'write',
+    'analytics.page' => 'read',
+    'analytics.links' => 'read',
+    'analytics.instance' => 'read',
+    'users.users' => 'write',
+    'users.status' => 'write',
+    'users.roles' => 'write',
+    'instance.pages' => 'write',
+    'instance.general' => 'write',
+    'instance.registration' => 'write',
+    'instance.domains' => 'write',
+    'instance.mail' => 'write',
+    'instance.security' => 'write',
+    'instance.features' => 'write',
+    'instance.maintenance' => 'write',
+    'instance.logging' => 'write',
+    'instance.advanced-config' => 'write',
+    'instance.import' => 'write',
+    'instance.export' => 'write',
+    'backups.metadata' => 'read',
+    'backups.create' => 'write',
+    'backups.restore' => 'write',
+    'backups.delete' => 'write',
+    'mail.test' => 'write',
+    'reports.submit' => 'write',
+    'api.applications' => 'write',
+    'api.tokens' => 'write',
+    'api.audit' => 'read',
+];
+foreach ($permissions as $permission => $level) {
+    BratonienApiPermission::updateOrCreate(
+        ['application_id' => $application->id, 'permission' => $permission],
+        ['level' => $level]
+    );
 }
 
 BratonienApiToken::where('application_id', $application->id)
@@ -214,7 +225,6 @@ if (Schema::hasColumn('bratonien_api_tokens', 'token_ciphertext')) {
     $values['token_ciphertext'] = Crypt::encryptString($plain);
 }
 BratonienApiToken::create($values);
-
 echo $plain;
 PHP
 
@@ -235,27 +245,11 @@ PHP
 }
 
 verify_linkstack_token() {
-  local out status
-  out="$(mktemp)"
-  status="$(curl -sS --max-time 20 -o "$out" -w '%{http_code}' \
-    -H 'Accept: application/json' \
-    -H "Authorization: Bearer $LINKSTACK_TOKEN" \
-    "$LINKSTACK_URL/api/v1/me" || true)"
-  if [[ ! "$status" =~ ^2[0-9][0-9]$ ]]; then
-    rm -f "$out"
-    note "Der automatisch erzeugte MCP-Server-API-Key wurde über die öffentliche API abgelehnt (HTTP ${status:-keine Verbindung})."
+  check_api_status "$LINKSTACK_TOKEN" || {
+    note "Der automatisch erzeugte MCP-Server-API-Key wurde von einem realen authentifizierten LinkStack-Endpunkt abgelehnt."
     return 1
-  fi
-  python3 - "$out" "$LINKSTACK_APP_NAME" <<'PY' || { rm -f "$out"; note "LinkStack /api/v1/me meldet nicht die erwartete MCP-Server-Anwendung."; return 1; }
-import json,sys
-with open(sys.argv[1],encoding='utf-8') as f:
-    data=json.load(f)
-app=data.get('application') or {}
-if app.get('name') != sys.argv[2] or app.get('active') is False:
-    raise SystemExit(1)
-PY
-  rm -f "$out"
-  note "MCP-Server-API-Key erfolgreich über HTTPS geprüft."
+  }
+  note "MCP-Server-API-Key erfolgreich über /api/v1/system/status geprüft."
 }
 
 ensure_not_registered() {
@@ -269,7 +263,7 @@ run_from_proxmox() {
   [[ ${EUID:-$(id -u)} -eq 0 ]] || fail "In der Proxmox-Shell als root ausführen."
   [[ -r "$TTY" && -w "$TTY" ]] || fail "Keine interaktive Proxmox-Konsole erkannt."
   local cmd mcp_ctid linkstack_ctid tmp_input remote_input rc
-  for cmd in pct base64 tr mktemp curl python3 rm; do command -v "$cmd" >/dev/null || fail "$cmd wird auf dem Proxmox-Host benötigt."; done
+  for cmd in pct base64 tr mktemp curl python3 rm grep; do command -v "$cmd" >/dev/null || fail "$cmd wird auf dem Proxmox-Host benötigt."; done
 
   mcp_ctid="$(prompt_mcp_lxc)"
   note "Verwende MCP-LXC CT $mcp_ctid."
@@ -280,7 +274,7 @@ run_from_proxmox() {
   [[ "$mcp_ctid" != "$linkstack_ctid" ]] || fail "MCP-LXC und LinkStack-LXC dürfen nicht dieselbe CT-ID haben."
 
   prompt_linkstack_url
-  preflight_public_api || fail "Die öffentliche LinkStack-API ist nicht erreichbar oder nicht vollständig installiert."
+  preflight_public_api
   provision_linkstack_token "$linkstack_ctid"
   verify_linkstack_token || fail "Der provisionierte MCP-Server-Zugang funktioniert nicht über die öffentliche HTTPS-API."
 
@@ -315,12 +309,7 @@ read_transferred_credentials() {
 }
 
 preflight_from_mcp_lxc() {
-  local status
-  status="$(curl -sS --max-time 20 -o /dev/null -w '%{http_code}' \
-    -H 'Accept: application/json' \
-    -H "Authorization: Bearer $LINKSTACK_TOKEN" \
-    "$LINKSTACK_URL/api/v1/me" || true)"
-  [[ "$status" =~ ^2[0-9][0-9]$ ]]
+  check_api_status "$LINKSTACK_TOKEN"
 }
 
 prepare_connector_path() {
@@ -346,7 +335,7 @@ fi
 for cmd in docker python3 openssl curl tar base64 sed head grep mv date mktemp rm systemctl; do command -v "$cmd" >/dev/null || fail "$cmd wird im MCP-LXC benötigt."; done
 [[ -r "$HOST_CONFIG" ]] || fail "Bratonien-MCP-Konfiguration fehlt: $HOST_CONFIG"
 [[ -r "$HOST_ENV" ]] || fail "Bratonien-MCP-Umgebung fehlt: $HOST_ENV"
-[[ -n "${LINKSTACK_INSTALL_INPUT:-}" ]] || fail "Dieser Installer wird aus der Proxmox-Host-Shell gestartet; direkte Token-Eingabe im MCP-LXC ist nicht vorgesehen."
+[[ -n "${LINKSTACK_INSTALL_INPUT:-}" ]] || fail "Dieser Installer wird aus der Proxmox-Host-Shell gestartet."
 
 read_transferred_credentials
 [[ "$LINKSTACK_URL" =~ ^https:// ]] || fail "Die übertragene LinkStack-URL ist keine HTTPS-URL."
@@ -363,7 +352,7 @@ mkdir -p "$CONNECTOR_ROOT"
 curl -fsSL "$ARCHIVE_URL" -o "$TMP_ARCHIVE" || fail "Connector-Archiv konnte nicht von GitHub geladen werden."
 tar -xzf "$TMP_ARCHIVE" -C "$CONNECTOR_ROOT" --strip-components=2 --wildcards '*/linkstack/*' || fail "Connector-Archiv konnte nicht entpackt werden."
 [[ -f "$APP_DIR/docker-compose.yml" ]] || fail "LinkStack-MCP-Dateien wurden nicht vollständig entpackt."
-[[ -f "$APP_DIR/operations.py" && -f "$APP_DIR/management_surface.py" && -f "$APP_DIR/server.py" ]] || fail "LinkStack-Tool-Oberfläche fehlt im Archiv."
+[[ -f "$APP_DIR/operations.py" && -f "$APP_DIR/management_surface.py" && -f "$APP_DIR/server.py" && -f "$APP_DIR/http_server.py" ]] || fail "LinkStack-Tool-Oberfläche fehlt im Archiv."
 
 umask 077
 cat > "$APP_DIR/.env" <<EOF
@@ -384,8 +373,8 @@ for _ in {1..45}; do
 done
 curl -fsS http://127.0.0.1:8103/health >/dev/null || fail "LinkStack-MCP-Dienst wurde nicht bereit."
 
-ME="$(curl -fsS -H "Authorization: Bearer $INTERNAL_TOKEN" -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"me","arguments":{}}}' http://127.0.0.1:8103/mcp)" || fail "LinkStack me-Test fehlgeschlagen."
-python3 - "$ME" <<'PY' || fail "LinkStack me-Test meldete einen Fehler."
+STATUS_RESULT="$(curl -fsS -H "Authorization: Bearer $INTERNAL_TOKEN" -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"system_status","arguments":{}}}' http://127.0.0.1:8103/mcp)" || fail "LinkStack system_status-Test fehlgeschlagen."
+python3 - "$STATUS_RESULT" <<'PY' || fail "LinkStack system_status-Test meldete einen Fehler."
 import json,sys
 data=json.loads(sys.argv[1])
 if data.get('error') or (data.get('result') or {}).get('isError') is True:
@@ -459,12 +448,14 @@ mod=importlib.util.module_from_spec(spec); sys.path.insert(0,app); spec.loader.e
 required={'linkstack__'+name for name in mod.REQUIRED_MANAGEMENT_TOOLS}
 if not required.issubset(names):
     print('Fehlende Tools: '+', '.join(sorted(required-names)),file=sys.stderr); raise SystemExit(1)
+if 'linkstack__me' in names:
+    print('Phantom-Tool linkstack__me ist unerwartet vorhanden',file=sys.stderr); raise SystemExit(1)
 print(len(names))
 PY
-)" || fail "LinkStack-Verwaltungsoberfläche ist über den zentralen Host nicht vollständig oder nicht sauber getrennt sichtbar."
+)" || fail "LinkStack-Verwaltungsoberfläche ist über den zentralen Host nicht vollständig oder enthält Phantom-Tools."
 rm -f "$TOOLS_FILE"
 
-READ="$(curl -fsS -H "Authorization: Bearer $LINKSTACK_APP_TOKEN" -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"linkstack__me","arguments":{}}}' http://127.0.0.1:8000/mcp)" || fail "LinkStack-Test über den zentralen Host fehlgeschlagen."
+READ="$(curl -fsS -H "Authorization: Bearer $LINKSTACK_APP_TOKEN" -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"linkstack__system_status","arguments":{}}}' http://127.0.0.1:8000/mcp)" || fail "LinkStack-Test über den zentralen Host fehlgeschlagen."
 python3 - "$READ" <<'PY' || fail "LinkStack-Test meldete einen Fehler."
 import json,sys
 data=json.loads(sys.argv[1])
@@ -485,14 +476,15 @@ echo
 echo "============================================================"
 echo " LinkStack am MCP-Server registriert und geprüft"
 echo "============================================================"
-echo "LinkStack API:       $LINKSTACK_URL"
-echo "API-Anwendung:       $LINKSTACK_APP_NAME"
-echo "LinkStack-MCP-Dienst:http://127.0.0.1:8103/mcp"
-echo "Namespace:           linkstack__"
-echo "App-Token-Variable:  MCP_LINKSTACK_HTTP_TOKEN"
+echo "LinkStack API:        $LINKSTACK_URL"
+echo "API-Anwendung:        $LINKSTACK_APP_NAME"
+echo "LinkStack-MCP-Dienst: http://127.0.0.1:8103/mcp"
+echo "Namespace:            linkstack__"
+echo "App-Token-Variable:   MCP_LINKSTACK_HTTP_TOKEN"
 echo "LinkStack-Tools:      $TOOL_COUNT"
 echo "API-Key:              automatisch provisioniert"
-echo "me:                   erfolgreich"
+echo "system_status:        erfolgreich"
+echo "Phantom-Tool me:      nicht vorhanden"
 echo "Cross-Namespace:      blockiert"
 echo
 echo "Der LinkStack-API-Key des MCP-Servers liegt geschützt in $APP_DIR/.env."
