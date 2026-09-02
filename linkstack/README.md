@@ -10,7 +10,8 @@ Der Connector folgt derselben Architektur wie der Manifold-Connector: Er läuft 
 linkstack/
 ├── README.md
 ├── install/
-│   └── register-with-bratonien-mcp.sh
+│   ├── register-with-bratonien-mcp.sh
+│   └── update-connector.sh
 └── plugins/
     └── linkstack-connector/
         ├── .codex-plugin/
@@ -67,6 +68,16 @@ Die Application erhält die aktuell bekannte vollständige Connector-Berechtigun
 Das erzeugte Token wird nicht interaktiv angezeigt. Es wird vom Installer geschützt direkt in den MCP-LXC übertragen und dort ausschließlich in der Connector-`.env` gespeichert.
 
 Für Authentifizierungs- und Laufzeittests wird ein tatsächlich vorhandener geschützter API-Endpunkt verwendet, insbesondere `/api/v1/system/status`. Einen `/api/v1/me`-Endpunkt gibt es in der Bratonien-LinkStack-API nicht und der Connector exponiert deshalb auch kein `linkstack__me`-Tool.
+
+## Update einer bestehenden Installation
+
+Für einen bereits registrierten Connector wird **kein neuer API-Key erzeugt** und die bestehende MCP-Registrierung bleibt erhalten. Der Updatepfad ersetzt nur die Connector-Dateien, behält die vorhandene `.env`, baut den Container neu und prüft anschließend die lokale und zentrale MCP-Oberfläche:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/Terranom674/ChatGPT_Connectors/main/linkstack/install/update-connector.sh)
+```
+
+Der Updater bricht ab, wenn die vorhandene Installation, `.env`, MCP-Registrierung oder der Container nicht eindeutig gefunden werden. Nach dem Neuaufbau wird geprüft, dass `system_status` funktioniert und `linkstack__me` nicht mehr veröffentlicht wird.
 
 ## LinkStack API
 
