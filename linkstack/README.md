@@ -67,17 +67,21 @@ Die Application erhält die aktuell bekannte vollständige Connector-Berechtigun
 
 Das erzeugte Token wird nicht interaktiv angezeigt. Es wird vom Installer geschützt direkt in den MCP-LXC übertragen und dort ausschließlich in der Connector-`.env` gespeichert.
 
-Für Authentifizierungs- und Laufzeittests wird ein tatsächlich vorhandener geschützter API-Endpunkt verwendet, insbesondere `/api/v1/system/status`. Einen `/api/v1/me`-Endpunkt gibt es in der Bratonien-LinkStack-API nicht und der Connector exponiert deshalb auch kein `linkstack__me`-Tool.
+Die öffentliche Erreichbarkeit wird über `/api/v1/status` geprüft. Die eigentliche Authentifizierungsprüfung erfolgt bewusst über den geschützten Endpoint `/api/v1/system/diagnostics`, damit ein ungültiger oder widerrufener Token nicht durch einen öffentlichen Status-Endpunkt fälschlich als gültig bewertet werden kann.
+
+Einen `/api/v1/me`-Endpunkt gibt es in der Bratonien-LinkStack-API nicht und der Connector exponiert deshalb auch kein `linkstack__me`-Tool.
 
 ## Update einer bestehenden Installation
 
-Für einen bereits registrierten Connector wird **kein neuer API-Key erzeugt** und die bestehende MCP-Registrierung bleibt erhalten. Der Updatepfad ersetzt nur die Connector-Dateien, behält die vorhandene `.env`, baut den Container neu und prüft anschließend die lokale und zentrale MCP-Oberfläche:
+Für einen bereits registrierten Connector bleibt die bestehende MCP-Registrierung erhalten. Der Updatepfad ersetzt die Connector-Dateien, behält die vorhandene `.env`, baut den Container neu und prüft anschließend die lokale und zentrale MCP-Oberfläche:
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/Terranom674/ChatGPT_Connectors/main/linkstack/install/update-connector.sh)
 ```
 
-Der Updater bricht ab, wenn die vorhandene Installation, `.env`, MCP-Registrierung oder der Container nicht eindeutig gefunden werden. Nach dem Neuaufbau wird geprüft, dass `system_status` funktioniert und `linkstack__me` nicht mehr veröffentlicht wird.
+Der Updater bricht ab, wenn die vorhandene Installation, `.env`, MCP-Registrierung oder der Container nicht eindeutig gefunden werden. Nach dem Neuaufbau wird `system_diagnostics` lokal und über den zentralen MCP aufgerufen. Damit wird nicht nur die MCP-Verbindung, sondern auch der tatsächlich geschützte LinkStack-API-Zugriff geprüft. Zusätzlich wird kontrolliert, dass `linkstack__me` nicht mehr veröffentlicht wird.
+
+Wichtig: Ein reines Connector-Update erzeugt keinen neuen LinkStack-API-Key. Ist der bestehende Key bereits ungültig oder widerrufen, schlägt die geschützte Diagnostics-Prüfung bewusst fehl. In diesem Fall muss der MCP-Zugang neu provisioniert werden.
 
 ## LinkStack API
 
