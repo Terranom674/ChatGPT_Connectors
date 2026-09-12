@@ -20,7 +20,7 @@ def authorized(handler: BaseHTTPRequestHandler) -> bool:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "BratonienAFFiNEMCP/1.0.1"
+    server_version = "BratonienAFFiNEMCP/1.1.0"
 
     def send_json(self, status: int, data) -> None:
         body = json.dumps(data, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
