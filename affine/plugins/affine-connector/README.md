@@ -23,15 +23,20 @@ ChatGPT verbindet sich damit ausschließlich zum zentralen Bratonien-MCP. AFFiNE
 
 Hinter dem zentralen Bratonien-MCP läuft ein interner AFFiNE-Adapter. Dieser verbindet den Namespace `affine__*` mit dem nativen MCP-Endpunkt der selbstgehosteten AFFiNE-Instanz.
 
-Der Adapter erfindet keine eigene Dokument-API. `tools/list` und `tools/call` werden an AFFiNE weitergereicht. Dadurch bleiben Tool-Schemas, Workspace-Zuordnung und effektive Berechtigungen bei AFFiNE.
+`tools/list` und `tools/call` werden dynamisch an AFFiNE weitergereicht. Neue native AFFiNE-MCP-Tools werden deshalb automatisch durch den Connector veröffentlicht und müssen nicht einzeln im Adapter nachgebaut werden.
 
-Erwartete native AFFiNE-Tools:
+Für die Bratonien-READ_WRITE-Installation werden mindestens diese nativen AFFiNE-Tools verlangt:
 
 - `read_document`
 - `doc_search`
 - `create_document`
 - `update_document`
 - `update_document_meta`
+- `trash_document`
+- `restore_document`
+- `delete_document`
+
+Die drei Lifecycle-Tools werden durch `Terranom674/Affine-MCP-Patch` aus AFFiNEs bereits vorhandenem nativen Dokument-Lifecycle bereitgestellt. Sie delegieren an AFFiNEs eigenes `apply_doc_lifecycle` und umgehen keine Workspace- oder Dokumentberechtigungen.
 
 ## Serverseitige Konfiguration
 
@@ -51,5 +56,7 @@ Der lokale Adapter lauscht standardmäßig auf `127.0.0.1:8104`; der zentrale MC
 ## Sicherheit
 
 Das AFFiNE-MCP-Credential bleibt serverseitig. ChatGPT erhält keinen direkten AFFiNE-Token und keinen direkten Zugriff auf den nativen AFFiNE-MCP-Endpunkt.
+
+Die Lifecycle-Erweiterung nutzt AFFiNEs eigenen Backend-Runtime-Pfad und damit dieselben Berechtigungsprüfungen wie AFFiNE selbst.
 
 Es werden keine GitHub Actions verwendet.
