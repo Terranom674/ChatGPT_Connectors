@@ -1,15 +1,15 @@
 {
   "name": "affine-connector",
-  "version": "1.0.1",
-  "description": "AFFiNE workspace workflows for ChatGPT through the shared Bratonien MCP server.",
+  "version": "1.2.0",
+  "description": "Full AFFiNE MCP and API workspace access for ChatGPT through the shared Bratonien MCP server.",
   "author": {
     "name": "Bratonien"
   },
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "AFFiNE Connector",
-    "shortDescription": "Read, search and edit a self-hosted AFFiNE workspace through Bratonien MCP.",
-    "longDescription": "Bridges the native AFFiNE workspace MCP into the shared Bratonien MCP server. Tool schemas and effective document permissions remain owned by AFFiNE; the connector dynamically exposes AFFiNE's native read, search and write tools under the affine namespace.",
+    "shortDescription": "Use native AFFiNE MCP tools and the complete authenticated AFFiNE API surface.",
+    "longDescription": "Bridges the complete native AFFiNE workspace MCP dynamically into the shared Bratonien MCP server and adds a controlled same-origin /api/* passthrough for API endpoints not represented as native MCP tools. AFFiNE remains responsible for authentication and effective permissions.",
     "developerName": "Bratonien",
     "category": "Productivity",
     "capabilities": [
@@ -21,7 +21,7 @@
     "defaultPrompt": [
       "Search my AFFiNE workspace.",
       "Read this AFFiNE document.",
-      "Update this AFFiNE document for me."
+      "Update or delete this AFFiNE document for me."
     ]
   }
 }
