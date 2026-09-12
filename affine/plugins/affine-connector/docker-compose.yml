@@ -1,0 +1,14 @@
+services:
+  affine-mcp:
+    build: .
+    container_name: ${MCP_CONTAINER_NAME:-affine-mcp}
+    restart: unless-stopped
+    environment:
+      AFFINE_URL: ${AFFINE_URL}
+      AFFINE_WORKSPACE_ID: ${AFFINE_WORKSPACE_ID}
+      AFFINE_MCP_TOKEN: ${AFFINE_MCP_TOKEN}
+      MCP_HTTP_TOKEN: ${MCP_HTTP_TOKEN}
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: 8000
+    ports:
+      - "${MCP_BIND_ADDRESS:-127.0.0.1}:${MCP_PORT:-8104}:8000"
