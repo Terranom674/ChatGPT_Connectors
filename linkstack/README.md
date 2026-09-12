@@ -1,5 +1,7 @@
 # LinkStack Connector
 
+**Status: Aktiv**
+
 Vollständiger ChatGPT-/MCP-Connector für die Bratonien-LinkStack-REST-API.
 
 Der Connector folgt derselben Architektur wie der Manifold-Connector: Er läuft als eigener interner MCP-Connector im zentralen Bratonien-MCP-LXC und spricht die bestehende LinkStack-Instanz ausschließlich über deren öffentliche HTTPS-API unter `/api/v1/*` an.
