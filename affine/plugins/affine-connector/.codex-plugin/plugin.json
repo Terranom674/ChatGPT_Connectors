@@ -1,0 +1,27 @@
+{
+  "name": "affine-connector",
+  "version": "1.0.0",
+  "description": "AFFiNE workspace workflows for ChatGPT through the shared Bratonien MCP server.",
+  "author": {
+    "name": "Bratonien"
+  },
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "AFFiNE Connector",
+    "shortDescription": "Read, search and edit a self-hosted AFFiNE workspace through Bratonien MCP.",
+    "longDescription": "Bridges the native AFFiNE workspace MCP into the shared Bratonien MCP server. Tool schemas and effective document permissions remain owned by AFFiNE; the connector dynamically exposes AFFiNE's native read, search and write tools under the affine namespace.",
+    "developerName": "Bratonien",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "brandColor": "#4C6FFF",
+    "defaultPrompt": [
+      "Search my AFFiNE workspace.",
+      "Read this AFFiNE document.",
+      "Update this AFFiNE document for me."
+    ]
+  }
+}
