@@ -8,7 +8,7 @@ import urllib.request
 from typing import Any, Dict, Optional
 
 SERVER_NAME = "bratonien-affine"
-SERVER_VERSION = "1.0.1"
+SERVER_VERSION = "1.1.0"
 DEFAULT_PROTOCOL_VERSION = "2025-03-26"
 SUPPORTED_PROTOCOL_VERSIONS = {
     "2025-11-25",
@@ -17,12 +17,19 @@ SUPPORTED_PROTOCOL_VERSIONS = {
     "2024-11-05",
     "2024-10-07",
 }
-EXPECTED_TOOLS = {
+
+# Baseline tools required for the Bratonien READ_WRITE deployment. tools/list
+# and tools/call are still forwarded dynamically, so every additional native
+# AFFiNE MCP tool is exposed automatically without a connector rebuild.
+REQUIRED_TOOLS = {
     "read_document",
     "doc_search",
     "create_document",
     "update_document",
     "update_document_meta",
+    "trash_document",
+    "restore_document",
+    "delete_document",
 }
 
 
@@ -165,4 +172,4 @@ def validate_upstream() -> tuple[bool, set[str], dict]:
     response = call_upstream({"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}})
     tools = (response.get("result") or {}).get("tools") or []
     names = {str(tool.get("name", "")) for tool in tools if isinstance(tool, dict)}
-    return EXPECTED_TOOLS.issubset(names), names, response
+    return REQUIRED_TOOLS.issubset(names), names, response
