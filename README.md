@@ -13,6 +13,7 @@ Die Repository-Hauptebene dient ausschließlich als übersichtlicher Einstieg un
 | [`gitea/`](gitea/) | Gitea | Aktiv | Eigenständiger ChatGPT-/MCP-Connector für selbstgehostetes Gitea mit Runtime, Shared-MCP-Integration, OAuth-Helfer, Skills, Tests und Dokumentation. |
 | [`manifold/`](manifold/) | Manifold | Aktiv | Eigenständiger ChatGPT-/MCP-Connector für selbstgehostetes Manifold mit vollständiger API-Verwaltungsoberfläche, Runtime, Installer und Bratonien-MCP-Integration. |
 | [`linkstack/`](linkstack/) | LinkStack | Aktiv | Eigenständiger ChatGPT-/MCP-Connector für die vollständige Bratonien-LinkStack-REST-API mit serverseitig durch LinkStack erzwungenen Fine-Grained Permissions. |
+| [`affine/`](affine/) | AFFiNE | In Aufbau | Geplanter Connector auf Basis des nativen AFFiNE-MCP mit Workspace-Credentials, `READ_ONLY`/`READ_WRITE` und zentraler Bratonien-MCP-Integration. |
 
 ## Grundprinzip
 
