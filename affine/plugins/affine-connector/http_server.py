@@ -20,7 +20,7 @@ def authorized(handler: BaseHTTPRequestHandler) -> bool:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "BratonienAFFiNEMCP/0.1"
+    server_version = "BratonienAFFiNEMCP/1.0.1"
 
     def send_json(self, status: int, data) -> None:
         body = json.dumps(data, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
@@ -30,15 +30,39 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def send_empty(self, status: int) -> None:
+        self.send_response(status)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
     def do_GET(self):
         if self.path == "/health":
             ok, names, response = server.validate_upstream()
-            self.send_json(200 if ok else 503, {"status": "ok" if ok else "upstream_error", "tools": sorted(names), "upstream_error": response.get("error")})
+            self.send_json(
+                200 if ok else 503,
+                {
+                    "status": "ok" if ok else "upstream_error",
+                    "tools": sorted(names),
+                    "upstream_error": response.get("error"),
+                },
+            )
             return
         if self.path == "/mcp":
-            self.send_json(401 if not authorized(self) else 405, {"error": "unauthorized" if not authorized(self) else "method_not_allowed"})
+            self.send_json(
+                401 if not authorized(self) else 405,
+                {"error": "unauthorized" if not authorized(self) else "method_not_allowed"},
+            )
             return
         self.send_json(404, {"error": "not_found"})
+
+    def do_DELETE(self):
+        if self.path != "/mcp":
+            self.send_json(404, {"error": "not_found"})
+            return
+        if not authorized(self):
+            self.send_json(401, {"error": "unauthorized"})
+            return
+        self.send_json(405, {"error": "method_not_allowed"})
 
     def do_POST(self):
         if self.path != "/mcp":
@@ -66,7 +90,12 @@ class Handler(BaseHTTPRequestHandler):
         if not isinstance(message, dict):
             self.send_json(400, {"error": "json_rpc_object_required"})
             return
-        self.send_json(200, server.handle_message(message))
+
+        response = server.handle_message(message)
+        if response is None:
+            self.send_empty(202)
+            return
+        self.send_json(200, response)
 
 
 def main() -> None:
