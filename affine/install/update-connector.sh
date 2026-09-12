@@ -44,7 +44,11 @@ TOOLS="$(curl -fsS -H "Authorization: Bearer $APP_TOKEN" -H 'Content-Type: appli
 python3 - "$TOOLS" <<'PY' || fail "AFFiNE Tool-Oberfläche ist nach Update unvollständig."
 import json,sys
 data=json.loads(sys.argv[1]); names={str(t.get('name','')) for t in ((data.get('result') or {}).get('tools') or [])}
-required={'affine__read_document','affine__doc_search','affine__create_document','affine__update_document','affine__update_document_meta'}
+required={
+    'affine__read_document','affine__doc_search','affine__create_document',
+    'affine__update_document','affine__update_document_meta',
+    'affine__trash_document','affine__restore_document','affine__delete_document'
+}
 if data.get('error') or not required.issubset(names) or any(not n.startswith('affine__') for n in names): raise SystemExit(1)
 print('AFFiNE Tools:',len(names))
 PY
