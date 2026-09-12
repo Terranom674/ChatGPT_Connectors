@@ -1,6 +1,6 @@
 {
   "name": "affine-connector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AFFiNE workspace workflows for ChatGPT through the shared Bratonien MCP server.",
   "author": {
     "name": "Bratonien"
