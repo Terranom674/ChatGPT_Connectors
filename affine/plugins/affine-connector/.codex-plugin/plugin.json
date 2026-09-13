@@ -1,15 +1,15 @@
 {
   "name": "affine-connector",
-  "version": "1.4.0",
-  "description": "Single full-surface AFFiNE connector for ChatGPT with native MCP passthrough, connector-managed AFFiNE sessions, API access and document lifecycle operations.",
+  "version": "1.3.1",
+  "description": "AFFiNE connector for ChatGPT with dynamic native MCP passthrough and optional server-side API access.",
   "author": {
     "name": "Bratonien"
   },
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "AFFiNE Connector",
-    "shortDescription": "Use AFFiNE MCP, API and document lifecycle through one connector.",
-    "longDescription": "ChatGPT connects only to the Bratonien AFFiNE connector. The connector forwards all native AFFiNE workspace MCP tools dynamically and internally manages the authenticated AFFiNE session needed for same-origin API and sync lifecycle operations such as trash, restore and permanent deletion.",
+    "shortDescription": "Use the native AFFiNE workspace MCP through one connector.",
+    "longDescription": "Forwards all native AFFiNE workspace MCP tools dynamically through the central Bratonien MCP server. Ordinary AFFiNE API or sync routes are only used when valid server-side AFFiNE API/session authentication already exists; the connector does not request or store a user's AFFiNE password.",
     "developerName": "Bratonien",
     "category": "Productivity",
     "capabilities": [
@@ -21,7 +21,7 @@
     "defaultPrompt": [
       "Search my AFFiNE workspace.",
       "Read this AFFiNE document.",
-      "Update or delete this AFFiNE document for me."
+      "Update this AFFiNE document for me."
     ]
   }
 }
