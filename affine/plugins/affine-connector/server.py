@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import base64
+import http.cookiejar
 import json
 import os
+import threading
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -12,7 +14,7 @@ from typing import Any, Dict, Optional
 import socketio
 
 SERVER_NAME = "bratonien-affine"
-SERVER_VERSION = "1.3.0"
+SERVER_VERSION = "1.4.0"
 DEFAULT_PROTOCOL_VERSION = "2025-03-26"
 SUPPORTED_PROTOCOL_VERSIONS = {
     "2025-11-25",
@@ -22,6 +24,7 @@ SUPPORTED_PROTOCOL_VERSIONS = {
     "2024-10-07",
 }
 MAX_RESPONSE_BYTES = 8_000_000
+AFFINE_CLIENT_VERSION = os.environ.get("AFFINE_CLIENT_VERSION", "0.27.0").strip() or "0.27.0"
 
 # Only tools that must exist in AFFiNE's own native MCP surface. Lifecycle tools
 # are intentionally implemented by this external connector so AFFiNE Core stays
@@ -40,6 +43,9 @@ LOCAL_TOOL_NAMES = {
     "restore_document",
     "delete_document",
 }
+
+_SESSION_LOCK = threading.Lock()
+_SESSION_COOKIE: Optional[str] = None
 
 
 class AffineError(Exception):
@@ -73,21 +79,91 @@ def upstream_token() -> str:
     return token
 
 
-def api_auth() -> tuple[str, str]:
+def configured_api_auth() -> Optional[tuple[str, str]]:
     header = os.environ.get("AFFINE_API_AUTH_HEADER", "").strip()
     value = os.environ.get("AFFINE_API_AUTH_VALUE", "").strip()
+    if not header and not value:
+        return None
     if not header or not value:
-        raise AffineError(
-            "AFFiNE API authentication is not configured. Set AFFINE_API_AUTH_HEADER and AFFINE_API_AUTH_VALUE."
-        )
-    if any(ch in header for ch in "\r\n:"):
-        raise AffineError("AFFINE_API_AUTH_HEADER is invalid.")
+        raise AffineError("AFFINE_API_AUTH_HEADER and AFFINE_API_AUTH_VALUE must be configured together.")
+    if any(ch in header for ch in "\r\n:") or any(ch in value for ch in "\r\n"):
+        raise AffineError("Configured AFFiNE API authentication contains invalid characters.")
     return header, value
 
 
-def socket_auth() -> tuple[dict, dict]:
-    """Return Socket.IO auth payload and HTTP headers for AFFiNE's native sync gateway."""
-    header, value = api_auth()
+def connector_credentials() -> tuple[str, str]:
+    email = os.environ.get("AFFINE_EMAIL", "").strip()
+    password = os.environ.get("AFFINE_PASSWORD", "")
+    if not email or not password:
+        raise AffineError(
+            "AFFiNE connector credentials are not configured. Set AFFINE_EMAIL and AFFINE_PASSWORD "
+            "inside the connector service, or provide a server-managed AFFINE_API_AUTH_HEADER/AFFINE_API_AUTH_VALUE."
+        )
+    if "\r" in email or "\n" in email:
+        raise AffineError("AFFINE_EMAIL contains invalid characters.")
+    return email, password
+
+
+def _cookie_header(jar: http.cookiejar.CookieJar) -> str:
+    pairs = [f"{cookie.name}={cookie.value}" for cookie in jar]
+    return "; ".join(pairs)
+
+
+def login_session(force: bool = False) -> str:
+    global _SESSION_COOKIE
+    explicit = configured_api_auth()
+    if explicit is not None:
+        header, value = explicit
+        if header.lower() != "cookie":
+            raise AffineError("Internal AFFiNE session login is not needed when non-cookie API authentication is configured.")
+        return value
+
+    with _SESSION_LOCK:
+        if _SESSION_COOKIE and not force:
+            return _SESSION_COOKIE
+
+        email, password = connector_credentials()
+        jar = http.cookiejar.CookieJar()
+        opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+        request = urllib.request.Request(
+            affine_origin() + "/api/auth/sign-in",
+            data=json.dumps({"email": email, "password": password}, ensure_ascii=False).encode("utf-8"),
+            method="POST",
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json, text/plain, */*",
+                "User-Agent": f"{SERVER_NAME}/{SERVER_VERSION}",
+                "X-Affine-Version": AFFINE_CLIENT_VERSION,
+            },
+        )
+        try:
+            with opener.open(request, timeout=30) as response:
+                response.read(MAX_RESPONSE_BYTES + 1)
+        except urllib.error.HTTPError as exc:
+            raw = exc.read(2000).decode("utf-8", errors="replace")
+            raise AffineError(f"AFFiNE connector sign-in failed with HTTP {exc.code}: {raw}") from exc
+        except Exception as exc:
+            raise AffineError(f"AFFiNE connector sign-in failed: {exc}") from exc
+
+        cookie = _cookie_header(jar)
+        if not cookie:
+            raise AffineError("AFFiNE connector sign-in succeeded but returned no session cookie.")
+        if "\r" in cookie or "\n" in cookie:
+            raise AffineError("AFFiNE returned an invalid session cookie.")
+        _SESSION_COOKIE = cookie
+        return cookie
+
+
+def api_auth(force_refresh: bool = False) -> tuple[str, str]:
+    explicit = configured_api_auth()
+    if explicit is not None:
+        return explicit
+    return "Cookie", login_session(force=force_refresh)
+
+
+def socket_auth(force_refresh: bool = False) -> tuple[dict, dict]:
+    """Return Socket.IO auth payload and HTTP headers using connector-managed AFFiNE auth."""
+    header, value = api_auth(force_refresh=force_refresh)
     lower = header.lower()
     if lower == "authorization" and value.lower().startswith("bearer "):
         token = value[7:].strip()
@@ -96,10 +172,7 @@ def socket_auth() -> tuple[dict, dict]:
         return {"token": token, "tokenType": "jwt"}, {}
     if lower == "cookie":
         return {}, {"Cookie": value}
-    raise AffineError(
-        "Document lifecycle requires normal AFFiNE user authentication via either "
-        "AFFINE_API_AUTH_HEADER=Authorization with a Bearer JWT or AFFINE_API_AUTH_HEADER=Cookie."
-    )
+    raise AffineError("AFFiNE connector authentication must resolve to a Bearer token or Cookie session.")
 
 
 def error_response(request_id: Any, code: int, message: str, data: Optional[dict] = None) -> dict:
@@ -169,8 +242,8 @@ def api_call_tool() -> dict:
         "name": "api_call",
         "title": "AFFiNE API Call",
         "description": (
-            "Call an explicit AFFiNE HTTP API path below /api/ for complete and forward-compatible API coverage. "
-            "Authentication is managed server-side by the connector."
+            "Call an explicit AFFiNE HTTP API path below /api/. Authentication and session renewal are managed "
+            "entirely inside this connector."
         ),
         "inputSchema": {
             "type": "object",
@@ -226,19 +299,19 @@ def local_tools() -> list[dict]:
             "trash_document",
             "Trash Document",
             "trash",
-            "Move an AFFiNE document to trash through AFFiNE's native space:doc-lifecycle Socket.IO event.",
+            "Move an AFFiNE document to trash using AFFiNE's native sync API through this connector.",
         ),
         lifecycle_tool(
             "restore_document",
             "Restore Document",
             "restore",
-            "Restore an AFFiNE document from trash through AFFiNE's native space:doc-lifecycle Socket.IO event.",
+            "Restore an AFFiNE document from trash using AFFiNE's native sync API through this connector.",
         ),
         lifecycle_tool(
             "delete_document",
             "Delete Document",
             "delete",
-            "Permanently delete an AFFiNE document through AFFiNE's native space:doc-lifecycle Socket.IO event. This cannot be undone.",
+            "Permanently delete an AFFiNE document using AFFiNE's native sync API through this connector. This cannot be undone.",
         ),
     ]
 
@@ -269,7 +342,7 @@ def decode_api_body(headers: Dict[str, str], raw: bytes) -> Any:
         return {"base64": base64.b64encode(raw).decode("ascii")}
 
 
-def execute_api_call(arguments: Dict[str, Any]) -> dict:
+def _execute_api_call_once(arguments: Dict[str, Any], force_refresh: bool = False) -> dict:
     method = arguments.get("method")
     if method not in {"GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}:
         raise AffineError("Unsupported HTTP method.")
@@ -284,7 +357,7 @@ def execute_api_call(arguments: Dict[str, Any]) -> dict:
     ):
         raise AffineError("headers must contain string keys and values.")
 
-    auth_header, auth_value = api_auth()
+    auth_header, auth_value = api_auth(force_refresh=force_refresh)
     protected = {"host", "authorization", "cookie", auth_header.lower()}
     if any(k.lower() in protected for k in supplied_headers):
         raise AffineError("Authentication, Host and Cookie headers are managed by the connector.")
@@ -297,6 +370,7 @@ def execute_api_call(arguments: Dict[str, Any]) -> dict:
     headers = {
         "Accept": "application/json, text/plain, */*",
         "User-Agent": f"{SERVER_NAME}/{SERVER_VERSION}",
+        "X-Affine-Version": AFFINE_CLIENT_VERSION,
         auth_header: auth_value,
     }
     headers.update(supplied_headers)
@@ -338,8 +412,38 @@ def execute_api_call(arguments: Dict[str, Any]) -> dict:
         "body": decode_api_body(response_headers, raw),
     }
     if status >= 400:
-        raise AffineError(f"AFFiNE API returned HTTP {status}: {json.dumps(result['body'], ensure_ascii=False)[:2000]}")
+        error = AffineError(f"AFFiNE API returned HTTP {status}: {json.dumps(result['body'], ensure_ascii=False)[:2000]}")
+        setattr(error, "status", status)
+        raise error
     return result
+
+
+def execute_api_call(arguments: Dict[str, Any]) -> dict:
+    try:
+        return _execute_api_call_once(arguments, force_refresh=False)
+    except AffineError as exc:
+        if getattr(exc, "status", None) not in {401, 403} or configured_api_auth() is not None:
+            raise
+        return _execute_api_call_once(arguments, force_refresh=True)
+
+
+def _socket_client(force_refresh: bool = False) -> socketio.Client:
+    auth, headers = socket_auth(force_refresh=force_refresh)
+    client = socketio.Client(
+        reconnection=False,
+        logger=False,
+        engineio_logger=False,
+        request_timeout=30,
+    )
+    client.connect(
+        affine_origin(),
+        auth=auth,
+        headers=headers or None,
+        transports=["polling", "websocket"],
+        wait=True,
+        wait_timeout=15,
+    )
+    return client
 
 
 def execute_lifecycle(arguments: Dict[str, Any], lifecycle: str) -> dict:
@@ -349,40 +453,49 @@ def execute_lifecycle(arguments: Dict[str, Any], lifecycle: str) -> dict:
     if lifecycle not in {"trash", "restore", "delete"}:
         raise AffineError("Invalid document lifecycle operation.")
 
-    auth, headers = socket_auth()
-    client = socketio.Client(
-        reconnection=False,
-        logger=False,
-        engineio_logger=False,
-        request_timeout=30,
-    )
-    try:
-        client.connect(
-            affine_origin(),
-            auth=auth,
-            headers=headers or None,
-            transports=["polling", "websocket"],
-            wait=True,
-            wait_timeout=15,
-        )
-        response = client.call(
-            "space:doc-lifecycle",
-            {
-                "spaceType": "workspace",
-                "spaceId": workspace_id(),
-                "docId": doc_id.strip(),
-                "lifecycle": lifecycle,
-            },
-            timeout=30,
-        )
-    except Exception as exc:
-        raise AffineError(f"AFFiNE document lifecycle request failed: {exc}") from exc
-    finally:
+    response: Any = None
+    last_error: Optional[Exception] = None
+    for attempt in range(2):
+        client: Optional[socketio.Client] = None
         try:
-            if client.connected:
-                client.disconnect()
-        except Exception:
-            pass
+            client = _socket_client(force_refresh=attempt == 1)
+            if lifecycle == "delete":
+                response = client.call(
+                    "space:delete-doc",
+                    {
+                        "spaceType": "workspace",
+                        "spaceId": workspace_id(),
+                        "docId": doc_id.strip(),
+                    },
+                    timeout=30,
+                )
+            else:
+                response = client.call(
+                    "space:doc-lifecycle",
+                    {
+                        "spaceType": "workspace",
+                        "spaceId": workspace_id(),
+                        "docId": doc_id.strip(),
+                        "lifecycle": lifecycle,
+                    },
+                    timeout=30,
+                )
+            last_error = None
+            break
+        except Exception as exc:
+            last_error = exc
+            if attempt == 0 and configured_api_auth() is None:
+                continue
+            break
+        finally:
+            try:
+                if client is not None and client.connected:
+                    client.disconnect()
+            except Exception:
+                pass
+
+    if last_error is not None:
+        raise AffineError(f"AFFiNE document lifecycle request failed: {last_error}") from last_error
 
     if isinstance(response, dict) and response.get("error"):
         error = response["error"]
@@ -409,9 +522,6 @@ def with_local_tools(response: dict) -> dict:
         return response
     tools = result.get("tools")
     if isinstance(tools, list):
-        existing = {t.get("name") for t in tools if isinstance(t, dict)}
-        # Local definitions intentionally override any stale lifecycle tools that
-        # may still be visible from an older AFFiNE image during rollout.
         tools[:] = [t for t in tools if not (isinstance(t, dict) and t.get("name") in LOCAL_TOOL_NAMES)]
         tools.extend(local_tools())
     return response
@@ -498,5 +608,4 @@ def validate_upstream() -> tuple[bool, set[str], dict]:
     response = call_upstream({"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}})
     tools = (response.get("result") or {}).get("tools") or []
     names = {str(tool.get("name", "")) for tool in tools if isinstance(tool, dict)}
-    # Local lifecycle/API tools do not need to be present upstream.
     return REQUIRED_TOOLS.issubset(names), names, response
