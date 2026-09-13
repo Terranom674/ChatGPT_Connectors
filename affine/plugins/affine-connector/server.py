@@ -24,6 +24,7 @@ REQUIRED_TOOLS = {
     "create_document",
     "update_document",
     "update_document_meta",
+    "delete_document",
 }
 
 
