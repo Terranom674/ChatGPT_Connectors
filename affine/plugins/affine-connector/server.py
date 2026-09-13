@@ -9,8 +9,10 @@ import urllib.parse
 import urllib.request
 from typing import Any, Dict, Optional
 
+import socketio
+
 SERVER_NAME = "bratonien-affine"
-SERVER_VERSION = "1.2.0"
+SERVER_VERSION = "1.3.0"
 DEFAULT_PROTOCOL_VERSION = "2025-03-26"
 SUPPORTED_PROTOCOL_VERSIONS = {
     "2025-11-25",
@@ -21,15 +23,19 @@ SUPPORTED_PROTOCOL_VERSIONS = {
 }
 MAX_RESPONSE_BYTES = 8_000_000
 
-# Minimum baseline for the configured READ_WRITE workspace. tools/list and
-# tools/call are forwarded dynamically, so every additional native AFFiNE MCP
-# tool is exposed automatically without rebuilding this connector.
+# Only tools that must exist in AFFiNE's own native MCP surface. Lifecycle tools
+# are intentionally implemented by this external connector so AFFiNE Core stays
+# untouched apart from the separate minimal READ_WRITE gate patch.
 REQUIRED_TOOLS = {
     "read_document",
     "doc_search",
     "create_document",
     "update_document",
     "update_document_meta",
+}
+
+LOCAL_TOOL_NAMES = {
+    "api_call",
     "trash_document",
     "restore_document",
     "delete_document",
@@ -77,6 +83,23 @@ def api_auth() -> tuple[str, str]:
     if any(ch in header for ch in "\r\n:"):
         raise AffineError("AFFINE_API_AUTH_HEADER is invalid.")
     return header, value
+
+
+def socket_auth() -> tuple[dict, dict]:
+    """Return Socket.IO auth payload and HTTP headers for AFFiNE's native sync gateway."""
+    header, value = api_auth()
+    lower = header.lower()
+    if lower == "authorization" and value.lower().startswith("bearer "):
+        token = value[7:].strip()
+        if not token:
+            raise AffineError("AFFiNE Authorization bearer token is empty.")
+        return {"token": token, "tokenType": "jwt"}, {}
+    if lower == "cookie":
+        return {}, {"Cookie": value}
+    raise AffineError(
+        "Document lifecycle requires normal AFFiNE user authentication via either "
+        "AFFINE_API_AUTH_HEADER=Authorization with a Bearer JWT or AFFINE_API_AUTH_HEADER=Cookie."
+    )
 
 
 def error_response(request_id: Any, code: int, message: str, data: Optional[dict] = None) -> dict:
@@ -172,6 +195,52 @@ def api_call_tool() -> dict:
             "openWorldHint": True,
         },
     }
+
+
+def lifecycle_tool(name: str, title: str, lifecycle: str, description: str) -> dict:
+    return {
+        "name": name,
+        "title": title,
+        "description": description,
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "docId": {"type": "string", "description": "The AFFiNE document ID"},
+            },
+            "required": ["docId"],
+            "additionalProperties": False,
+        },
+        "annotations": {
+            "readOnlyHint": False,
+            "destructiveHint": lifecycle in {"trash", "delete"},
+            "idempotentHint": False,
+            "openWorldHint": False,
+        },
+    }
+
+
+def local_tools() -> list[dict]:
+    return [
+        api_call_tool(),
+        lifecycle_tool(
+            "trash_document",
+            "Trash Document",
+            "trash",
+            "Move an AFFiNE document to trash through AFFiNE's native space:doc-lifecycle Socket.IO event.",
+        ),
+        lifecycle_tool(
+            "restore_document",
+            "Restore Document",
+            "restore",
+            "Restore an AFFiNE document from trash through AFFiNE's native space:doc-lifecycle Socket.IO event.",
+        ),
+        lifecycle_tool(
+            "delete_document",
+            "Delete Document",
+            "delete",
+            "Permanently delete an AFFiNE document through AFFiNE's native space:doc-lifecycle Socket.IO event. This cannot be undone.",
+        ),
+    ]
 
 
 def validate_api_path(path: Any) -> str:
@@ -273,6 +342,65 @@ def execute_api_call(arguments: Dict[str, Any]) -> dict:
     return result
 
 
+def execute_lifecycle(arguments: Dict[str, Any], lifecycle: str) -> dict:
+    doc_id = arguments.get("docId")
+    if not isinstance(doc_id, str) or not doc_id.strip():
+        raise AffineError("docId is required.")
+    if lifecycle not in {"trash", "restore", "delete"}:
+        raise AffineError("Invalid document lifecycle operation.")
+
+    auth, headers = socket_auth()
+    client = socketio.Client(
+        reconnection=False,
+        logger=False,
+        engineio_logger=False,
+        request_timeout=30,
+    )
+    try:
+        client.connect(
+            affine_origin(),
+            auth=auth,
+            headers=headers or None,
+            transports=["polling", "websocket"],
+            wait=True,
+            wait_timeout=15,
+        )
+        response = client.call(
+            "space:doc-lifecycle",
+            {
+                "spaceType": "workspace",
+                "spaceId": workspace_id(),
+                "docId": doc_id.strip(),
+                "lifecycle": lifecycle,
+            },
+            timeout=30,
+        )
+    except Exception as exc:
+        raise AffineError(f"AFFiNE document lifecycle request failed: {exc}") from exc
+    finally:
+        try:
+            if client.connected:
+                client.disconnect()
+        except Exception:
+            pass
+
+    if isinstance(response, dict) and response.get("error"):
+        error = response["error"]
+        if isinstance(error, dict):
+            message = error.get("message") or json.dumps(error, ensure_ascii=False)
+        else:
+            message = str(error)
+        raise AffineError(f"AFFiNE rejected document lifecycle request: {message}")
+
+    data = response.get("data") if isinstance(response, dict) and "data" in response else response
+    return {
+        "success": True,
+        "docId": doc_id.strip(),
+        "lifecycle": lifecycle,
+        "result": data,
+    }
+
+
 def with_local_tools(response: dict) -> dict:
     if response.get("error"):
         return response
@@ -280,8 +408,12 @@ def with_local_tools(response: dict) -> dict:
     if not isinstance(result, dict):
         return response
     tools = result.get("tools")
-    if isinstance(tools, list) and not any(isinstance(t, dict) and t.get("name") == "api_call" for t in tools):
-        tools.append(api_call_tool())
+    if isinstance(tools, list):
+        existing = {t.get("name") for t in tools if isinstance(t, dict)}
+        # Local definitions intentionally override any stale lifecycle tools that
+        # may still be visible from an older AFFiNE image during rollout.
+        tools[:] = [t for t in tools if not (isinstance(t, dict) and t.get("name") in LOCAL_TOOL_NAMES)]
+        tools.extend(local_tools())
     return response
 
 
@@ -335,18 +467,27 @@ def handle_message(message: dict) -> Optional[dict]:
         arguments = params.get("arguments") or {}
         if not isinstance(arguments, dict):
             return error_response(request_id, -32602, "Invalid params")
-        if params["name"] == "api_call":
-            try:
+
+        name = params["name"]
+        try:
+            if name == "api_call":
                 result = tool_result(execute_api_call(arguments))
-            except AffineError as exc:
-                result = tool_result(str(exc), True)
-            return {"jsonrpc": "2.0", "id": request_id, "result": result}
-        return call_upstream({
-            "jsonrpc": "2.0",
-            "id": request_id,
-            "method": "tools/call",
-            "params": {"name": params["name"], "arguments": arguments},
-        })
+            elif name == "trash_document":
+                result = tool_result(execute_lifecycle(arguments, "trash"))
+            elif name == "restore_document":
+                result = tool_result(execute_lifecycle(arguments, "restore"))
+            elif name == "delete_document":
+                result = tool_result(execute_lifecycle(arguments, "delete"))
+            else:
+                return call_upstream({
+                    "jsonrpc": "2.0",
+                    "id": request_id,
+                    "method": "tools/call",
+                    "params": {"name": name, "arguments": arguments},
+                })
+        except AffineError as exc:
+            result = tool_result(str(exc), True)
+        return {"jsonrpc": "2.0", "id": request_id, "result": result}
 
     if is_notification:
         return None
@@ -357,4 +498,5 @@ def validate_upstream() -> tuple[bool, set[str], dict]:
     response = call_upstream({"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}})
     tools = (response.get("result") or {}).get("tools") or []
     names = {str(tool.get("name", "")) for tool in tools if isinstance(tool, dict)}
+    # Local lifecycle/API tools do not need to be present upstream.
     return REQUIRED_TOOLS.issubset(names), names, response
