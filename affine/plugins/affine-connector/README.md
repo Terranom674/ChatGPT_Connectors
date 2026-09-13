@@ -1,66 +1,75 @@
 # AFFiNE Connector
 
-ChatGPT-Plugin und MCP-/API-Connector für AFFiNE über den zentralen Bratonien-MCP.
+Ein einzelner ChatGPT-/MCP-Connector für die selbstgehostete AFFiNE-Instanz über den zentralen Bratonien-MCP.
 
-## Abdeckung
+## Grundprinzip
 
-Der Connector deckt zwei Ebenen ab:
+ChatGPT kennt genau **einen** AFFiNE-Connector. Der Connector kapselt intern alle nötigen AFFiNE-Zugriffswege:
 
-1. **Native AFFiNE-MCP-Oberfläche:** `tools/list` und `tools/call` werden dynamisch an AFFiNE weitergereicht. Damit werden sämtliche aktuell und künftig vom verbundenen AFFiNE-Workspace veröffentlichten MCP-Tools automatisch unter `affine__*` verfügbar.
-2. **AFFiNE HTTP API:** Das zusätzliche Tool `api_call` kann jeden relativen Pfad unter `/api/*` auf derselben AFFiNE-Instanz mit GET, HEAD, POST, PUT, PATCH, DELETE oder OPTIONS aufrufen. Damit sind auch API-Funktionen erreichbar, die AFFiNE nicht als natives MCP-Tool veröffentlicht.
-
-Der Connector führt keine statische Whitelist einzelner AFFiNE-Endpunkte. Die Einschränkung auf denselben Host und `/api/*` verhindert dagegen, dass der generische Proxy für fremde Ziele missbraucht wird.
+1. **Native AFFiNE-MCP-Oberfläche:** `tools/list` und `tools/call` werden dynamisch an AFFiNE weitergereicht. Neue native AFFiNE-MCP-Tools werden automatisch sichtbar.
+2. **AFFiNE HTTP API:** `api_call` ruft same-origin Pfade unter `/api/*` mit GET, HEAD, POST, PUT, PATCH, DELETE oder OPTIONS auf.
+3. **Dokument-Lifecycle:** `trash_document`, `restore_document` und `delete_document` verwenden AFFiNEs vorhandene Sync-/Socket.IO-Schnittstellen. Dafür wird kein Lifecycle-Code in AFFiNE Core injiziert.
 
 ## Native MCP-Basis
 
-Für die Bratonien-READ_WRITE-Installation werden mindestens diese Werkzeuge verlangt:
+Für die READ_WRITE-Installation werden upstream mindestens diese nativen Werkzeuge verlangt:
 
 - `read_document`
 - `doc_search`
 - `create_document`
 - `update_document`
 - `update_document_meta`
+
+Zusätzlich veröffentlicht der Connector lokal:
+
 - `trash_document`
 - `restore_document`
 - `delete_document`
+- `api_call`
 
-Weitere native Tools werden automatisch übernommen.
-
-Die Lifecycle-Tools verwenden AFFiNEs vorhandenen nativen Dokument-Lifecycle (`apply_doc_lifecycle`) und müssen AFFiNEs eigene Workspace- und Dokumentberechtigungen einhalten.
+Damit besteht die aktuelle erwartete Oberfläche aus 9 Werkzeugen. Weitere native AFFiNE-MCP-Tools werden automatisch ergänzt.
 
 ## Authentifizierung
 
-MCP und normale API verwenden getrennte Credentials. Das `aff_mcp_v1...`-Credential ist für den nativen Workspace-MCP bestimmt und wird von AFFiNE nicht als allgemeines API-Credential behandelt.
+Das native `aff_mcp_v1...`-Credential ist absichtlich nur für AFFiNEs Workspace-MCP bestimmt. Normale AFFiNE-API- und Sync-Aufrufe verwenden AFFiNEs normale Benutzer-/Session-Authentifizierung.
 
-Serverseitige Konfiguration:
+Diese Trennung ist **intern im selben Connector** gekapselt. Für ChatGPT existiert weiterhin nur eine Verbindung.
+
+Empfohlene Self-Hosted-Konfiguration:
 
 ```env
 AFFINE_URL=https://affine.example.com
 AFFINE_WORKSPACE_ID=<workspace-id>
 AFFINE_MCP_TOKEN=<read-write-mcp-credential>
-AFFINE_API_AUTH_HEADER=Authorization
-AFFINE_API_AUTH_VALUE=Bearer <api-credential>
+AFFINE_EMAIL=<connector-account-email>
+AFFINE_PASSWORD=<connector-account-password>
+AFFINE_CLIENT_VERSION=0.27.0
 MCP_HTTP_TOKEN=<interner-service-token>
 ```
 
-`AFFINE_API_AUTH_HEADER` kann bei einer anders authentifizierten Self-Hosted-Installation auch beispielsweise `Cookie` sein. Das Credential bleibt ausschließlich auf der MCP-Infrastruktur und kann durch ChatGPT weder gelesen noch überschrieben werden.
+Der Connector meldet sich über AFFiNEs vorhandenen `/api/auth/sign-in`-Endpunkt selbst an, hält die Session ausschließlich im Prozessspeicher und erneuert sie bei Authentifizierungsfehlern automatisch. ChatGPT erhält weder E-Mail/Passwort noch Session-Cookie.
+
+Optional kann statt des automatischen Logins weiterhin ein bereits serverseitig verwaltetes Credential mit `AFFINE_API_AUTH_HEADER` und `AFFINE_API_AUTH_VALUE` vorgegeben werden. Das ist nur ein Override und nicht der normale Betriebsweg.
+
+## Dokument-Lifecycle
+
+- Trash/Restore verwenden AFFiNEs nativen `space:doc-lifecycle`-Pfad.
+- Permanentes Löschen verwendet AFFiNEs nativen `space:delete-doc`-Pfad.
+- AFFiNE bleibt für Authentifizierung und Berechtigungen verantwortlich.
+- AFFiNE Core wird für diese Funktionen nicht erweitert.
 
 ## API-Tool
 
-`api_call` akzeptiert:
-
-- `method`
-- `path` unter `/api/*`
-- optional `query`
-- optional zusätzliche ungefährliche Header
-- optional `body` oder `body_base64`
-
-Antworten werden als JSON/Text zurückgegeben; binäre Antworten werden Base64-kodiert. Authorization, Cookie und Host können nicht vom Aufrufer überschrieben werden.
+`api_call` akzeptiert `method`, `path` unter `/api/*`, optional `query`, zusätzliche ungefährliche Header sowie `body` oder `body_base64`. Authorization, Cookie und Host können vom Aufrufer nicht überschrieben werden.
 
 ## ChatGPT-Plugin
 
 `.mcp.json` verweist ausschließlich auf den zentralen Bratonien-MCP unter `https://mcp.bratonien.de/mcp`. AFFiNE-Secrets befinden sich nicht im Plugin.
 
-## Sicherheit
+## Sicherheit und Deployment
 
-AFFiNE bleibt die Quelle für Authentifizierung und Berechtigungen. Der Connector erzeugt keine eigenen AFFiNE-Rechte. Es werden keine GitHub Actions verwendet und kein automatisches Deployment eingerichtet.
+- AFFiNE bleibt Quelle für Authentifizierung und Berechtigungen.
+- Keine AFFiNE-Secrets im ChatGPT-Plugin oder Repository.
+- Keine GitHub Actions.
+- Kein automatisches Deployment.
+- Repository-Änderungen werden ausschließlich über den vorhandenen manuellen Updater ausgerollt.
