@@ -35,7 +35,7 @@ for _ in {1..45}; do curl -fsS http://127.0.0.1:8104/health >/dev/null 2>&1 && b
 curl -fsS http://127.0.0.1:8104/health >/dev/null || fail "AFFiNE Connector wurde nach Update nicht bereit."
 
 systemctl restart bratonien-mcp.service
-sleep 1
+for _ in {1..45}; do curl -fsS http://127.0.0.1:8000/health >/dev/null 2>&1 && break; sleep 2; done
 curl -fsS http://127.0.0.1:8000/health >/dev/null || fail "Zentraler MCP-Host ist nicht bereit."
 
 APP_TOKEN="$(sed -n 's/^MCP_AFFINE_HTTP_TOKEN=//p' "$HOST_ENV" | head -n1)"
