@@ -1,17 +1,12 @@
 # AFFiNE Connector
 
-Status: **In Aufbau**
-
-Eigenständiger ChatGPT-/MCP-Connector für die selbstgehostete AFFiNE-Instanz der Bratonien-Infrastruktur.
+Eigenstaendiger ChatGPT-/MCP-Connector fuer die selbstgehostete AFFiNE-Instanz der Bratonien-Infrastruktur.
 
 ## Ziel
 
-Der AFFiNE-Connector soll die **vollständige erreichbare AFFiNE-Oberfläche** abdecken:
+Der Connector stellt ChatGPT die native Workspace-MCP-Oberflaeche von AFFiNE als `affine__*` bereit. Neue native AFFiNE-MCP-Tools werden dynamisch uebernommen.
 
-1. sämtliche nativen MCP-Tools des verbundenen Workspace werden dynamisch über `tools/list` und `tools/call` veröffentlicht;
-2. zusätzlich stellt der Connector mit `api_call` einen kontrollierten Passthrough auf sämtliche relativen AFFiNE-HTTP-Endpunkte unter `/api/*` bereit, damit Funktionen nutzbar bleiben, die AFFiNE nicht als MCP-Tool veröffentlicht.
-
-Es gibt keine statische Liste, die zusätzliche native MCP-Tools abschneidet. Neue AFFiNE-MCP-Tools werden automatisch sichtbar.
+Fuer die Self-Hosted-READ_WRITE-Installation werden genau die fehlenden Dokument-Lifecycle-Werkzeuge durch den AFFiNE-MCP-Patch innerhalb desselben authentifizierten Workspace-MCP-Kontexts ergaenzt.
 
 ## Architektur
 
@@ -21,17 +16,17 @@ ChatGPT Plugin
 https://mcp.bratonien.de/mcp
    ↓  affine__*
 AFFiNE Connector
-   ├─ native MCP → /api/workspaces/<workspaceId>/mcp/
-   └─ API proxy  → /api/*
+   ↓  aff_mcp_v1...
+AFFiNE Workspace MCP
    ↓
-AFFiNE
+AFFiNE native Runtime / Permissions
 ```
 
-MCP- und normale API-Authentifizierung sind getrennt. Das native `aff_mcp_v1...`-Credential bleibt auf den Workspace-MCP beschränkt; normale `/api/*`-Aufrufe verwenden ein separat serverseitig konfiguriertes AFFiNE-API-/Session-Credential.
+Es gibt keinen zweiten AFFiNE-Login, keinen API-JWT-Nebenkanal und keine eigene Socket.IO-Lifecycle-Implementierung im Connector.
 
-## Native MCP-Basis
+## Erforderliche Dokumentwerkzeuge
 
-Für den READ_WRITE-Betrieb werden mindestens folgende Tools vorausgesetzt:
+Der Connector gilt nur dann als gesund, wenn diese acht Werkzeuge vorhanden sind:
 
 - `read_document`
 - `doc_search`
@@ -42,13 +37,7 @@ Für den READ_WRITE-Betrieb werden mindestens folgende Tools vorausgesetzt:
 - `restore_document`
 - `delete_document`
 
-Weitere native Tools werden automatisch weitergereicht.
-
-Die Lifecycle-Tools verwenden AFFiNEs nativen Dokument-Lifecycle und müssen dieselben Workspace- und Dokumentberechtigungen einhalten wie AFFiNE selbst.
-
-## API-Abdeckung
-
-Das lokale Tool `api_call` akzeptiert HTTP-Methoden GET, HEAD, POST, PUT, PATCH, DELETE und OPTIONS für Pfade unter `/api/*` derselben AFFiNE-Instanz. Fremde Hosts sind ausgeschlossen. Authentifizierungs-, Host- und Cookie-Header können durch den Aufrufer nicht überschrieben werden.
+Weitere native MCP-Tools werden automatisch weitergereicht.
 
 ## Serverkonfiguration
 
@@ -56,21 +45,29 @@ Das lokale Tool `api_call` akzeptiert HTTP-Methoden GET, HEAD, POST, PUT, PATCH,
 AFFINE_URL=https://affine.example.com
 AFFINE_WORKSPACE_ID=<workspace-id>
 AFFINE_MCP_TOKEN=<read-write-mcp-credential>
-AFFINE_API_AUTH_HEADER=Authorization
-AFFINE_API_AUTH_VALUE=Bearer <api-credential>
 MCP_HTTP_TOKEN=<interner-service-token>
 ```
 
-Je nach Self-Hosted-Authentifizierung kann `AFFINE_API_AUTH_HEADER` auch beispielsweise `Cookie` sein.
+Weitere AFFiNE-Benutzercredentials sind nicht erforderlich.
+
+## Lifecycle
+
+Die Self-Hosted-AFFiNE-Erweiterung nutzt fuer Trash, Restore und Delete AFFiNEs vorhandenen nativen Domain-Command `apply_doc_lifecycle` mit den gleichen Permission-Aktionen wie der offizielle Sync-Gateway-Pfad:
+
+- `Doc.Trash`
+- `Doc.Restore`
+- `Doc.Delete`
+
+Die Operationen laufen mit `userId`, `workspaceId` und READ_WRITE-Zugriff des bereits authentifizierten MCP-Credentials.
 
 ## Sicherheit
 
-- AFFiNE bleibt Quelle für Authentifizierung und Berechtigungen.
+- AFFiNE bleibt Quelle fuer Authentifizierung und Berechtigungen.
 - Keine AFFiNE-Secrets im ChatGPT-Plugin oder Repository.
-- API-Proxy nur same-origin und nur unter `/api/*`.
 - Keine GitHub Actions.
 - Kein automatisches Deployment.
+- Der Connector-Updater bricht ab, wenn eines der acht Pflichtwerkzeuge fehlt.
 
 ## Deployment
 
-`install/update-connector.sh` aktualisiert den Connector auf der Bratonien-MCP-Infrastruktur und prüft anschließend die sichtbare Tool-Oberfläche. Repository-Änderungen werden bewusst **nicht automatisch** auf die laufende Infrastruktur ausgerollt.
+`install/update-connector.sh` aktualisiert den Connector auf der Bratonien-MCP-Infrastruktur. Repository-Aenderungen werden bewusst nicht automatisch ausgerollt.
