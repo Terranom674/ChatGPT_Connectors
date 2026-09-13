@@ -1,44 +1,54 @@
 # AFFiNE Connector
 
-Ein einzelner ChatGPT-/MCP-Connector für die selbstgehostete AFFiNE-Instanz über den zentralen Bratonien-MCP.
+Ein einzelner ChatGPT-/MCP-Connector fuer die selbstgehostete AFFiNE-Instanz ueber den zentralen Bratonien-MCP.
 
 ## Grundprinzip
 
-ChatGPT kennt genau **einen** AFFiNE-Connector. Der Connector reicht sämtliche nativen AFFiNE-MCP-Tools dynamisch über `tools/list` und `tools/call` weiter.
+ChatGPT kennt genau **einen** AFFiNE-Connector. Dieser Connector reicht die native Workspace-MCP-Oberflaeche der verbundenen AFFiNE-Instanz dynamisch durch.
 
-## Native MCP-Basis
+Es gibt keinen zweiten Login-Pfad, keinen Cookie-/JWT-Nebenkanal und keine eigene Socket.IO-Implementierung im Connector.
 
-AFFiNE veröffentlicht aktuell nativ:
+## Erwartete native AFFiNE-MCP-Werkzeuge
+
+Der Connector gilt nur dann als gesund, wenn upstream mindestens diese acht Dokumentwerkzeuge vorhanden sind:
 
 - `read_document`
 - `doc_search`
 - `create_document`
 - `update_document`
 - `update_document_meta`
+- `trash_document`
+- `restore_document`
+- `delete_document`
 
-Der Bratonien-Patch verändert ausschließlich die vorhandenen READ_WRITE-Gates; er fügt keine neuen AFFiNE-MCP-Tools und keine Lifecycle-Logik hinzu.
+Weitere native AFFiNE-MCP-Tools werden automatisch durchgereicht.
+
+Die drei Lifecycle-Werkzeuge werden durch den Self-Hosted-AFFiNE-MCP-Patch innerhalb des bereits authentifizierten READ_WRITE-MCP-Kontexts bereitgestellt und verwenden AFFiNEs nativen `apply_doc_lifecycle`-Pfad.
 
 ## Authentifizierung
 
-Das `aff_mcp_v1...`-Credential ist ausschließlich für `/api/workspaces/<workspaceId>/mcp/` vorgesehen. AFFiNE schließt diesen Tokentyp ausdrücklich von der normalen JWT-/Session-Authentifizierung aus. Der Connector fordert daher **keine AFFINE_EMAIL/AFFINE_PASSWORD-Zugangsdaten an und speichert keine Benutzerpasswörter**.
+Der Connector benoetigt fuer AFFiNE genau den bereits vorhandenen Workspace-MCP-Credential:
 
-Normale `/api/*`- und Socket.IO-Aufrufe können nur verwendet werden, wenn die Installation bereits separat eine gültige serverseitige AFFiNE-API-/Session-Authentifizierung bereitstellt. Das ist optional und nicht Bestandteil des nativen MCP-Credentials.
+```env
+AFFINE_URL=https://affine.example.com
+AFFINE_WORKSPACE_ID=<workspace-id>
+AFFINE_MCP_TOKEN=<read-write-mcp-credential>
+MCP_HTTP_TOKEN=<interner-service-token>
+```
 
-## Dokument-Lifecycle
+Es werden **keine** zusaetzlichen AFFiNE-Benutzerzugangsdaten, Cookies oder API-JWTs benoetigt.
 
-AFFiNE besitzt intern `space:doc-lifecycle` und `space:delete-doc`, veröffentlicht diese Funktionen aber derzeit nicht als native Workspace-MCP-Tools. Solange ausschließlich das bestehende `aff_mcp_v1...`-Credential verwendet wird und AFFiNE Core unverändert bleibt, kann ein externer Connector diese Session-geschützten Lifecycle-Endpunkte nicht legitim mit dem MCP-Credential aufrufen.
+## Verhalten
 
-Der Connector darf deshalb keine zweite Anmeldung vortäuschen und keine Benutzerzugangsdaten verlangen.
-
-## API-Tool
-
-`api_call` ist nur mit bereits vorhandener serverseitiger normaler AFFiNE-Authentifizierung nutzbar. Der MCP-Token wird dafür nicht zweckentfremdet.
+- `tools/list` wird an AFFiNE weitergereicht.
+- `tools/call` wird an AFFiNE weitergereicht.
+- Die externe Tool-Oberflaeche wird vom zentralen Bratonien-MCP als `affine__*` veroeffentlicht.
+- Lifecycle-Aufrufe laufen damit durch denselben MCP-Credential und denselben Workspace-Kontext wie Create/Update.
 
 ## Sicherheit und Deployment
 
-- AFFiNE bleibt Quelle für Authentifizierung und Berechtigungen.
-- Keine AFFiNE-Benutzerpasswörter im Connector.
-- Keine Secrets im ChatGPT-Plugin oder Repository.
+- AFFiNE bleibt Quelle fuer Authentifizierung und Berechtigungen.
+- Keine AFFiNE-Secrets im ChatGPT-Plugin oder Repository.
 - Keine GitHub Actions.
 - Kein automatisches Deployment.
-- Repository-Änderungen werden ausschließlich über den vorhandenen manuellen Updater ausgerollt.
+- Der Updater bricht ab, wenn eines der acht erforderlichen Dokumentwerkzeuge fehlt.
